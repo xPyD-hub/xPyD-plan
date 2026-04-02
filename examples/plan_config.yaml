@@ -1,0 +1,8 @@
+# Example planner config
+budget: 8  # total nodes/GPUs available
+
+# Option 1: use benchmark results from xpyd-bench
+# data: bench_results.json
+
+# Option 2: use dataset for offline estimation
+# dataset: prompts.json
