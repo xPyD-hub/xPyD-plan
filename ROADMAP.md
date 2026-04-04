@@ -112,7 +112,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M10 ✅ Remove Deprecated Legacy Estimator & Planner
 
-*Completed — PR #TBD*
+*Completed — PR #26*
 
 - Remove `estimator.py` (M/M/c queuing model) and `planner.py` (brute-force estimator-based planning)
 - Remove legacy `plan` CLI subcommand
