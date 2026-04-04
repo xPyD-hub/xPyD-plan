@@ -624,3 +624,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `forecast` subcommand with `--trend-db`, `--horizon-days`, `--method`, table + JSON output
 - Programmatic `forecast_capacity()` API
 - ~20 new tests
+
+### M48 ✅ Multi-SLA Tier Analysis
+
+*Completed — PR #113*
+
+- `SLATierAnalyzer` class in `sla_tier.py`
+- `SLATier`, `TierResult`, `MultiTierReport` Pydantic models
+- Analyze benchmark data against multiple named SLA policies simultaneously
+- Per-tier optimal P:D ratio finding
+- Unified ratio identification (single P:D ratio satisfying all tiers)
+- YAML tier definition loading (`load_tiers_from_yaml()`)
+- CLI `sla-tier` subcommand with `--benchmark`, `--tiers`, table + JSON output
+- Programmatic `analyze_sla_tiers()` API
+- 18 new tests (1120 total)

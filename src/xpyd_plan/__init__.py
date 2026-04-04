@@ -227,6 +227,14 @@ from xpyd_plan.scorecard import (
     ScoreGrade,
     calculate_scorecard,
 )
+from xpyd_plan.sla_tier import (
+    MultiTierReport,
+    SLATier,
+    SLATierAnalyzer,
+    TierResult,
+    analyze_sla_tiers,
+    load_tiers_from_yaml,
+)
 from xpyd_plan.tail import (
     LongTailProfile,
     TailAnalyzer,
@@ -473,4 +481,10 @@ __all__ = [
     "ForecastReport",
     "CapacityExhaustion",
     "forecast_capacity",
+    "SLATier",
+    "SLATierAnalyzer",
+    "TierResult",
+    "MultiTierReport",
+    "analyze_sla_tiers",
+    "load_tiers_from_yaml",
 ]
