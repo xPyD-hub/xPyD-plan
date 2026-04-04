@@ -250,6 +250,8 @@ class BenchmarkAnalyzer:
         tpots = [r.tpot_ms for r in reqs]
         total_lats = [r.total_latency_ms for r in reqs]
 
+        pctl = sla.sla_percentile
+
         ttft_p95 = _percentile(ttfts, 95)
         ttft_p99 = _percentile(ttfts, 99)
         tpot_p95 = _percentile(tpots, 95)
@@ -257,9 +259,13 @@ class BenchmarkAnalyzer:
         total_p95 = _percentile(total_lats, 95)
         total_p99 = _percentile(total_lats, 99)
 
-        meets_ttft = sla.ttft_ms is None or ttft_p95 <= sla.ttft_ms
-        meets_tpot = sla.tpot_ms is None or tpot_p95 <= sla.tpot_ms
-        meets_total = sla.max_latency_ms is None or total_p95 <= sla.max_latency_ms
+        ttft_eval = _percentile(ttfts, pctl)
+        tpot_eval = _percentile(tpots, pctl)
+        total_eval = _percentile(total_lats, pctl)
+
+        meets_ttft = sla.ttft_ms is None or ttft_eval <= sla.ttft_ms
+        meets_tpot = sla.tpot_ms is None or tpot_eval <= sla.tpot_ms
+        meets_total = sla.max_latency_ms is None or total_eval <= sla.max_latency_ms
 
         return SLACheck(
             ttft_p95_ms=ttft_p95,
@@ -272,6 +278,10 @@ class BenchmarkAnalyzer:
             meets_tpot=meets_tpot,
             meets_total_latency=meets_total,
             meets_all=meets_ttft and meets_tpot and meets_total,
+            evaluated_percentile=pctl,
+            ttft_evaluated_ms=ttft_eval,
+            tpot_evaluated_ms=tpot_eval,
+            total_latency_evaluated_ms=total_eval,
         )
 
     def compute_utilization(self) -> UtilizationResult:
@@ -344,6 +354,8 @@ class BenchmarkAnalyzer:
             for r in reqs
         ]
 
+        pctl = sla.sla_percentile
+
         ttft_p95 = _percentile(scaled_ttfts, 95)
         ttft_p99 = _percentile(scaled_ttfts, 99)
         tpot_p95 = _percentile(scaled_tpots, 95)
@@ -351,9 +363,13 @@ class BenchmarkAnalyzer:
         total_p95 = _percentile(scaled_totals, 95)
         total_p99 = _percentile(scaled_totals, 99)
 
-        meets_ttft = sla.ttft_ms is None or ttft_p95 <= sla.ttft_ms
-        meets_tpot = sla.tpot_ms is None or tpot_p95 <= sla.tpot_ms
-        meets_total = sla.max_latency_ms is None or total_p95 <= sla.max_latency_ms
+        ttft_eval = _percentile(scaled_ttfts, pctl)
+        tpot_eval = _percentile(scaled_tpots, pctl)
+        total_eval = _percentile(scaled_totals, pctl)
+
+        meets_ttft = sla.ttft_ms is None or ttft_eval <= sla.ttft_ms
+        meets_tpot = sla.tpot_ms is None or tpot_eval <= sla.tpot_ms
+        meets_total = sla.max_latency_ms is None or total_eval <= sla.max_latency_ms
         meets_all = meets_ttft and meets_tpot and meets_total
 
         sla_check = SLACheck(
@@ -367,6 +383,10 @@ class BenchmarkAnalyzer:
             meets_tpot=meets_tpot,
             meets_total_latency=meets_total,
             meets_all=meets_all,
+            evaluated_percentile=pctl,
+            ttft_evaluated_ms=ttft_eval,
+            tpot_evaluated_ms=tpot_eval,
+            total_latency_evaluated_ms=total_eval,
         )
 
         # Compute utilization at this ratio

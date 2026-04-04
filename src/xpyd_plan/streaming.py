@@ -149,9 +149,14 @@ class StreamingAnalyzer:
         total_p95 = _percentile(total_lats, 95)
         total_p99 = _percentile(total_lats, 99)
 
-        meets_ttft = self.sla.ttft_ms is None or ttft_p95 <= self.sla.ttft_ms
-        meets_tpot = self.sla.tpot_ms is None or tpot_p95 <= self.sla.tpot_ms
-        meets_total = self.sla.max_latency_ms is None or total_p95 <= self.sla.max_latency_ms
+        pctl = self.sla.sla_percentile
+        ttft_eval = _percentile(ttfts, pctl)
+        tpot_eval = _percentile(tpots, pctl)
+        total_eval = _percentile(total_lats, pctl)
+
+        meets_ttft = self.sla.ttft_ms is None or ttft_eval <= self.sla.ttft_ms
+        meets_tpot = self.sla.tpot_ms is None or tpot_eval <= self.sla.tpot_ms
+        meets_total = self.sla.max_latency_ms is None or total_eval <= self.sla.max_latency_ms
         meets_all = meets_ttft and meets_tpot and meets_total
 
         timestamps = [r.timestamp for r in self._requests]

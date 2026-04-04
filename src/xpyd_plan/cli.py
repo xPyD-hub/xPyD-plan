@@ -236,6 +236,7 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
         ttft_ms=args.sla_ttft,
         tpot_ms=args.sla_tpot,
         max_latency_ms=args.sla_max_latency,
+        sla_percentile=getattr(args, "sla_percentile", None) or 95.0,
     )
 
     # Handle streaming mode
@@ -409,6 +410,7 @@ def _cmd_export(args: argparse.Namespace) -> None:
         ttft_ms=args.sla_ttft,
         tpot_ms=args.sla_tpot,
         max_latency_ms=args.sla_max_latency,
+        sla_percentile=getattr(args, "sla_percentile", None) or 95.0,
     )
     output = export_batch(
         benchmark_dir=args.dir,
@@ -430,6 +432,7 @@ def _cmd_plan_capacity(args: argparse.Namespace) -> None:
         ttft_ms=args.sla_ttft,
         tpot_ms=args.sla_tpot,
         max_latency_ms=args.sla_max_latency,
+        sla_percentile=getattr(args, "sla_percentile", None) or 95.0,
     )
 
     datasets = [load_benchmark_auto(b) for b in args.benchmark]
@@ -492,6 +495,7 @@ def _cmd_what_if(args: argparse.Namespace) -> None:
         ttft_ms=args.sla_ttft,
         tpot_ms=args.sla_tpot,
         max_latency_ms=args.sla_max_latency,
+        sla_percentile=getattr(args, "sla_percentile", None) or 95.0,
     )
 
     data = load_benchmark_auto(args.benchmark)
@@ -615,6 +619,8 @@ def _apply_config_defaults(args: argparse.Namespace) -> None:
         args.sla_tpot = cfg.sla.tpot_ms
     if getattr(args, "sla_max_latency", None) is None and cfg.sla.max_latency_ms is not None:
         args.sla_max_latency = cfg.sla.max_latency_ms
+    if getattr(args, "sla_percentile", None) is None and cfg.sla.percentile is not None:
+        args.sla_percentile = cfg.sla.percentile
 
     # Output defaults
     if hasattr(args, "output_format") and args.output_format == "table":
@@ -711,6 +717,10 @@ def main(argv: list[str] | None = None) -> None:
         "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)"
     )
     analyze_parser.add_argument(
+        "--sla-percentile", type=float, default=None,
+        help="Percentile for SLA evaluation (e.g. 90, 95, 99; default: 95)",
+    )
+    analyze_parser.add_argument(
         "--total-instances", type=int, default=None,
         help="Total instances to optimize for (default: same as benchmark)",
     )
@@ -762,6 +772,10 @@ def main(argv: list[str] | None = None) -> None:
         "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
     )
     export_parser.add_argument(
+        "--sla-percentile", type=float, default=None,
+        help="Percentile for SLA evaluation (e.g. 90, 95, 99; default: 95)",
+    )
+    export_parser.add_argument(
         "--total-instances", type=int, default=None,
         help="Total instances to optimize for",
     )
@@ -788,6 +802,10 @@ def main(argv: list[str] | None = None) -> None:
     )
     cap_parser.add_argument(
         "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    cap_parser.add_argument(
+        "--sla-percentile", type=float, default=None,
+        help="Percentile for SLA evaluation (e.g. 90, 95, 99; default: 95)",
     )
     cap_parser.add_argument(
         "--max-instances", type=int, default=64,
@@ -824,6 +842,10 @@ def main(argv: list[str] | None = None) -> None:
     )
     whatif_parser.add_argument(
         "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    whatif_parser.add_argument(
+        "--sla-percentile", type=float, default=None,
+        help="Percentile for SLA evaluation (e.g. 90, 95, 99; default: 95)",
     )
     whatif_parser.add_argument(
         "--output-format", type=str, choices=["table", "json"], default="table",

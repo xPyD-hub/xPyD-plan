@@ -84,22 +84,37 @@ def _compute_margins(
     margins: dict[str, float | None] = {}
 
     if sla.ttft_ms is not None:
-        margins["ttft_margin_ms"] = sla.ttft_ms - sla_check.ttft_p95_ms
+        ttft_val = (
+            sla_check.ttft_evaluated_ms
+            if sla_check.ttft_evaluated_ms
+            else sla_check.ttft_p95_ms
+        )
+        margins["ttft_margin_ms"] = sla.ttft_ms - ttft_val
         margins["ttft_margin_pct"] = margins["ttft_margin_ms"] / sla.ttft_ms
     else:
         margins["ttft_margin_ms"] = None
         margins["ttft_margin_pct"] = None
 
     if sla.tpot_ms is not None:
-        margins["tpot_margin_ms"] = sla.tpot_ms - sla_check.tpot_p95_ms
+        tpot_val = (
+            sla_check.tpot_evaluated_ms
+            if sla_check.tpot_evaluated_ms
+            else sla_check.tpot_p95_ms
+        )
+        margins["tpot_margin_ms"] = sla.tpot_ms - tpot_val
         margins["tpot_margin_pct"] = margins["tpot_margin_ms"] / sla.tpot_ms
     else:
         margins["tpot_margin_ms"] = None
         margins["tpot_margin_pct"] = None
 
     if sla.max_latency_ms is not None:
+        total_val = (
+            sla_check.total_latency_evaluated_ms
+            if sla_check.total_latency_evaluated_ms
+            else sla_check.total_latency_p95_ms
+        )
         margins["total_latency_margin_ms"] = (
-            sla.max_latency_ms - sla_check.total_latency_p95_ms
+            sla.max_latency_ms - total_val
         )
         margins["total_latency_margin_pct"] = (
             margins["total_latency_margin_ms"] / sla.max_latency_ms

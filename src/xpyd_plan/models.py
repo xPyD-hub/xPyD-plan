@@ -11,6 +11,12 @@ class SLAConfig(BaseModel):
     ttft_ms: float | None = Field(None, description="Max Time To First Token (ms)")
     tpot_ms: float | None = Field(None, description="Max Time Per Output Token (ms)")
     max_latency_ms: float | None = Field(None, description="Max end-to-end latency (ms)")
+    sla_percentile: float = Field(
+        95.0,
+        ge=1.0,
+        le=100.0,
+        description="Percentile for SLA evaluation (e.g. 90, 95, 99). Default: 95",
+    )
 
     def has_constraints(self) -> bool:
         """Return True if at least one SLA constraint is set."""
