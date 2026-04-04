@@ -144,7 +144,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic API: `what_if()` function
 - 20 new tests (223 total)
 
-### M12 — Configuration Profile Support
+### M12 ✅ Configuration Profile Support
+
+*Completed — PR #31*
 
 - `ConfigProfile` Pydantic model with `SLAProfile`, `CostProfile`, `OutputProfile`, `DefaultsProfile`
 - YAML config file loading with fallback chain: `--config` → `./xpyd-plan.yaml` → `~/.config/xpyd-plan/config.yaml`
