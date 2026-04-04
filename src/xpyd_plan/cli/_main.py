@@ -11,6 +11,7 @@ from xpyd_plan.cli._annotate import _cmd_annotate
 from xpyd_plan.cli._budget import _cmd_budget
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._compare import _cmd_compare
+from xpyd_plan.cli._confidence import _cmd_confidence
 from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
 from xpyd_plan.cli._dashboard import _cmd_dashboard
 from xpyd_plan.cli._export import _cmd_export
@@ -734,6 +735,36 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # --- confidence subcommand ---
+    confidence_parser = subparsers.add_parser(
+        "confidence",
+        help="Bootstrap confidence intervals for latency percentiles",
+    )
+    confidence_parser.add_argument(
+        "--benchmark", type=str, nargs="+", required=True,
+        help="Benchmark JSON file(s)",
+    )
+    confidence_parser.add_argument(
+        "--percentile", type=float, default=95.0,
+        help="Latency percentile to evaluate (default: 95)",
+    )
+    confidence_parser.add_argument(
+        "--confidence-level", type=float, default=0.95,
+        help="Confidence level for intervals (default: 0.95)",
+    )
+    confidence_parser.add_argument(
+        "--iterations", type=int, default=1000,
+        help="Number of bootstrap iterations (default: 1000)",
+    )
+    confidence_parser.add_argument(
+        "--seed", type=int, default=None,
+        help="Random seed for reproducibility",
+    )
+    confidence_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -783,6 +814,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_merge(args)
     elif args.command == "filter":
         _cmd_filter(args)
+    elif args.command == "confidence":
+        _cmd_confidence(args)
     else:
         parser.print_help()
         sys.exit(1)
