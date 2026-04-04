@@ -221,3 +221,14 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Keyboard shortcuts for switching views
 - CLI `dashboard` subcommand with `--refresh-interval`
 - ~34 new tests (385 total)
+
+### M18 — Performance Interpolation Model
+
+- `PerformanceInterpolator` class in `interpolator.py`
+- `PredictedPerformance` and `InterpolationResult` Pydantic models
+- Linear and cubic spline interpolation methods
+- Confidence classification: HIGH (interpolation), MEDIUM (near extrapolation ≤20%), LOW (far extrapolation)
+- CLI `interpolate` subcommand with `--benchmark`, `--method`, `--ratios`, table + JSON output
+- Programmatic `interpolate_performance()` API
+- scipy dependency for spline interpolation
+- 25 new tests (410 total)
