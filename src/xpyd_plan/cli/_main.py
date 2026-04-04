@@ -1,0 +1,788 @@
+"""CLI entry point for xpyd-plan."""
+
+from __future__ import annotations
+
+import argparse
+import sys
+
+from xpyd_plan.cli._alert import _cmd_alert
+from xpyd_plan.cli._analyze import _cmd_analyze
+from xpyd_plan.cli._annotate import _cmd_annotate
+from xpyd_plan.cli._budget import _cmd_budget
+from xpyd_plan.cli._capacity import _cmd_plan_capacity
+from xpyd_plan.cli._compare import _cmd_compare
+from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
+from xpyd_plan.cli._dashboard import _cmd_dashboard
+from xpyd_plan.cli._export import _cmd_export
+from xpyd_plan.cli._filter import _cmd_filter
+from xpyd_plan.cli._fleet import _cmd_fleet
+from xpyd_plan.cli._generate import _cmd_generate
+from xpyd_plan.cli._interpolate import _cmd_interpolate
+from xpyd_plan.cli._merge import _cmd_merge
+from xpyd_plan.cli._pareto import _cmd_pareto
+from xpyd_plan.cli._pipeline import _cmd_pipeline
+from xpyd_plan.cli._recommend import _cmd_recommend
+from xpyd_plan.cli._trend import _cmd_trend
+from xpyd_plan.cli._validate import _cmd_validate
+from xpyd_plan.cli._whatif import _cmd_what_if
+
+
+def main(argv: list[str] | None = None) -> None:
+    """Entry point for `xpyd-plan` command."""
+    parser = argparse.ArgumentParser(
+        prog="xpyd-plan",
+        description="Analyze benchmark data to find optimal Prefill:Decode instance ratio",
+    )
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    # config subcommand
+    config_parser = subparsers.add_parser(
+        "config",
+        help="Manage configuration profiles",
+    )
+    config_parser.add_argument(
+        "config_action", choices=["init", "show"],
+        help="'init' creates a starter config; 'show' displays resolved config",
+    )
+    config_parser.add_argument(
+        "--output-path", type=str, default=None,
+        help="Path for 'init' output (default: ./xpyd-plan.yaml)",
+    )
+    _add_config_flag(config_parser)
+
+    # analyze subcommand (primary)
+    analyze_parser = subparsers.add_parser(
+        "analyze",
+        help="Analyze benchmark data to find optimal P:D ratio",
+    )
+    _add_config_flag(analyze_parser)
+    analyze_parser.add_argument(
+        "--benchmark", type=str, nargs="+", default=None,
+        help="Path(s) to benchmark JSON file(s). Multiple files enable multi-scenario analysis.",
+    )
+    analyze_parser.add_argument(
+        "--format", type=str, choices=["auto", "native", "xpyd-bench"],
+        default="auto",
+        help="Benchmark data format (default: auto-detect)",
+    )
+    analyze_parser.add_argument(
+        "--stream", action="store_true", default=False,
+        help="Streaming mode: read JSONL records from stdin for live analysis",
+    )
+    analyze_parser.add_argument(
+        "--snapshot-interval", type=int, default=None,
+        help="Number of requests between streaming snapshots (default: 10)",
+    )
+    analyze_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)"
+    )
+    analyze_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)"
+    )
+    analyze_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)"
+    )
+    analyze_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA percentile for evaluation (default: 95.0, range: 1-100)",
+    )
+    analyze_parser.add_argument(
+        "--total-instances", type=int, default=None,
+        help="Total instances to optimize for (default: same as benchmark)",
+    )
+    analyze_parser.add_argument("--top", type=int, default=5, help="Top N candidates to show")
+    analyze_parser.add_argument(
+        "--sensitivity", action="store_true", default=False,
+        help="Run sensitivity analysis (P:D ratio vs SLA margin curves)",
+    )
+    analyze_parser.add_argument("--output", type=str, default=None, help="Output JSON path")
+    analyze_parser.add_argument(
+        "--report", type=str, default=None,
+        help="Generate report to the given path (e.g. report.html or report.md)",
+    )
+    analyze_parser.add_argument(
+        "--report-format", type=str, default="html", choices=["html", "markdown"],
+        help="Report format: html (default) or markdown",
+    )
+    analyze_parser.add_argument(
+        "--cost-model", type=str, default=None,
+        help="YAML file with GPU cost config (gpu_hourly_rate, currency)",
+    )
+    analyze_parser.add_argument(
+        "--budget-ceiling", type=float, default=None,
+        help="Max hourly cost budget (used with --cost-model)",
+    )
+    analyze_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json", "csv"],
+        default="table",
+        help="Output format: table (Rich), json, or csv (default: table)",
+    )
+    analyze_parser.add_argument(
+        "--validate", action="store_true", default=False,
+        help="Validate data and filter outliers before analysis",
+    )
+    analyze_parser.add_argument(
+        "--outlier-method", type=str, choices=["iqr", "zscore"], default="iqr",
+        help="Outlier detection method for --validate (default: iqr)",
+    )
+
+    # export subcommand
+    export_parser = subparsers.add_parser(
+        "export",
+        help="Batch export benchmark analysis results from a directory",
+    )
+    _add_config_flag(export_parser)
+    export_parser.add_argument(
+        "--dir", type=str, required=True,
+        help="Directory containing benchmark JSON files",
+    )
+    export_parser.add_argument(
+        "--output-format", type=str, choices=["json", "csv"], default="json",
+        help="Export format (default: json)",
+    )
+    export_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    export_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    export_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    export_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA percentile for evaluation (default: 95.0, range: 1-100)",
+    )
+    export_parser.add_argument(
+        "--total-instances", type=int, default=None,
+        help="Total instances to optimize for",
+    )
+
+    # plan-capacity subcommand
+    cap_parser = subparsers.add_parser(
+        "plan-capacity",
+        help="Recommend minimum instances and P:D ratio for a target QPS",
+    )
+    _add_config_flag(cap_parser)
+    cap_parser.add_argument(
+        "--benchmark", type=str, nargs="+", required=True,
+        help="Benchmark JSON files at different cluster sizes/QPS levels",
+    )
+    cap_parser.add_argument(
+        "--target-qps", type=float, required=True,
+        help="Target QPS to achieve",
+    )
+    cap_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    cap_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    cap_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    cap_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA percentile for evaluation (default: 95.0, range: 1-100)",
+    )
+    cap_parser.add_argument(
+        "--max-instances", type=int, default=64,
+        help="Maximum instances to consider (default: 64)",
+    )
+    cap_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # what-if subcommand
+    whatif_parser = subparsers.add_parser(
+        "what-if",
+        help="Simulate what-if scenarios: scale QPS or change instance count",
+    )
+    _add_config_flag(whatif_parser)
+    whatif_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Path to benchmark JSON file",
+    )
+    whatif_parser.add_argument(
+        "--scale-qps", type=str, default=None,
+        help="QPS multiplier(s), comma-separated (e.g. '0.5,1.5,2.0' or '2x')",
+    )
+    whatif_parser.add_argument(
+        "--add-instances", type=int, default=None,
+        help="Number of instances to add (negative to remove)",
+    )
+    whatif_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    whatif_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    whatif_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    whatif_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA percentile for evaluation (default: 95.0, range: 1-100)",
+    )
+    whatif_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    compare_parser = subparsers.add_parser(
+        "compare",
+        help="Compare two benchmark datasets and detect regressions",
+    )
+    compare_parser.add_argument(
+        "--baseline", type=str, required=True,
+        help="Path to baseline benchmark JSON file",
+    )
+    compare_parser.add_argument(
+        "--current", type=str, required=True,
+        help="Path to current benchmark JSON file",
+    )
+    compare_parser.add_argument(
+        "--threshold", type=float, default=0.1,
+        help="Regression threshold as fraction (default: 0.1 = 10%%)",
+    )
+    compare_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # validate subcommand
+    validate_parser = subparsers.add_parser(
+        "validate",
+        help="Validate benchmark data quality and detect outliers",
+    )
+    validate_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Path to benchmark JSON file",
+    )
+    validate_parser.add_argument(
+        "--outlier-method", type=str, choices=["iqr", "zscore"], default="iqr",
+        help="Outlier detection method (default: iqr)",
+    )
+    validate_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # trend subcommand
+    trend_parser = subparsers.add_parser(
+        "trend",
+        help="Track benchmark performance trends over time",
+    )
+    trend_parser.add_argument(
+        "trend_action", choices=["add", "show", "check"],
+        help="'add' records a benchmark, 'show' lists history, 'check' detects degradation",
+    )
+    trend_parser.add_argument(
+        "--benchmark", type=str, default=None,
+        help="Path to benchmark JSON file (required for 'add')",
+    )
+    trend_parser.add_argument(
+        "--label", type=str, default=None,
+        help="Run label/tag (required for 'add')",
+    )
+    trend_parser.add_argument(
+        "--db", type=str, default=None,
+        help="Path to trend SQLite database (default: xpyd-plan-trend.db)",
+    )
+    trend_parser.add_argument(
+        "--lookback", type=int, default=10,
+        help="Number of recent entries to analyze (default: 10)",
+    )
+    trend_parser.add_argument(
+        "--threshold", type=float, default=0.1,
+        help="Degradation threshold as fraction (default: 0.1 = 10%%)",
+    )
+    trend_parser.add_argument(
+        "--limit", type=int, default=None,
+        help="Max entries to show (default: all)",
+    )
+    trend_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # dashboard subcommand
+    dashboard_parser = subparsers.add_parser(
+        "dashboard",
+        help="Interactive TUI dashboard for real-time benchmark monitoring",
+    )
+
+    # --- interpolate subcommand ---
+    interp_parser = subparsers.add_parser(
+        "interpolate",
+        help="Predict performance at untested P:D ratios via interpolation",
+    )
+    interp_parser.add_argument(
+        "--benchmark", type=str, nargs="+", required=True,
+        help="Benchmark JSON files (at least 2, different P:D ratios, same total instances)",
+    )
+    interp_parser.add_argument(
+        "--method", type=str, default="linear", choices=["linear", "spline"],
+        help="Interpolation method (default: linear)",
+    )
+    interp_parser.add_argument(
+        "--ratios", type=str, nargs="*", default=None,
+        help="P:D ratios to predict, e.g. '2:6' '3:5'. Omit to predict all.",
+    )
+    interp_parser.add_argument(
+        "--output-format", type=str, default="table", choices=["table", "json"],
+        help="Output format (default: table)",
+    )
+
+    dashboard_parser.add_argument(
+        "--benchmark", type=str, default=None,
+        help="Path to benchmark JSON file (static mode)",
+    )
+    dashboard_parser.add_argument(
+        "--stream", action="store_true", default=False,
+        help="Read JSONL from stdin (streaming mode)",
+    )
+    dashboard_parser.add_argument(
+        "--refresh-interval", type=float, default=2.0,
+        help="Refresh interval in seconds (default: 2.0)",
+    )
+    dashboard_parser.add_argument(
+        "--max-ttft-ms", type=float, default=None,
+        help="Max TTFT SLA threshold (ms)",
+    )
+    dashboard_parser.add_argument(
+        "--max-tpot-ms", type=float, default=None,
+        help="Max TPOT SLA threshold (ms)",
+    )
+    dashboard_parser.add_argument(
+        "--max-total-latency-ms", type=float, default=None,
+        help="Max total latency SLA threshold (ms)",
+    )
+    dashboard_parser.add_argument(
+        "--total-instances", type=int, default=None,
+        help="Override total instance count",
+    )
+    dashboard_parser.add_argument(
+        "--num-prefill", type=int, default=None,
+        help="Prefill instances for streaming metadata",
+    )
+    dashboard_parser.add_argument(
+        "--num-decode", type=int, default=None,
+        help="Decode instances for streaming metadata",
+    )
+
+    alert_parser = subparsers.add_parser(
+        "alert", help="Evaluate benchmark against alert rules",
+    )
+    alert_parser.add_argument(
+        "--benchmark", required=True, help="Path to benchmark JSON file",
+    )
+    alert_parser.add_argument(
+        "--rules", required=True, help="Path to alert rules YAML file",
+    )
+    alert_parser.add_argument(
+        "--output-format", choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # -- annotate subcommand --
+    annotate_parser = subparsers.add_parser(
+        "annotate", help="Manage benchmark annotations and tags",
+    )
+    annotate_sub = annotate_parser.add_subparsers(dest="annotate_action", help="Annotation actions")
+
+    ann_add = annotate_sub.add_parser("add", help="Add tags to a benchmark file")
+    ann_add.add_argument("--benchmark", required=True, help="Path to benchmark JSON file")
+    ann_add.add_argument(
+        "--tag", action="append", required=True, metavar="KEY=VALUE",
+        help="Tag to add (can be repeated)",
+    )
+
+    ann_list = annotate_sub.add_parser("list", help="List tags on a benchmark file")
+    ann_list.add_argument("--benchmark", required=True, help="Path to benchmark JSON file")
+    ann_list.add_argument(
+        "--output-format", choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    ann_remove = annotate_sub.add_parser("remove", help="Remove tags from a benchmark file")
+    ann_remove.add_argument("--benchmark", required=True, help="Path to benchmark JSON file")
+    ann_remove.add_argument(
+        "--key", action="append", required=True, help="Tag key to remove (can be repeated)",
+    )
+
+    ann_filter = annotate_sub.add_parser("filter", help="Filter benchmarks by tags")
+    ann_filter.add_argument("--dir", required=True, help="Directory to scan")
+    ann_filter.add_argument(
+        "--tag", action="append", required=True, metavar="KEY=VALUE",
+        help="Required tag (can be repeated, all must match)",
+    )
+    ann_filter.add_argument(
+        "--output-format", choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    ann_clear = annotate_sub.add_parser("clear", help="Remove all tags from a benchmark file")
+    ann_clear.add_argument("--benchmark", required=True, help="Path to benchmark JSON file")
+
+    # pareto subcommand
+    pareto_parser = subparsers.add_parser(
+        "pareto",
+        help="Find Pareto-optimal P:D ratios across latency, cost, and waste",
+    )
+    _add_config_flag(pareto_parser)
+    pareto_parser.add_argument(
+        "--benchmark", type=str, nargs="+", required=True,
+        help="Benchmark JSON file(s)",
+    )
+    pareto_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    pareto_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    pareto_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    pareto_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA percentile for evaluation (default: 95.0, range: 1-100)",
+    )
+    pareto_parser.add_argument(
+        "--total-instances", type=int, default=None,
+        help="Total instances to optimize for",
+    )
+    pareto_parser.add_argument(
+        "--cost-model", type=str, default=None,
+        help="YAML file with GPU cost config",
+    )
+    pareto_parser.add_argument(
+        "--objectives", type=str, nargs="+", default=None,
+        choices=["latency", "cost", "waste"],
+        help="Objectives to optimize (default: latency waste; adds cost with --cost-model)",
+    )
+    pareto_parser.add_argument(
+        "--weights", type=str, default=None,
+        help="Objective weights as 'latency=1,cost=2,waste=1'",
+    )
+    pareto_parser.add_argument(
+        "--include-dominated", action="store_true", default=False,
+        help="Also show dominated (non-optimal) candidates",
+    )
+    pareto_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # recommend subcommand
+    recommend_parser = subparsers.add_parser(
+        "recommend",
+        help="Generate actionable P:D ratio recommendations",
+    )
+    _add_config_flag(recommend_parser)
+    recommend_parser.add_argument(
+        "--benchmark", type=str, nargs="+", required=True,
+        help="Benchmark JSON file(s)",
+    )
+    recommend_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    recommend_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    recommend_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    recommend_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA percentile for evaluation (default: 95.0, range: 1-100)",
+    )
+    recommend_parser.add_argument(
+        "--total-instances", type=int, default=None,
+        help="Total instances to optimize for",
+    )
+    recommend_parser.add_argument(
+        "--cost-model", type=str, default=None,
+        help="YAML file with GPU cost config",
+    )
+    recommend_parser.add_argument(
+        "--waste-threshold", type=float, default=0.3,
+        help="Waste rate threshold for rebalance recommendations (default: 0.3)",
+    )
+    recommend_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # fleet subcommand
+    fleet_parser = subparsers.add_parser(
+        "fleet",
+        help="Calculate optimal fleet sizing across multiple GPU types",
+    )
+    _add_config_flag(fleet_parser)
+    fleet_parser.add_argument(
+        "--gpu-configs", type=str, required=True,
+        help="YAML file with GPU type configurations (name, benchmark_file, hourly_rate)",
+    )
+    fleet_parser.add_argument(
+        "--target-qps", type=float, required=True,
+        help="Target QPS to achieve",
+    )
+    fleet_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    fleet_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    fleet_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    fleet_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA percentile for evaluation (default: 95.0)",
+    )
+    fleet_parser.add_argument(
+        "--budget-ceiling", type=float, default=None,
+        help="Max hourly budget (filters out options above this)",
+    )
+    fleet_parser.add_argument(
+        "--max-options", type=int, default=20,
+        help="Max fleet options to return (default: 20)",
+    )
+    fleet_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # pipeline subcommand
+    pipeline_parser = subparsers.add_parser(
+        "pipeline",
+        help="Run a batch analysis pipeline from YAML config",
+    )
+    pipeline_parser.add_argument(
+        "--config", type=str, required=True,
+        help="Path to pipeline YAML config file",
+    )
+    pipeline_parser.add_argument(
+        "--benchmark", type=str, nargs="+",
+        help="Benchmark JSON file(s)",
+    )
+    pipeline_parser.add_argument(
+        "--dry-run", action="store_true", default=False,
+        help="Preview pipeline steps without executing",
+    )
+    pipeline_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # generate subcommand
+    generate_parser = subparsers.add_parser(
+        "generate",
+        help="Generate synthetic benchmark data for testing and demos",
+    )
+    generate_parser.add_argument(
+        "--config", type=str, default=None,
+        help="Path to generator YAML config file",
+    )
+    generate_parser.add_argument(
+        "--output", "-o", type=str, required=True,
+        help="Output benchmark JSON file path",
+    )
+    generate_parser.add_argument(
+        "--num-requests", type=int, default=None,
+        help="Number of requests to generate (overrides config)",
+    )
+    generate_parser.add_argument(
+        "--seed", type=int, default=None,
+        help="Random seed for reproducibility",
+    )
+    generate_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # budget subcommand
+    merge_parser = subparsers.add_parser(
+        "merge",
+        help="Merge multiple benchmark files into one aggregated dataset",
+    )
+    merge_parser.add_argument(
+        "--benchmark", type=str, action="append", required=True,
+        help="Benchmark JSON file (specify multiple times)",
+    )
+    merge_parser.add_argument(
+        "--output", type=str, required=True,
+        help="Output file path for merged benchmark JSON",
+    )
+    merge_parser.add_argument(
+        "--strategy", type=str, default="union",
+        choices=["union", "intersection"],
+        help="Merge strategy for overlapping request IDs (default: union)",
+    )
+    merge_parser.add_argument(
+        "--no-config-check", action="store_true",
+        help="Allow merging benchmarks with different cluster configurations",
+    )
+    merge_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    budget_parser = subparsers.add_parser(
+        "budget",
+        help="Allocate SLA budget across prefill and decode stages",
+    )
+    budget_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Benchmark JSON file",
+    )
+    budget_parser.add_argument(
+        "--total-budget-ms", type=float, required=True,
+        help="Total latency budget in milliseconds",
+    )
+    budget_parser.add_argument(
+        "--strategy", type=str, default="proportional",
+        choices=["proportional", "balanced", "ttft-priority", "tpot-priority"],
+        help="Budget allocation strategy (default: proportional)",
+    )
+    budget_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="Percentile for observed latency analysis (default: 95)",
+    )
+    budget_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    # filter subcommand
+    filter_parser = subparsers.add_parser(
+        "filter",
+        help="Filter benchmark data by token count, latency, time window, or sampling",
+    )
+    filter_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Benchmark JSON file",
+    )
+    filter_parser.add_argument(
+        "--output", type=str, required=True,
+        help="Output file path for filtered benchmark JSON",
+    )
+    filter_parser.add_argument(
+        "--min-prompt-tokens", type=int, default=None,
+        help="Minimum prompt token count",
+    )
+    filter_parser.add_argument(
+        "--max-prompt-tokens", type=int, default=None,
+        help="Maximum prompt token count",
+    )
+    filter_parser.add_argument(
+        "--min-output-tokens", type=int, default=None,
+        help="Minimum output token count",
+    )
+    filter_parser.add_argument(
+        "--max-output-tokens", type=int, default=None,
+        help="Maximum output token count",
+    )
+    filter_parser.add_argument(
+        "--min-ttft-ms", type=float, default=None,
+        help="Minimum TTFT (ms)",
+    )
+    filter_parser.add_argument(
+        "--max-ttft-ms", type=float, default=None,
+        help="Maximum TTFT (ms)",
+    )
+    filter_parser.add_argument(
+        "--min-tpot-ms", type=float, default=None,
+        help="Minimum TPOT (ms)",
+    )
+    filter_parser.add_argument(
+        "--max-tpot-ms", type=float, default=None,
+        help="Maximum TPOT (ms)",
+    )
+    filter_parser.add_argument(
+        "--min-total-latency-ms", type=float, default=None,
+        help="Minimum total latency (ms)",
+    )
+    filter_parser.add_argument(
+        "--max-total-latency-ms", type=float, default=None,
+        help="Maximum total latency (ms)",
+    )
+    filter_parser.add_argument(
+        "--time-start", type=float, default=None,
+        help="Start timestamp (epoch seconds)",
+    )
+    filter_parser.add_argument(
+        "--time-end", type=float, default=None,
+        help="End timestamp (epoch seconds)",
+    )
+    filter_parser.add_argument(
+        "--sample-count", type=int, default=None,
+        help="Random sample N requests",
+    )
+    filter_parser.add_argument(
+        "--sample-fraction", type=float, default=None,
+        help="Random sample fraction (0, 1]",
+    )
+    filter_parser.add_argument(
+        "--seed", type=int, default=None,
+        help="Random seed for reproducible sampling",
+    )
+    filter_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
+    args = parser.parse_args(argv)
+
+    if args.command == "config":
+        _cmd_config(args)
+    elif args.command == "analyze":
+        _apply_config_defaults(args)
+        _cmd_analyze(args)
+    elif args.command == "export":
+        _apply_config_defaults(args)
+        _cmd_export(args)
+    elif args.command == "plan-capacity":
+        _apply_config_defaults(args)
+        _cmd_plan_capacity(args)
+    elif args.command == "what-if":
+        _apply_config_defaults(args)
+        _cmd_what_if(args)
+    elif args.command == "compare":
+        _cmd_compare(args)
+    elif args.command == "validate":
+        _cmd_validate(args)
+    elif args.command == "trend":
+        _cmd_trend(args)
+    elif args.command == "dashboard":
+        _cmd_dashboard(args)
+    elif args.command == "interpolate":
+        _cmd_interpolate(args)
+    elif args.command == "alert":
+        _cmd_alert(args)
+    elif args.command == "annotate":
+        _cmd_annotate(args)
+    elif args.command == "pareto":
+        _apply_config_defaults(args)
+        _cmd_pareto(args)
+    elif args.command == "recommend":
+        _apply_config_defaults(args)
+        _cmd_recommend(args)
+    elif args.command == "fleet":
+        _apply_config_defaults(args)
+        _cmd_fleet(args)
+    elif args.command == "pipeline":
+        _cmd_pipeline(args)
+    elif args.command == "generate":
+        _cmd_generate(args)
+    elif args.command == "budget":
+        _cmd_budget(args)
+    elif args.command == "merge":
+        _cmd_merge(args)
+    elif args.command == "filter":
+        _cmd_filter(args)
+    else:
+        parser.print_help()
+        sys.exit(1)
