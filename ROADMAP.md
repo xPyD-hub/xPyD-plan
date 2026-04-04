@@ -712,7 +712,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Convert 3 xfail integration tests to passing
 - 1244 passed, 0 xfail
 
-### M55 Request Fairness Analysis
+### M55 ✅ Request Fairness Analysis
+
+*Completed — PR #128*
 
 - `FairnessAnalyzer` class in `fairness.py`
 - `FairnessReport`, `BucketStats`, `FairnessIndex`, `FairnessClassification` Pydantic models
