@@ -466,7 +466,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M36 ✅ Prometheus/OpenMetrics Export
 
-*Completed — PR #TBD*
+*Completed — PR #87*
 
 - `MetricsExporter` class in `metrics_export.py`
 - `MetricLine`, `MetricsReport` Pydantic models
@@ -561,7 +561,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M43 ✅ Tail Latency Analysis
 
-*Completed — PR #TBD*
+*Completed — PR #103*
 
 - `TailAnalyzer` class in `tail.py`
 - `TailMetric`, `TailReport`, `TailClassification`, `LongTailProfile` Pydantic models
