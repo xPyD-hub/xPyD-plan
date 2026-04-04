@@ -14,6 +14,7 @@ from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._compare import _cmd_compare
 from xpyd_plan.cli._confidence import _cmd_confidence
 from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
+from xpyd_plan.cli._correlation import _cmd_correlation, add_correlation_parser
 from xpyd_plan.cli._dashboard import _cmd_dashboard
 from xpyd_plan.cli._export import _cmd_export
 from xpyd_plan.cli._filter import _cmd_filter
@@ -854,6 +855,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- scaling subcommand ---
     add_scaling_parser(subparsers)
 
+    # --- correlation subcommand ---
+    add_correlation_parser(subparsers)
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -915,6 +919,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_scaling(args)
     elif args.command == "metrics":
         _cmd_metrics(args)
+    elif args.command == "correlation":
+        _cmd_correlation(args)
     else:
         parser.print_help()
         sys.exit(1)

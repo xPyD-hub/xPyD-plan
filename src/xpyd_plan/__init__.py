@@ -62,6 +62,13 @@ from xpyd_plan.confidence import (
     analyze_confidence,
 )
 from xpyd_plan.config import ConfigProfile, load_config
+from xpyd_plan.correlation import (
+    CorrelationAnalyzer,
+    CorrelationPair,
+    CorrelationReport,
+    CorrelationStrength,
+    analyze_correlation,
+)
 from xpyd_plan.dashboard import (
     Dashboard,
     DashboardState,
@@ -321,4 +328,9 @@ __all__ = [
     "MetricsExporter",
     "MetricsReport",
     "export_metrics",
+    "CorrelationAnalyzer",
+    "CorrelationPair",
+    "CorrelationReport",
+    "CorrelationStrength",
+    "analyze_correlation",
 ]
