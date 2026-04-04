@@ -572,3 +572,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `tail` subcommand with table + JSON output
 - Programmatic `analyze_tail()` API
 - 17 new tests (1015 total)
+
+### M44 ✅ Efficiency Scorecard
+
+*Completed — PR #105*
+
+- `ScorecardCalculator` class in `scorecard.py`
+- `ConfigScorecard`, `DimensionScore`, `ScoreGrade`, `ScorecardReport` Pydantic models
+- Composite 0-100 score combining SLA compliance (40%), utilization (30%), and waste (30%)
+- Configurable dimension weights
+- Letter grading: A (90+), B (75+), C (60+), D (40+), F (<40)
+- CLI `scorecard` subcommand with `--benchmark`, `--sla-*`, `--*-weight`, table + JSON output
+- Programmatic `calculate_scorecard()` API
+- 31 new tests (1046 total)
