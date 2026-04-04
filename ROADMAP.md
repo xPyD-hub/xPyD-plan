@@ -324,13 +324,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `generate_markdown_report()` API
 - 33 new tests (587 total)
 
-### M26 — Benchmark Simulation Generator
+### M26 ✅ Benchmark Simulation Generator
+
+*Completed — PR #TBD*
 
 - `BenchmarkGenerator` class in `generator.py`
-- `GeneratorConfig`, `LatencyProfile` Pydantic models
+- `GeneratorConfig`, `LatencyProfile`, `AnomalyConfig` Pydantic models
 - Generate synthetic benchmark data for testing and demos
 - Configurable: QPS, instance counts, latency distributions (normal, log-normal, bimodal)
 - Inject anomalies (spikes, cold starts) for testing validator/alerting
 - CLI `generate` subcommand with `--config gen.yaml` and `--output benchmark.json`
 - Programmatic `generate_benchmark()` API
-- ~22 new tests
+- 33 new tests (620 total)
