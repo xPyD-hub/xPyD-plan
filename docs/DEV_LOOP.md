@@ -4,7 +4,7 @@ Autonomous infinite loop. Runs until explicitly stopped.
 
 ## Setup (every iteration)
 ```
-git config user.email "hlin99@163.com"
+git config user.email "tony.lin@intel.com"
 git config user.name "hlin99"
 ```
 
@@ -26,7 +26,7 @@ git config user.name "hlin99"
 14. Go to step 1
 
 ## Rules
-- Committer must be `hlin99 <hlin99@163.com>` — always set git config before any commit
+- Committer must be `hlin99 <tony.lin@intel.com>` — always set git config before any commit
 - All code, docs, issues, PRs in English
 - Commit messages: conventional commits format
 
