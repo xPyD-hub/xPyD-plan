@@ -275,6 +275,25 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
             analyzer._data = data
         else:
             analyzer.load_data(benchmarks[0])
+
+        # Validate and filter outliers if requested
+        if getattr(args, "validate", False):
+            from xpyd_plan.validator import DataValidator, OutlierMethod
+
+            method = OutlierMethod(getattr(args, "outlier_method", "iqr"))
+            validator = DataValidator(method=method)
+            vr = validator.validate(analyzer.data, filter_outliers=True)
+            console.print(
+                f"\n[bold]🔍 Validation:[/bold] {vr.outlier_count}/{vr.total_requests} "
+                f"outliers detected (method={vr.method.value}, "
+                f"quality={vr.quality.overall:.2f})"
+            )
+            if vr.filtered_data is not None:
+                analyzer._data = vr.filtered_data
+                console.print(
+                    f"[dim]   Filtered to {len(vr.filtered_data.requests)} clean requests[/dim]"
+                )
+
         total = args.total_instances or analyzer.data.metadata.total_instances
         _print_single_analysis(console, analyzer, sla, total, args.top)
 
@@ -661,6 +680,64 @@ def _cmd_config(args: argparse.Namespace) -> None:
         sys.exit(1)
 
 
+def _cmd_validate(args: argparse.Namespace) -> None:
+    """Handle the 'validate' subcommand."""
+
+    from xpyd_plan.bench_adapter import load_benchmark_auto
+    from xpyd_plan.validator import DataValidator, OutlierMethod
+
+    console = Console()
+
+    if not args.benchmark:
+        console.print("[red]Error: --benchmark is required.[/red]")
+        sys.exit(1)
+
+    data = load_benchmark_auto(args.benchmark)
+    method = OutlierMethod(args.outlier_method)
+    validator = DataValidator(method=method)
+    result = validator.validate(data, filter_outliers=True)
+
+    output_format = getattr(args, "output_format", "table")
+
+    if output_format == "json":
+        console.print(result.model_dump_json(indent=2, exclude={"filtered_data"}))
+        return
+
+    # Table output
+    console.print("\n[bold]📊 Benchmark Data Validation[/bold]")
+    console.print(f"   File: {args.benchmark}")
+    console.print(f"   Method: {result.method.value}")
+    console.print(f"   Total requests: {result.total_requests}")
+    console.print(f"   Outliers: {result.outlier_count}")
+    console.print()
+
+    # Quality scores
+    q = result.quality
+    quality_table = Table(title="Data Quality Scores")
+    quality_table.add_column("Metric", style="cyan")
+    quality_table.add_column("Score", justify="right")
+    quality_table.add_row("Completeness", f"{q.completeness:.4f}")
+    quality_table.add_row("Consistency", f"{q.consistency:.4f}")
+    quality_table.add_row("Outlier Ratio", f"{q.outlier_ratio:.4f}")
+    quality_table.add_row("Overall", f"[bold]{q.overall:.4f}[/bold]")
+    console.print(quality_table)
+
+    # Outlier details
+    if result.outliers:
+        console.print()
+        outlier_table = Table(title=f"Outliers ({result.outlier_count} unique requests)")
+        outlier_table.add_column("Request ID", style="cyan")
+        outlier_table.add_column("Index", justify="right")
+        outlier_table.add_column("Metric")
+        outlier_table.add_column("Value", justify="right")
+        outlier_table.add_column("Reason")
+        for o in result.outliers[:50]:  # Cap display at 50
+            outlier_table.add_row(o.request_id, str(o.index), o.metric, f"{o.value:.2f}", o.reason)
+        console.print(outlier_table)
+        if len(result.outliers) > 50:
+            console.print(f"[dim]   ... and {len(result.outliers) - 50} more[/dim]")
+
+
 def _cmd_trend(args: argparse.Namespace) -> None:
     """Handle the 'trend' subcommand."""
     from xpyd_plan.bench_adapter import load_benchmark_auto
@@ -898,6 +975,14 @@ def main(argv: list[str] | None = None) -> None:
         default="table",
         help="Output format: table (Rich), json, or csv (default: table)",
     )
+    analyze_parser.add_argument(
+        "--validate", action="store_true", default=False,
+        help="Validate data and filter outliers before analysis",
+    )
+    analyze_parser.add_argument(
+        "--outlier-method", type=str, choices=["iqr", "zscore"], default="iqr",
+        help="Outlier detection method for --validate (default: iqr)",
+    )
 
     # export subcommand
     export_parser = subparsers.add_parser(
@@ -1024,6 +1109,24 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # validate subcommand
+    validate_parser = subparsers.add_parser(
+        "validate",
+        help="Validate benchmark data quality and detect outliers",
+    )
+    validate_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Path to benchmark JSON file",
+    )
+    validate_parser.add_argument(
+        "--outlier-method", type=str, choices=["iqr", "zscore"], default="iqr",
+        help="Outlier detection method (default: iqr)",
+    )
+    validate_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     # trend subcommand
     trend_parser = subparsers.add_parser(
         "trend",
@@ -1080,6 +1183,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_what_if(args)
     elif args.command == "compare":
         _cmd_compare(args)
+    elif args.command == "validate":
+        _cmd_validate(args)
     elif args.command == "trend":
         _cmd_trend(args)
     else:

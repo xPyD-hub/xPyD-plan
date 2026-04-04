@@ -27,6 +27,13 @@ from xpyd_plan.models import (
     SLAConfig,
 )
 from xpyd_plan.trend import TrendEntry, TrendReport, TrendTracker, track_trend
+from xpyd_plan.validator import (
+    DataQualityScore,
+    DataValidator,
+    OutlierMethod,
+    ValidationResult,
+    validate_benchmark,
+)
 
 __all__ = [
     "AnalysisResult",
@@ -53,4 +60,9 @@ __all__ = [
     "TrendEntry",
     "TrendReport",
     "TrendTracker",
+    "DataQualityScore",
+    "DataValidator",
+    "OutlierMethod",
+    "ValidationResult",
+    "validate_benchmark",
 ]
