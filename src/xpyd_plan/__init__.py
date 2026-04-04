@@ -26,6 +26,7 @@ from xpyd_plan.models import (
     PDConfig,
     SLAConfig,
 )
+from xpyd_plan.trend import TrendEntry, TrendReport, TrendTracker, track_trend
 
 __all__ = [
     "AnalysisResult",
@@ -48,4 +49,8 @@ __all__ = [
     "get_gpu_profile",
     "list_gpu_profiles",
     "load_config",
+    "track_trend",
+    "TrendEntry",
+    "TrendReport",
+    "TrendTracker",
 ]
