@@ -836,6 +836,47 @@ def _cmd_trend(args: argparse.Namespace) -> None:
         tracker.close()
 
 
+def _cmd_dashboard(args: argparse.Namespace) -> None:
+    """Handle the 'dashboard' subcommand."""
+    from xpyd_plan.benchmark_models import BenchmarkMetadata
+    from xpyd_plan.dashboard import Dashboard
+    from xpyd_plan.models import SLAConfig
+
+    console = Console()
+
+    if not args.benchmark and not args.stream:
+        console.print("[red]Error: --benchmark or --stream is required.[/red]")
+        sys.exit(1)
+
+    sla = SLAConfig(
+        ttft_ms=args.max_ttft_ms,
+        tpot_ms=args.max_tpot_ms,
+        max_latency_ms=args.max_total_latency_ms,
+    )
+
+    dashboard = Dashboard(
+        sla=sla,
+        total_instances=args.total_instances,
+        refresh_interval=args.refresh_interval,
+    )
+
+    if args.benchmark:
+        dashboard.load_file(args.benchmark)
+        dashboard.run(console=console)
+    else:
+        # Streaming mode
+        metadata = None
+        if args.num_prefill and args.num_decode:
+            total = args.total_instances or (args.num_prefill + args.num_decode)
+            metadata = BenchmarkMetadata(
+                num_prefill_instances=args.num_prefill,
+                num_decode_instances=args.num_decode,
+                total_instances=total,
+                measured_qps=0.0,
+            )
+        dashboard.run(stream=sys.stdin, metadata=metadata, console=console)
+
+
 def _cmd_compare(args: argparse.Namespace) -> None:
     """Execute the compare subcommand."""
 
@@ -1165,6 +1206,48 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # dashboard subcommand
+    dashboard_parser = subparsers.add_parser(
+        "dashboard",
+        help="Interactive TUI dashboard for real-time benchmark monitoring",
+    )
+    dashboard_parser.add_argument(
+        "--benchmark", type=str, default=None,
+        help="Path to benchmark JSON file (static mode)",
+    )
+    dashboard_parser.add_argument(
+        "--stream", action="store_true", default=False,
+        help="Read JSONL from stdin (streaming mode)",
+    )
+    dashboard_parser.add_argument(
+        "--refresh-interval", type=float, default=2.0,
+        help="Refresh interval in seconds (default: 2.0)",
+    )
+    dashboard_parser.add_argument(
+        "--max-ttft-ms", type=float, default=None,
+        help="Max TTFT SLA threshold (ms)",
+    )
+    dashboard_parser.add_argument(
+        "--max-tpot-ms", type=float, default=None,
+        help="Max TPOT SLA threshold (ms)",
+    )
+    dashboard_parser.add_argument(
+        "--max-total-latency-ms", type=float, default=None,
+        help="Max total latency SLA threshold (ms)",
+    )
+    dashboard_parser.add_argument(
+        "--total-instances", type=int, default=None,
+        help="Override total instance count",
+    )
+    dashboard_parser.add_argument(
+        "--num-prefill", type=int, default=None,
+        help="Prefill instances for streaming metadata",
+    )
+    dashboard_parser.add_argument(
+        "--num-decode", type=int, default=None,
+        help="Decode instances for streaming metadata",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -1187,6 +1270,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_validate(args)
     elif args.command == "trend":
         _cmd_trend(args)
+    elif args.command == "dashboard":
+        _cmd_dashboard(args)
     else:
         parser.print_help()
         sys.exit(1)
