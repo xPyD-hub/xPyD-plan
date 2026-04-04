@@ -80,8 +80,10 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `--format auto|native|xpyd-bench` and `--stream` flags
 - 20 new tests
 
-### M7: Report Generation
+### M7 ✅ Report Generation
 
-- Visualized analysis results (utilization heatmaps, latency distributions)
-- HTML/PDF export
+*Completed — PR #15*
+
+- HTML report generation with inline SVG visualizations
+- Utilization heatmaps, latency distributions
 - Comparison tables across different P:D configurations
