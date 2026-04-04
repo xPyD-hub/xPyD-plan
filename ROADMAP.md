@@ -337,7 +337,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `generate_benchmark()` API
 - 33 new tests (620 total)
 
-### M27 — SLA Budget Allocation
+### M27 ✅ SLA Budget Allocation
+
+*Completed — PR #66*
 
 - `BudgetAllocator` class in `budget.py`
 - `BudgetAllocation`, `StageBudget`, `AllocationStrategy` Pydantic models
