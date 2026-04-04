@@ -41,6 +41,7 @@ from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
 from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
+from xpyd_plan.cli._roi import add_roi_parser
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
@@ -892,6 +893,7 @@ def main(argv: list[str] | None = None) -> None:
     add_queue_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
+    add_roi_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
@@ -1052,6 +1054,9 @@ def main(argv: list[str] | None = None) -> None:
         _run_plugins(args)
     elif args.command == "token-efficiency":
         handle_token_efficiency(args)
+    elif args.command == "roi":
+        from xpyd_plan.cli._roi import _cmd_roi
+        _cmd_roi(args)
     else:
         parser.print_help()
         sys.exit(1)

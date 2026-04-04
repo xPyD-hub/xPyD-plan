@@ -692,3 +692,19 @@ __all__ += [
     "BatchReport",
     "analyze_batch_impact",
 ]
+
+from xpyd_plan.roi import (  # noqa: E402
+    CostProjection,
+    ROICalculator,
+    ROIReport,
+    SavingsEstimate,
+    calculate_roi,
+)
+
+__all__ += [
+    "CostProjection",
+    "ROICalculator",
+    "ROIReport",
+    "SavingsEstimate",
+    "calculate_roi",
+]
