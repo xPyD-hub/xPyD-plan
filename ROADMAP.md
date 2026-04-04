@@ -349,3 +349,32 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `budget` subcommand with `--benchmark`, `--total-budget-ms`, `--strategy`, table + JSON output
 - Programmatic `allocate_budget()` API
 - 23 new tests (643 total)
+
+### M28 ✅ Benchmark Merge & Aggregation
+
+*Completed — PR #68*
+
+- `BenchmarkMerger` class in `merger.py`
+- `MergeConfig`, `MergeResult`, `MergeStrategy` Pydantic models
+- Union strategy: keep all unique requests, first occurrence wins for duplicates
+- Intersection strategy: keep only requests present in all files
+- Validates compatible cluster configurations (can be disabled)
+- Aggregated metadata: combined QPS from all sources
+- CLI `merge` subcommand with `--benchmark`, `--output`, `--strategy`, `--output-format`
+- Programmatic `merge_benchmarks()` API
+- 20 new tests (663 total)
+
+### M29 ✅ Benchmark Filtering & Slicing
+
+*Completed — PR #70*
+
+- `BenchmarkFilter` class in `filter.py`
+- `FilterConfig`, `BenchmarkFilterResult` Pydantic models
+- Token count filters: min/max prompt_tokens, min/max output_tokens
+- Latency filters: min/max ttft_ms, tpot_ms, total_latency_ms
+- Time window: start_time / end_time (epoch seconds)
+- Random sampling: sample_count or sample_fraction with reproducible seed
+- QPS automatically adjusted proportionally to retention rate
+- CLI `filter` subcommand with all filter flags, table + JSON output
+- Programmatic `filter_benchmark()` API
+- 28 new tests (691 total)
