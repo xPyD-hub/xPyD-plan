@@ -234,3 +234,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `interpolate_performance()` API
 - scipy dependency for spline interpolation
 - 25 new tests (410 total)
+
+### M19 ⏳ Alert Rules Engine
+
+*In progress — PR #47*
+
+- `AlertEngine` class in `alerting.py`
+- `AlertRule`, `AlertResult`, `AlertReport`, `AlertSeverity`, `Comparator` Pydantic models
+- YAML rule file loading with metric + threshold + comparator + severity
+- 11 supported metrics (TTFT/TPOT/total_latency at P50/P95/P99, QPS, request count)
+- CLI `alert` subcommand with table and JSON output
+- Non-zero exit code on critical alerts (CI/CD pipeline friendly)
+- Programmatic `evaluate_alerts()` API
+- 20 new tests (430 total)
