@@ -171,7 +171,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Backward compatible — default P95 behavior unchanged
 - 34 new tests (288 total)
 
-### M14 — Benchmark Comparison & Regression Detection
+### M14 ✅ Benchmark Comparison & Regression Detection
+
+*Completed — PR #35*
 
 - `BenchmarkComparator` class in `comparator.py`
 - `MetricDelta` and `ComparisonResult` Pydantic models
@@ -181,3 +183,35 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `compare` subcommand with table and JSON output
 - Programmatic `compare_benchmarks()` API
 - 23 new tests (311 total)
+
+### M15 — Historical Trend Tracking
+
+- `TrendTracker` class in `trend.py`
+- `TrendEntry` and `TrendReport` Pydantic models
+- SQLite-backed storage for analysis results over time
+- Detect gradual performance degradation across benchmark runs
+- CLI `trend` subcommand: `trend add`, `trend show`, `trend check`
+- Configurable lookback window and degradation threshold
+- Programmatic `track_trend()` API
+- ~20 new tests
+
+### M16 — Benchmark Data Validation & Outlier Detection
+
+- `DataValidator` class in `validator.py`
+- `ValidationResult` and `DataQualityScore` Pydantic models
+- Statistical outlier detection (IQR and Z-score methods)
+- Data quality scoring: completeness, consistency, outlier ratio
+- Automatic filtering of anomalous requests with reporting
+- CLI `validate` subcommand with table and JSON output
+- Integration with `analyze` subcommand via `--validate` flag
+- Programmatic `validate_benchmark()` API
+- ~22 new tests
+
+### M17 — Interactive CLI Dashboard
+
+- Rich Live-based TUI dashboard for real-time monitoring
+- Auto-refreshing panels: latency distribution, utilization, SLA status
+- Support both file-based and streaming input
+- Keyboard shortcuts for switching views
+- CLI `dashboard` subcommand with `--refresh-interval`
+- ~15 new tests
