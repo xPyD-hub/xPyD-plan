@@ -34,6 +34,78 @@ def _load_dataset(path: str) -> list[dict[str, int]]:
     return records
 
 
+def _print_cost_analysis(
+    console: Console,
+    analyzer: BenchmarkAnalyzer,
+    sla: SLAConfig,
+    total: int,
+    args: argparse.Namespace,
+) -> None:
+    """Print cost-aware analysis output."""
+    from xpyd_plan.cost import CostAnalyzer, CostConfig
+
+    cost_config = CostConfig.from_yaml(args.cost_model)
+    cost_analyzer = CostAnalyzer(cost_config)
+    result = analyzer.find_optimal_ratio(total, sla)
+    qps = analyzer.data.metadata.measured_qps
+
+    comparison = cost_analyzer.compare(result, qps, args.budget_ceiling)
+
+    console.print(f"\n[bold]💰 Cost Analysis ({cost_config.currency})[/bold]")
+    console.print(f"   GPU hourly rate: {cost_config.currency} {cost_config.gpu_hourly_rate:.2f}")
+    if args.budget_ceiling is not None:
+        console.print(f"   Budget ceiling: {cost_config.currency} {args.budget_ceiling:.2f}/hr")
+
+    if comparison.sla_optimal:
+        s = comparison.sla_optimal
+        console.print(
+            f"\n   [bold]SLA-Optimal:[/bold] {s.ratio_str}"
+            f"  — {s.currency} {s.hourly_cost:.2f}/hr"
+        )
+        if s.cost_per_request is not None:
+            console.print(f"   Cost/request: {s.currency} {s.cost_per_request:.6f}")
+
+    if comparison.cost_optimal:
+        c = comparison.cost_optimal
+        console.print(
+            f"   [bold]Cost-Optimal:[/bold] {c.ratio_str}"
+            f"  — {c.currency} {c.hourly_cost:.2f}/hr"
+        )
+        if c.cost_per_request is not None:
+            console.print(f"   Cost/request: {c.currency} {c.cost_per_request:.6f}")
+
+    if comparison.sla_optimal and comparison.cost_optimal:
+        diff = comparison.sla_optimal.hourly_cost - comparison.cost_optimal.hourly_cost
+        if abs(diff) > 0.01:
+            console.print(
+                f"\n   💡 Switching to cost-optimal saves"
+                f" {comparison.sla_optimal.currency} {diff:.2f}/hr"
+            )
+        else:
+            console.print("\n   ✅ SLA-optimal and cost-optimal are the same!")
+
+    # Cost table
+    if comparison.all_costs:
+        table = Table(title="\nCost Breakdown by P:D Ratio")
+        table.add_column("Config", style="cyan")
+        table.add_column("Instances", justify="right")
+        table.add_column("Hourly Cost", justify="right")
+        table.add_column("Cost/Request", justify="right")
+        table.add_column("SLA", justify="center")
+
+        for cost in comparison.all_costs:
+            sla_str = "✅" if cost.meets_sla else "❌"
+            cpr = f"{cost.currency} {cost.cost_per_request:.6f}" if cost.cost_per_request else "N/A"
+            table.add_row(
+                cost.ratio_str,
+                str(cost.total_instances),
+                f"{cost.currency} {cost.hourly_cost:.2f}",
+                cpr,
+                sla_str,
+            )
+        console.print(table)
+
+
 def _print_single_analysis(
     console: Console, analyzer: BenchmarkAnalyzer, sla: SLAConfig, total: int, top: int
 ) -> dict:
@@ -224,6 +296,9 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
             analyzer.load_data(benchmarks[0])
         total = args.total_instances or analyzer.data.metadata.total_instances
         _print_single_analysis(console, analyzer, sla, total, args.top)
+
+        if args.cost_model:
+            _print_cost_analysis(console, analyzer, sla, total, args)
 
         if args.sensitivity:
             _print_sensitivity(console, analyzer, sla, total)
@@ -443,6 +518,14 @@ def main(argv: list[str] | None = None) -> None:
     analyze_parser.add_argument(
         "--report", type=str, default=None,
         help="Generate HTML report to the given path (e.g. report.html)",
+    )
+    analyze_parser.add_argument(
+        "--cost-model", type=str, default=None,
+        help="YAML file with GPU cost config (gpu_hourly_rate, currency)",
+    )
+    analyze_parser.add_argument(
+        "--budget-ceiling", type=float, default=None,
+        help="Max hourly cost budget (used with --cost-model)",
     )
 
     # plan subcommand (legacy, deprecated)
