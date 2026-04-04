@@ -240,6 +240,15 @@ from xpyd_plan.plugin import (
     get_registry,
     list_plugins,
 )
+from xpyd_plan.queue_analysis import (
+    ConcurrencyPoint,
+    ConcurrencyProfile,
+    CongestionLevel,
+    QueueAnalyzer,
+    QueueReport,
+    QueueStats,
+    analyze_queue,
+)
 from xpyd_plan.recommender import (
     ActionCategory,
     Recommendation,
@@ -535,6 +544,13 @@ __all__ = [
     "ThroughputStability",
     "ThroughputStats",
     "analyze_throughput",
+    "QueueAnalyzer",
+    "QueueReport",
+    "QueueStats",
+    "ConcurrencyProfile",
+    "ConcurrencyPoint",
+    "CongestionLevel",
+    "analyze_queue",
     "AggregateEfficiency",
     "EfficiencyGrade",
     "InstanceEfficiency",
