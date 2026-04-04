@@ -10,7 +10,6 @@ from xpyd_plan.cli._alert import _cmd_alert
 from xpyd_plan.cli._analyze import _cmd_analyze
 from xpyd_plan.cli._annotate import _cmd_annotate
 from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
-from xpyd_plan.cli._stat_summary import add_stat_summary_parser
 from xpyd_plan.cli._budget import _cmd_budget
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._compare import _cmd_compare
@@ -47,6 +46,7 @@ from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
+from xpyd_plan.cli._stat_summary import add_stat_summary_parser
 from xpyd_plan.cli._summary import _cmd_summary, add_summary_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
 from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_threshold_advisor_parser
