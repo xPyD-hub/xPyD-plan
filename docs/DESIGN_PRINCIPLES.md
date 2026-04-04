@@ -1,43 +1,43 @@
-# xPyD-plan 设计原则
+# xPyD-plan Design Principles
 
-## 核心定位
-离线规划工具：分析 vLLM benchmark 实测数据，推荐最优 P:D 配置。
+## Core Positioning
+Offline planning tool: analyze vLLM benchmark data from real hardware to recommend the optimal P:D configuration.
 
-## 方法论
-1. 用户按我们指定的几种 P:D 配置各跑一次 vLLM benchmark
-2. 收集多组实测数据点（TTFT、TPOT/ITL、throughput 等）
-3. 分析数据，拟合/插值，构建性能模型
-4. 外推所有可能 P:D 比例下的预测性能
-5. 找出满足 SLA 且浪费最少的 P:D 组合
+## Methodology
+1. Users run vLLM benchmarks on real hardware with several P:D configurations we specify
+2. Collect multiple measured data points (TTFT, TPOT/ITL, throughput, etc.)
+3. Analyze data, fit/interpolate, build performance model
+4. Extrapolate predicted performance for all possible P:D ratios
+5. Find the P:D combination that meets SLA with minimum waste (best cost-efficiency)
 
-## 设计原则
+## Principles
 
-### 实测驱动
-- 一切基于真实硬件的 benchmark 数据
-- 不做纯理论模拟，不猜测硬件性能
-- 数据格式：vLLM benchmark 标准输出
+### Data-Driven
+- Everything is based on real hardware benchmark data
+- No pure theoretical simulation, no guessing hardware performance
+- Data format: vLLM benchmark standard output
 
-### 独立思考
-- 参考业界方案（如 dynamo planner）的思路，但不照搬
-- 每个技术选型必须有自己的分析和理由
-- 算法选择要根据实际数据特征，不是因为"别人也这么做"
+### Independent Thinking
+- Reference industry solutions (e.g., dynamo planner) for ideas, but never copy
+- Every technical decision must have its own analysis and reasoning
+- Algorithm choices based on actual data characteristics, not "because others do it"
 
-### 用户友好
-- 尽量减少用户需要跑的 benchmark 次数
-- 清晰告诉用户需要跑哪些配置
-- 推荐结果要带置信度/可信度评估
-- 采样点少时要诚实告知不确定性
+### User-Friendly
+- Minimize the number of benchmark runs users need to perform
+- Clearly tell users which configurations to benchmark
+- Recommendations must include confidence/reliability assessment
+- Be honest about uncertainty when sample points are few
 
-### 严格定义
-- "最优"= 满足 SLA 前提下，P 和 D 实例空闲浪费最少
-- "浪费"需要有严格的数学定义，不能含糊
-- SLA 检查用实测分位数（P95/P99），不是平均值
+### Rigorous Definitions
+- "Optimal" = minimum idle waste on P and D instances while meeting SLA
+- "Waste" must have a strict mathematical definition, no ambiguity
+- SLA checks use measured percentiles (P95/P99), not averages
 
-### 粒度
-- 按 instance 度量，不关心一个 instance 几张卡
-- 不优化 QPS，QPS 是实测给定的
+### Granularity
+- Measured in instances, not individual GPU cards
+- QPS is not optimized — it is a given from the benchmark
 
-## 参考资料
-- ai-dynamo/dynamo planner 模块：可参考其 profiling 数据插值、SLA 检查的思路
-- 但 dynamo 是在线 autoscaler，我们是离线规划工具，场景不同
-- 不要复制 dynamo 的代码或数据格式
+## References
+- ai-dynamo/dynamo planner module: reference its ideas on profiling data interpolation and SLA checking
+- However, dynamo is an online autoscaler; we are an offline planning tool — different scenarios
+- Do not copy dynamo's code or data formats

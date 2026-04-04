@@ -1,84 +1,88 @@
-# 自主开发循环规范
+# Autonomous Development Loop Specification
 
-## 循环步骤（每轮迭代）
+## Loop Steps (Per Iteration)
 
-### Step 1: 同步与评估
-1. 拉取最新代码
-2. 读 ROADMAP.md 确认当前进度
-3. 读 docs/DESIGN_PRINCIPLES.md 确认设计原则
-4. 检查 open issues 和 PRs：如有未合并的 PR 先处理
+### Step 1: Sync & Assess
+1. Pull latest code
+2. Read ROADMAP.md to confirm current progress
+3. Read docs/DESIGN_PRINCIPLES.md to confirm design principles
+4. Check open issues and PRs: handle any unmerged PRs first
 
-### Step 2: 思考与规划
-1. 分析当前代码的不足和下一步最有价值的改进
-2. 独立思考方案，不要机械套用参考实现
-3. 创建 GitHub Issue（中文），包含：
-   - 问题分析：为什么要做这个
-   - 方案设计：打算怎么做，为什么这样做
-   - 验收标准：怎么算做完了
-   - 测试用例：需要哪些测试
+### Step 2: Think & Plan
+1. Analyze current code deficiencies and identify the most valuable next improvement
+2. Think independently — do not mechanically apply reference implementations
+3. Create a GitHub Issue (English) containing:
+   - Problem analysis: why this needs to be done
+   - Solution design: how to do it and why this approach
+   - Acceptance criteria: what "done" looks like
+   - Test cases: what tests are needed
 
-### Step 3: 实现
-1. 创建分支
-2. 写代码 + 测试
-3. 确保 ruff check 和 isort --check 通过
-4. commit message 英文 conventional commits
+### Step 3: Implement
+1. Create a branch
+2. Write code + tests
+3. Ensure ruff check and isort --check pass
+4. Commit messages in English, conventional commits format
 
-### Step 4: 自我审查
-1. 对照 Issue 中的验收标准逐条检查
-2. 检查代码质量：类型注解、docstring、命名、边界情况
-3. 检查测试覆盖：关键路径、边界值、异常场景
-4. 检查是否违反 DESIGN_PRINCIPLES.md 中的原则
-5. 有问题就修，修完再审
+### Step 4: Self-Review
+1. Check each acceptance criterion from the Issue
+2. Check code quality: type annotations, docstrings, naming, edge cases
+3. Check test coverage: critical paths, boundary values, error scenarios
+4. Check for violations of DESIGN_PRINCIPLES.md
+5. Fix issues and re-review
 
-### Step 5: 合并与记录
-1. 创建 PR（中文，body 含 Closes #N）
-2. squash merge
-3. 更新 ROADMAP.md 标记进度
-4. push 到 main
+### Step 5: Merge & Record
+1. Create PR (English, body contains Closes #N)
+2. Wait for CI to pass (all checks must be green)
+3. Squash merge only after CI passes
+4. Update ROADMAP.md to mark progress
+5. Push to main
 
-### Step 6: 回顾
-1. 这轮做的东西对最终目标有多大推进？
-2. 有没有发现之前的设计需要调整？
-3. 如果需要，更新 ROADMAP.md 或 DESIGN_PRINCIPLES.md
+### Step 6: Reflect
+1. How much did this iteration advance the final goal?
+2. Are there previously made design decisions that need adjustment?
+3. If so, update ROADMAP.md or DESIGN_PRINCIPLES.md
 
-## 汇报机制
-- 每 5 轮迭代向用户发一份总结
-- 内容：完成了什么、当前进展、遇到的挑战、自行做的决策、下一步
-- 遇到重大设计选择时告知用户，但不等回复
+## CI Requirements
+- All PRs must pass CI before merging (lint + tests on Python 3.10/3.11/3.12)
+- If CI fails, fix the code and push again — never merge with failing CI
+- If CI is stuck or flaky, investigate and fix the CI itself
 
-## 质量红线
-- 不允许跳过测试
-- 不允许 lint 不通过就合并
-- 不允许照搬其他项目的代码
-- 每个技术决策必须有理由
+## Reporting
+- Every 5 iterations, send a summary to the user
+- Content: what was accomplished, current progress, challenges, decisions made, next steps
+- Report major design choices to the user, but don't wait for reply
 
-## 无限循环机制
+## Quality Red Lines
+- Never skip tests
+- Never merge with failing lint or CI
+- Never copy code from other projects
+- Every technical decision must have a reason
 
-Roadmap 的 milestone 不是终点。当所有已有 milestone 完成后，循环不停止，而是进入**持续演进阶段**：
+## Infinite Loop Mechanism
 
-### 阶段 1: Roadmap 驱动（有明确 milestone 时）
-按 ROADMAP.md 的 milestone 顺序推进。
+The roadmap milestones are not the finish line. When all existing milestones are complete, the loop does not stop — it enters a **continuous evolution phase**:
 
-### 阶段 2: 持续演进（所有 milestone 完成后）
-1. **审视全局**：重新审视整个项目，思考：
-   - 当前方案有什么局限性？
-   - 用户体验还能怎么改进？
-   - 算法精度还能怎么提升？
-   - 有没有新的场景需要支持？
-   - 代码有没有可以重构的地方？
-   - 测试覆盖有没有盲区？
-   - 文档是否完善？
+### Phase 1: Roadmap-Driven (when milestones exist)
+Follow ROADMAP.md milestone order.
 
-2. **创建新 milestone**：把发现的改进点整理成新的 milestone，更新 ROADMAP.md
+### Phase 2: Continuous Evolution (when all milestones are done)
+1. **Review the big picture**: Re-examine the entire project:
+   - What limitations does the current approach have?
+   - How can user experience be improved?
+   - How can algorithm accuracy be enhanced?
+   - Are there new scenarios to support?
+   - Is there code worth refactoring?
+   - Are there test coverage gaps?
+   - Is documentation complete?
 
-3. **继续循环**：回到阶段 1
+2. **Create new milestones**: Organize discovered improvements into new milestones, update ROADMAP.md
 
-### 持续演进的灵感来源
-- 跑一下项目自己的测试，看看有没有边界情况没覆盖
-- 用真实的 vLLM bench 数据（如果能找到公开数据集）验证推荐结果
-- 对比业界类似工具，寻找差异化优势
-- 思考更复杂的场景：多模型混部、异构 GPU、动态负载
-- 性能优化：大数据量下的计算效率
-- 可观测性：更好的日志、指标、调试信息
+3. **Continue the loop**: Return to Phase 1
 
-这样循环永远不会真正结束——总有改进空间。
+### Sources of Inspiration for Continuous Evolution
+- Run the project's own tests, look for uncovered edge cases
+- Validate recommendations with real vLLM bench data (if public datasets available)
+- Compare with similar industry tools, find differentiation opportunities
+- Think about complex scenarios: multi-model co-location, heterogeneous GPUs, dynamic loads
+- Performance optimization: computational efficiency at scale
+- Observability: better logging, metrics, debugging info
