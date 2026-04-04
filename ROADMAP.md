@@ -753,7 +753,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_outlier_impact()` API
 - 21 new tests (1331 total)
 
-### M58 – Percentile Convergence Analysis
+### M58 ✅ Percentile Convergence Analysis
+
+*Completed — PR #134*
 
 - `ConvergenceAnalyzer` class in `convergence.py`
 - `ConvergencePoint`, `ConvergenceReport`, `MetricConvergence`, `StabilityStatus` Pydantic models
@@ -764,7 +766,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_convergence()` API
 - 21 new tests (1331 total)
 
-### M59 – Load Profile Classification
+### M59 ✅ Load Profile Classification
+
+*Completed — PR #136*
 
 - `LoadProfileClassifier` class in `load_profile.py`
 - `LoadProfile`, `LoadProfileReport`, `ProfileType`, `RateWindow` Pydantic models
@@ -776,4 +780,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Direction change counting for cyclic detection
 - CLI `load-profile` subcommand with `--benchmark`, `--window-size`, table + JSON output
 - Programmatic `classify_load_profile()` API
+- ~22 new tests
+
+### M60 – Throughput Percentile Analysis
+
+- `ThroughputAnalyzer` class in `throughput.py`
+- `ThroughputReport`, `ThroughputBucket`, `ThroughputStats`, `ThroughputStability` Pydantic models
+- Compute per-second completed request counts from timestamp data
+- Throughput distribution: min, mean, P50, P95, P99, max requests/sec
+- Stability classification: STABLE (CV≤0.15), VARIABLE (0.15–0.40), UNSTABLE (>0.40)
+- Bottleneck second detection: identify seconds where throughput drops below a threshold
+- Sustainable throughput estimation (P5 of per-second counts)
+- CLI `throughput` subcommand with `--benchmark`, `--bucket-size`, table + JSON output
+- Programmatic `analyze_throughput()` API
 - ~22 new tests
