@@ -13,6 +13,7 @@ from rich.console import Console
 from rich.table import Table
 
 from xpyd_plan.analyzer import BenchmarkAnalyzer
+from xpyd_plan.bench_adapter import load_benchmark_auto
 from xpyd_plan.models import DatasetStats, GPUProfile, SLAConfig
 
 
@@ -185,12 +186,42 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
         max_latency_ms=args.sla_max_latency,
     )
 
+    # Handle streaming mode
+    if args.stream:
+        from xpyd_plan.streaming import stream_from_stdin
+
+        console.print("[bold]📡 Streaming mode — reading JSONL from stdin...[/bold]")
+        snapshot_interval = args.snapshot_interval or 10
+        stream_from_stdin(sla=sla, snapshot_interval=snapshot_interval)
+        return
+
+    if not args.benchmark:
+        console.print("[red]Error: --benchmark is required unless --stream is used.[/red]")
+        sys.exit(1)
+
     analyzer = BenchmarkAnalyzer()
     benchmarks = args.benchmark
+    fmt = args.format
+
+    # Load with format detection
+    if fmt == "auto":
+        load_fn = load_benchmark_auto
+    elif fmt == "xpyd-bench":
+        from xpyd_plan.bench_adapter import XpydBenchAdapter
+
+        adapter = XpydBenchAdapter()
+        load_fn = adapter.load
+    else:
+        # native — use analyzer's built-in loader
+        load_fn = None
 
     if len(benchmarks) == 1:
         # Single-file mode (original behavior)
-        analyzer.load_data(benchmarks[0])
+        if load_fn:
+            data = load_fn(benchmarks[0])
+            analyzer._data = data
+        else:
+            analyzer.load_data(benchmarks[0])
         total = args.total_instances or analyzer.data.metadata.total_instances
         _print_single_analysis(console, analyzer, sla, total, args.top)
 
@@ -203,7 +234,13 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
             console.print(f"\n[dim]Result written to {args.output}[/dim]")
     else:
         # Multi-file mode
-        analyzer.load_multi_data(benchmarks)
+        if load_fn:
+            datasets = [load_fn(b) for b in benchmarks]
+            datasets.sort(key=lambda d: d.metadata.measured_qps)
+            analyzer._multi_data = datasets
+            analyzer._data = datasets[0]
+        else:
+            analyzer.load_multi_data(benchmarks)
         total = args.total_instances or analyzer.multi_data[0].metadata.total_instances
 
         console.print(f"\n[bold]📊 Multi-Scenario Analysis ({len(benchmarks)} scenarios)[/bold]")
@@ -351,8 +388,21 @@ def main(argv: list[str] | None = None) -> None:
         help="Analyze benchmark data to find optimal P:D ratio",
     )
     analyze_parser.add_argument(
-        "--benchmark", type=str, required=True, nargs="+",
+        "--benchmark", type=str, nargs="+", default=None,
         help="Path(s) to benchmark JSON file(s). Multiple files enable multi-scenario analysis.",
+    )
+    analyze_parser.add_argument(
+        "--format", type=str, choices=["auto", "native", "xpyd-bench"],
+        default="auto",
+        help="Benchmark data format (default: auto-detect)",
+    )
+    analyze_parser.add_argument(
+        "--stream", action="store_true", default=False,
+        help="Streaming mode: read JSONL records from stdin for live analysis",
+    )
+    analyze_parser.add_argument(
+        "--snapshot-interval", type=int, default=None,
+        help="Number of requests between streaming snapshots (default: 10)",
     )
     analyze_parser.add_argument(
         "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)"
