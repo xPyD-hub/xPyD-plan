@@ -309,7 +309,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `run_pipeline()` API
 - ~24 new tests
 
-### M25 — Markdown Report Generation
+### M25 ✅ Markdown Report Generation
+
+*Completed — PR #61*
 
 - `MarkdownReporter` class in `md_report.py`
 - `MarkdownReportConfig` Pydantic model
@@ -318,7 +320,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Embeddable in GitHub PRs and wiki pages
 - CLI `report --format markdown` option alongside existing HTML
 - Programmatic `generate_markdown_report()` API
-- ~20 new tests
+- 33 new tests (587 total)
 
 ### M26 — Benchmark Simulation Generator
 
