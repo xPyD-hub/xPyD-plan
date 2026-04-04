@@ -35,6 +35,7 @@ from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
+from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_threshold_advisor_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
@@ -888,6 +889,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- plan-benchmarks subcommand ---
     add_plan_benchmarks_parser(subparsers)
 
+    # --- threshold-advisor subcommand ---
+    add_threshold_advisor_parser(subparsers)
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -967,6 +971,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_heatmap(args)
     elif args.command == "plan-benchmarks":
         _cmd_plan_benchmarks(args)
+    elif args.command == "threshold-advisor":
+        _cmd_threshold_advisor(args)
     else:
         parser.print_help()
         sys.exit(1)

@@ -586,9 +586,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `calculate_scorecard()` API
 - 31 new tests (1046 total)
 
-### M45 ⏳ Benchmark Plan Generator
+### M45 ✅ Benchmark Plan Generator
 
-*In Progress — PR #TBD*
+*Completed — PR #107*
 
 - `BenchmarkPlanGenerator` class in `plan_generator.py`
 - `PlannedRatio`, `BenchmarkPlan`, `RatioPriority` Pydantic models
@@ -598,3 +598,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `plan-benchmarks` subcommand with `--total-instances`, `--max-runs`, table + JSON output
 - Programmatic `generate_benchmark_plan()` API
 - 19 new tests (1065 total)
+
+### M46 ⏳ SLA Threshold Tuning Advisor
+
+*In Progress — PR #TBD*
+
+- `ThresholdAdvisor` class in `threshold_advisor.py`
+- `ThresholdSuggestion`, `AdvisorReport`, `SweetSpot`, `PassRateTarget` Pydantic models
+- For each latency metric, compute the threshold needed to achieve target pass rates
+- Sweet-spot detection: identify inflection points where small threshold relaxation yields large compliance gains
+- CLI `threshold-advisor` subcommand with `--benchmark`, `--pass-rates`, table + JSON output
+- Programmatic `advise_thresholds()` API
+- 19 new tests (1084 total)
