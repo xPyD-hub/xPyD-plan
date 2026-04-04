@@ -30,6 +30,7 @@ from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
+from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
 from xpyd_plan.cli._whatif import _cmd_what_if
@@ -860,6 +861,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- correlation subcommand ---
     add_correlation_parser(subparsers)
 
+    # --- timeline subcommand ---
+    add_timeline_parser(subparsers)
+
     # --- discover subcommand ---
     add_discover_parser(subparsers)
     add_heatmap_parser(subparsers)
@@ -927,6 +931,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_metrics(args)
     elif args.command == "correlation":
         _cmd_correlation(args)
+    elif args.command == "timeline":
+        _cmd_timeline(args)
     elif args.command == "discover":
         _cmd_discover(args)
     elif args.command == "heatmap":
