@@ -49,6 +49,16 @@ from xpyd_plan.fleet import (
     GPUTypeConfig,
     calculate_fleet,
 )
+from xpyd_plan.generator import (
+    AnomalyConfig,
+    AnomalyType,
+    BenchmarkGenerator,
+    DistributionType,
+    GeneratorConfig,
+    LatencyProfile,
+    generate_benchmark,
+    load_generator_config,
+)
 from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
 from xpyd_plan.interpolator import (
     InterpolationConfidence,
@@ -183,4 +193,12 @@ __all__ = [
     "MarkdownReportConfig",
     "MarkdownReporter",
     "generate_markdown_report",
+    "AnomalyConfig",
+    "AnomalyType",
+    "BenchmarkGenerator",
+    "DistributionType",
+    "GeneratorConfig",
+    "LatencyProfile",
+    "generate_benchmark",
+    "load_generator_config",
 ]
