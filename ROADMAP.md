@@ -248,9 +248,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `evaluate_alerts()` API
 - 20 new tests (430 total)
 
-### M20 ⏳ Benchmark Annotation & Tagging
+### M20 ✅ Benchmark Annotation & Tagging
 
-*In progress — PR #TBD*
+*Completed — PR #49*
 
 - `AnnotationManager` class in `annotation.py`
 - `Annotation`, `AnnotatedBenchmark`, `FilterResult` Pydantic models
