@@ -421,7 +421,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `compare_models()` API
 - 22 new tests (734 total)
 
-### M33 — A/B Test Analysis
+### M33 ✅ A/B Test Analysis
+
+*Completed — PR #81*
 
 - `ABTestAnalyzer` class in `ab_test.py`
 - `ABTestConfig`, `ABTestResult`, `StatisticalTest`, `EffectSize` Pydantic models
@@ -433,4 +435,4 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Power analysis: warn when sample size is insufficient for detecting meaningful differences
 - CLI `ab-test` subcommand with `--control`, `--treatment`, `--alpha`, `--metric`, table + JSON output
 - Programmatic `analyze_ab_test()` API
-- ~24 new tests
+- 41 new tests (775 total)
