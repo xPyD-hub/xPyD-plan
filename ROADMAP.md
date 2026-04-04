@@ -702,10 +702,12 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CI matrix: Python 3.10, 3.11, 3.12
 - 1241 passed, 3 xfailed
 
-### M54 ⬜ Fix Pre-Existing CLI Bugs (scorecard, pareto, threshold-advisor)
+### M54 ✅ Fix Pre-Existing CLI Bugs (scorecard, pareto, threshold-advisor)
 
-- Fix `scorecard` subcommand: missing `total_instances` argument to `find_optimal_ratio()`
-- Fix `pareto` subcommand: passes `data` to `BenchmarkAnalyzer()` which takes no args
-- Fix `threshold-advisor` subcommand: passes file path to `BenchmarkAnalyzer()`
+*Completed — PR #126*
+
+- Fix `scorecard` subcommand: add missing `total_instances` argument to `find_optimal_ratio()`
+- Fix `pareto` subcommand: use `analyzer._data = data` instead of passing to constructor
+- Fix `threshold-advisor` subcommand: load data via `load_benchmark_auto()` first
 - Convert 3 xfail integration tests to passing
-- All 1244 tests pass (0 xfail)
+- 1244 passed, 0 xfail
