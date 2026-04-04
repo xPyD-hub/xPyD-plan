@@ -285,14 +285,48 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `get_recommendations()` API
 - 22 new tests (504 total)
 
-### M23 — Fleet Sizing Calculator
+### M23 ✅ Fleet Sizing Calculator
+
+*Completed — PR #56*
 
 - `FleetCalculator` class in `fleet.py`
-- `FleetConfig`, `FleetOption`, `FleetReport` Pydantic models
+- `GPUTypeConfig`, `FleetAllocation`, `FleetOption`, `FleetReport` Pydantic models
 - Multi-GPU-type fleet optimization: given target QPS, available GPU types with costs, find cheapest fleet
 - Per-GPU-type P:D ratio optimization using benchmark data
 - Budget-constrained fleet sizing with cost ceiling
-- Availability-zone aware instance distribution
 - CLI `fleet` subcommand with `--target-qps`, `--gpu-configs`, table + JSON output
 - Programmatic `calculate_fleet()` API
+- 22 new tests (526 total)
+
+### M24 — Batch Pipeline Runner
+
+- `PipelineRunner` class in `pipeline.py`
+- `PipelineConfig`, `PipelineStep`, `PipelineResult` Pydantic models
+- YAML-defined pipeline: chain validate → analyze → compare → alert → report in one run
+- Step dependency resolution (later steps consume earlier outputs)
+- CLI `pipeline` subcommand with `--config pipeline.yaml`
+- Dry-run mode (`--dry-run`) to preview pipeline without execution
+- Programmatic `run_pipeline()` API
 - ~24 new tests
+
+### M25 — Markdown Report Generation
+
+- `MarkdownReporter` class in `md_report.py`
+- `MarkdownReportConfig` Pydantic model
+- Generate standalone `.md` reports (complement existing HTML reports)
+- Sections: executive summary, SLA compliance, cost analysis, recommendations
+- Embeddable in GitHub PRs and wiki pages
+- CLI `report --format markdown` option alongside existing HTML
+- Programmatic `generate_markdown_report()` API
+- ~20 new tests
+
+### M26 — Benchmark Simulation Generator
+
+- `BenchmarkGenerator` class in `generator.py`
+- `GeneratorConfig`, `LatencyProfile` Pydantic models
+- Generate synthetic benchmark data for testing and demos
+- Configurable: QPS, instance counts, latency distributions (normal, log-normal, bimodal)
+- Inject anomalies (spikes, cold starts) for testing validator/alerting
+- CLI `generate` subcommand with `--config gen.yaml` and `--output benchmark.json`
+- Programmatic `generate_benchmark()` API
+- ~22 new tests
