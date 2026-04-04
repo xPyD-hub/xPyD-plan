@@ -453,7 +453,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M35 ✅ Throughput Scaling Analysis
 
-*Completed — PR #TBD*
+*Completed — PR #85*
 
 - `ScalingAnalyzer` class in `scaling.py`
 - `ScalingPoint`, `ScalingCurve`, `ScalingReport` Pydantic models
@@ -463,3 +463,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `scaling` subcommand with `--benchmark` (multiple files), `--knee-threshold`, table + JSON output
 - Programmatic `analyze_scaling()` API
 - 21 new tests (821 total)
+
+### M36 ✅ Prometheus/OpenMetrics Export
+
+*Completed — PR #TBD*
+
+- `MetricsExporter` class in `metrics_export.py`
+- `MetricLine`, `MetricsReport` Pydantic models
+- Export analysis results as Prometheus/OpenMetrics text format
+- Metrics: latency percentiles (P50/P95/P99) for TTFT/TPOT/total, QPS, instance counts, request count
+- Labels encode P:D ratio, instance configuration
+- HELP and TYPE annotations per OpenMetrics spec
+- CLI `metrics` subcommand with `--benchmark`, `--output`, `--output-format text|json|table`
+- Programmatic `export_metrics()` API
+- ~20 new tests

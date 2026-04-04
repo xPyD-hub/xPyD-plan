@@ -21,6 +21,7 @@ from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._generate import _cmd_generate
 from xpyd_plan.cli._interpolate import _cmd_interpolate
 from xpyd_plan.cli._merge import _cmd_merge
+from xpyd_plan.cli._metrics import _cmd_metrics, add_metrics_parser
 from xpyd_plan.cli._model_compare import _cmd_model_compare
 from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
@@ -847,6 +848,9 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # --- metrics subcommand ---
+    add_metrics_parser(subparsers)
+
     # --- scaling subcommand ---
     add_scaling_parser(subparsers)
 
@@ -909,6 +913,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_workload(args)
     elif args.command == "scaling":
         _cmd_scaling(args)
+    elif args.command == "metrics":
+        _cmd_metrics(args)
     else:
         parser.print_help()
         sys.exit(1)
