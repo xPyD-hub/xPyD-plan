@@ -87,3 +87,23 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - HTML report generation with inline SVG visualizations
 - Utilization heatmaps, latency distributions
 - Comparison tables across different P:D configurations
+
+### M8 ✅ Cost-Aware Optimization
+
+*Completed — PR #17*
+
+- `CostConfig` Pydantic model with GPU hourly rate and currency
+- `CostAnalyzer` for cost-per-request and total hourly cost calculations
+- Budget constraint filtering (exclude ratios above cost ceiling)
+- Cost-optimal vs SLA-optimal ratio comparison
+- CLI `--cost-model` flag accepting YAML cost config
+- 22 new tests
+
+### M9: JSON/CSV Export & Programmatic API
+
+- Machine-readable output formats: `--output-format json|csv|table` (default: table)
+- JSON export includes full analysis results, cost data, sensitivity data
+- CSV export for spreadsheet integration (one row per ratio candidate)
+- Programmatic Python API: `analyze()` returns structured results without CLI
+- `xpyd-plan export` subcommand for batch export of multiple benchmark sets
+- Tests: ≥15 new tests
