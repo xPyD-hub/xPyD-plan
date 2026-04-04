@@ -235,9 +235,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - scipy dependency for spline interpolation
 - 25 new tests (410 total)
 
-### M19 ⏳ Alert Rules Engine
+### M19 ✅ Alert Rules Engine
 
-*In progress — PR #47*
+*Completed — PR #47*
 
 - `AlertEngine` class in `alerting.py`
 - `AlertRule`, `AlertResult`, `AlertReport`, `AlertSeverity`, `Comparator` Pydantic models
@@ -247,3 +247,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Non-zero exit code on critical alerts (CI/CD pipeline friendly)
 - Programmatic `evaluate_alerts()` API
 - 20 new tests (430 total)
+
+### M20 ⏳ Benchmark Annotation & Tagging
+
+*In progress — PR #TBD*
+
+- `AnnotationManager` class in `annotation.py`
+- `Annotation`, `AnnotatedBenchmark`, `FilterResult` Pydantic models
+- Sidecar `.tags.yaml` files (non-destructive, preserves original benchmark JSON)
+- Add, remove, clear, list, and filter tags on benchmark files
+- CLI `annotate` subcommand: `add`, `list`, `remove`, `filter`, `clear`
+- Programmatic `annotate_benchmark()` API
+- 26 new tests (456 total)

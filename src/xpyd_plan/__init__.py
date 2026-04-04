@@ -12,6 +12,13 @@ from xpyd_plan.alerting import (
     evaluate_alerts,
 )
 from xpyd_plan.analyzer import BenchmarkAnalyzer
+from xpyd_plan.annotation import (
+    AnnotatedBenchmark,
+    Annotation,
+    AnnotationManager,
+    FilterResult,
+    annotate_benchmark,
+)
 from xpyd_plan.benchmark_models import (
     AnalysisResult,
     BenchmarkData,
@@ -59,6 +66,11 @@ from xpyd_plan.validator import (
 )
 
 __all__ = [
+    "AnnotatedBenchmark",
+    "Annotation",
+    "AnnotationManager",
+    "FilterResult",
+    "annotate_benchmark",
     "AlertEngine",
     "AlertReport",
     "AlertResult",
