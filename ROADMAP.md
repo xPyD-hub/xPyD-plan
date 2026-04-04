@@ -690,10 +690,22 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `list_plugins()`, `get_plugin()`, `get_registry()` API
 - 23 new tests (1187 total)
 
-### M53 ⬜ End-to-End Integration Tests
+### M53 ✅ End-to-End Integration Tests
 
-- Full CLI integration tests covering all subcommands
-- Test with realistic multi-file benchmark datasets
-- Pipeline integration test (validate → analyze → compare → alert → report)
-- Verify JSON/CSV output schema stability
+*Completed — PR #124*
+
+- 54 new integration tests exercising full CLI workflows
+- Multi-file benchmark fixtures (different QPS levels, P:D ratios, instance counts)
+- Pipeline integration test (validate → analyze chained via YAML)
+- JSON output schema stability assertions
+- 3 xfail tests documenting pre-existing CLI bugs (scorecard, pareto, threshold-advisor)
 - CI matrix: Python 3.10, 3.11, 3.12
+- 1241 passed, 3 xfailed
+
+### M54 ⬜ Fix Pre-Existing CLI Bugs (scorecard, pareto, threshold-advisor)
+
+- Fix `scorecard` subcommand: missing `total_instances` argument to `find_optimal_ratio()`
+- Fix `pareto` subcommand: passes `data` to `BenchmarkAnalyzer()` which takes no args
+- Fix `threshold-advisor` subcommand: passes file path to `BenchmarkAnalyzer()`
+- Convert 3 xfail integration tests to passing
+- All 1244 tests pass (0 xfail)
