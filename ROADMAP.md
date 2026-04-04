@@ -326,7 +326,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M26 ✅ Benchmark Simulation Generator
 
-*Completed — PR #TBD*
+*Completed — PR #64*
 
 - `BenchmarkGenerator` class in `generator.py`
 - `GeneratorConfig`, `LatencyProfile`, `AnomalyConfig` Pydantic models
