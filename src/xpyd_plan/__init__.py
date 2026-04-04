@@ -2,6 +2,18 @@
 
 __version__ = "0.2.0"
 
+from xpyd_plan.ab_test import (
+    ABConfidenceInterval,
+    ABTestAnalyzer,
+    ABTestConfig,
+    ABTestReport,
+    ABTestResult,
+    EffectMagnitude,
+    EffectSize,
+    PowerWarning,
+    StatisticalTest,
+    analyze_ab_test,
+)
 from xpyd_plan.alerting import (
     AlertEngine,
     AlertReport,
@@ -246,6 +258,16 @@ __all__ = [
     "ModelProfile",
     "ModelRanking",
     "compare_models",
+    "ABTestAnalyzer",
+    "ABTestConfig",
+    "ABTestReport",
+    "ABTestResult",
+    "ABConfidenceInterval",
+    "EffectMagnitude",
+    "EffectSize",
+    "PowerWarning",
+    "StatisticalTest",
+    "analyze_ab_test",
     "AnomalyConfig",
     "AnomalyType",
     "BenchmarkGenerator",
