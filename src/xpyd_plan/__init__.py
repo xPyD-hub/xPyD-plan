@@ -190,6 +190,13 @@ from xpyd_plan.recommender import (
     RecommendationReport,
     get_recommendations,
 )
+from xpyd_plan.root_cause import (
+    CauseFactor,
+    FactorSignificance,
+    RootCauseAnalyzer,
+    RootCauseReport,
+    analyze_root_cause,
+)
 from xpyd_plan.scaling import (
     ScalingAnalyzer,
     ScalingCurve,
@@ -372,6 +379,11 @@ __all__ = [
     "DriftResult",
     "DriftSeverity",
     "detect_drift",
+    "CauseFactor",
+    "FactorSignificance",
+    "RootCauseAnalyzer",
+    "RootCauseReport",
+    "analyze_root_cause",
     "LatencyTrend",
     "LatencyTrendDirection",
     "TimelineAnalyzer",
