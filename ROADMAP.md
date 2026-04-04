@@ -2,7 +2,10 @@
 
 ## Vision
 
-Help users find the **optimal Prefill:Decode GPU ratio** for their workloads — satisfy SLA constraints at the lowest cost.
+Help users find the **optimal Prefill:Decode instance ratio** based on **real benchmark data** — satisfy SLA constraints with minimum resource waste.
+
+> **Core principle:** We are a **measured-data analysis tool**, not a performance simulator.
+> No guessing, no modeling, no simulation — everything is based on actual benchmark results.
 
 ---
 
@@ -18,42 +21,55 @@ Help users find the **optimal Prefill:Decode GPU ratio** for their workloads —
 - CLI with YAML config input and Rich table output
 - 17 tests
 
-### M2: Realistic Performance Model
+> ⚠️ Direction was off (estimator-based), but the project skeleton is reusable.
 
-Replace the naïve linear estimator with a queuing-theory model that accounts for real-world effects.
+### M2 ✅ Queuing-Theory Estimator
 
-- **Queuing model** — M/M/c (Erlang-C) to estimate waiting time under concurrent load
-- **GPU profile library** — Built-in profiles for A100-80G, H100-80G (prefill/decode throughput, cost)
-- **Batching effect** — Model how continuous batching improves per-GPU throughput at higher concurrency
-- **Backward compatible** — Existing CLI and config format continue to work
+*Completed — PR #3*
 
-### M3: Advanced SLA Constraint Engine
+- M/M/c (Erlang-C) queuing model for latency estimation
+- GPU profile library (A100-80G, H100-80G)
+- Batching degradation model
+- Backward-compatible CLI and config format
 
-- Support percentile-based latency constraints (P50 / P95 / P99)
-- Throughput floor constraint (min requests/s)
-- Multi-dimensional SLA (combine latency + throughput + cost ceiling)
-- Weighted scoring with user-defined priorities
+> ⚠️ Direction was off — this is a simulation model, not what we need.
+> May be deprecated or removed in future milestones.
 
-### M4: Smart Search Optimization
+### M3: Core Refactor — Benchmark Data Analyzer ← **current**
 
-- Replace brute-force enumeration with binary / heuristic search
-- Support heterogeneous GPU pools (mix of GPU types)
-- Scale to hundreds of nodes without blowup
+Replace the estimator approach with real benchmark data analysis.
 
-### M5: Benchmark Data Integration
+- **Benchmark data format** — define JSON schema for xpyd-bench output
+  - Per-request: request_id, prompt_tokens, output_tokens, ttft_ms, tpot_ms, total_latency_ms, timestamp
+  - Cluster config: num_prefill_instances, num_decode_instances, total_instances
+  - Measured QPS
+- **BenchmarkAnalyzer** — load, validate, and analyze benchmark data
+- **SLA compliance check** — based on measured latency distributions (P95/P99), not estimates
+- **Utilization analysis** — compute P and D instance utilization from measured data
+- **Optimal P:D finder** — enumerate ratios, find the one with minimum waste while meeting SLA
+- **CLI rewrite** — support the new analysis workflow
+- **Tests** — comprehensive test suite with fixture-generated benchmark datasets
 
-- Import real benchmark results from `xpyd-bench`
-- Calibrate / override model parameters with measured data
-- Regression fitting for throughput-vs-concurrency curves
+### M4: Multi-Scenario Analysis
 
-### M6: Report Generation
+- Support analyzing multiple QPS levels from different benchmark runs
+- Find optimal P:D ratio for each QPS tier
+- Recommend scaling strategy across traffic patterns
 
-- HTML report with charts (throughput vs. cost Pareto front, latency breakdown)
-- PDF export
-- Exportable comparison tables
+### M5: Sensitivity Analysis
 
-### M7: Configuration Template Library
+- P:D ratio vs SLA satisfaction rate curves
+- Identify the "cliff" where SLA starts failing
+- Margin-of-safety recommendations
 
-- Pre-built GPU profiles: A100-40G, A100-80G, H100-80G, H200
-- Pre-built model profiles: Llama-3-70B, Qwen-2.5-72B, DeepSeek-V3
-- `xpyd-plan init` to scaffold a config from templates
+### M6: xpyd-bench Integration
+
+- Direct ingestion of xpyd-bench output format
+- Streaming analysis during benchmark execution
+- Auto-detect benchmark data schema version
+
+### M7: Report Generation
+
+- Visualized analysis results (utilization heatmaps, latency distributions)
+- HTML/PDF export
+- Comparison tables across different P:D configurations
