@@ -109,3 +109,24 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic Python API: `analyze()` returns structured results without CLI
 - `xpyd-plan export` subcommand for batch export of multiple benchmark sets
 - 20 new tests
+
+### M10 ✅ Capacity Planning Mode
+
+*Completed — PR #23*
+
+- `CapacityPlanner` class with `fit()` and `recommend()` methods
+- Linear scaling model: estimates QPS-per-instance from measured benchmarks
+- Confidence levels: HIGH (interpolation), MEDIUM (slight extrapolation), LOW (far extrapolation)
+- CLI `plan-capacity` subcommand with `--target-qps`, `--benchmark`, table/JSON output
+- Programmatic API: `plan_capacity()` returns structured dict
+- 20% headroom built into recommendations, `max_instances` cap
+- 24 new tests
+
+### M11: What-If Scenario Simulation
+
+- Interactive what-if mode: tweak parameters and see impact without re-running benchmarks
+- `xpyd-plan what-if --benchmark ... --scale-qps 2x --add-instances 4`
+- Scale QPS up/down and predict SLA compliance from existing data
+- Add/remove instances and predict optimal P:D ratio shift
+- Compare multiple what-if scenarios side-by-side
+- Tests: ≥15 new tests
