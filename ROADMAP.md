@@ -585,3 +585,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `scorecard` subcommand with `--benchmark`, `--sla-*`, `--*-weight`, table + JSON output
 - Programmatic `calculate_scorecard()` API
 - 31 new tests (1046 total)
+
+### M45 ⏳ Benchmark Plan Generator
+
+*In Progress — PR #TBD*
+
+- `BenchmarkPlanGenerator` class in `plan_generator.py`
+- `PlannedRatio`, `BenchmarkPlan`, `RatioPriority` Pydantic models
+- Prioritized ratio enumeration: balanced (critical), boundaries (high), quarters (high), rest (medium)
+- Refinement mode: given existing `AnalysisResult`, focus on neighbors of current best
+- Max-runs cap to limit recommended configurations
+- CLI `plan-benchmarks` subcommand with `--total-instances`, `--max-runs`, table + JSON output
+- Programmatic `generate_benchmark_plan()` API
+- 19 new tests (1065 total)
