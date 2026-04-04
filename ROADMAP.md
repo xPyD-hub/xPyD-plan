@@ -420,3 +420,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `model-compare` subcommand with `--benchmarks`, `--models`, table + JSON output
 - Programmatic `compare_models()` API
 - 22 new tests (734 total)
+
+### M33 — A/B Test Analysis
+
+- `ABTestAnalyzer` class in `ab_test.py`
+- `ABTestConfig`, `ABTestResult`, `StatisticalTest`, `EffectSize` Pydantic models
+- Compare two benchmark files as control vs treatment with statistical rigor
+- Welch's t-test for latency metric differences (TTFT, TPOT, total latency)
+- Mann-Whitney U test as non-parametric alternative
+- Effect size (Cohen's d) with magnitude classification (negligible/small/medium/large)
+- Confidence intervals for mean difference
+- Power analysis: warn when sample size is insufficient for detecting meaningful differences
+- CLI `ab-test` subcommand with `--control`, `--treatment`, `--alpha`, `--metric`, table + JSON output
+- Programmatic `analyze_ab_test()` API
+- ~24 new tests
