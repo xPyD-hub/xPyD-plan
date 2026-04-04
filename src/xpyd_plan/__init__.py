@@ -58,6 +58,11 @@ from xpyd_plan.interpolator import (
     PredictedPerformance,
     interpolate_performance,
 )
+from xpyd_plan.md_report import (
+    MarkdownReportConfig,
+    MarkdownReporter,
+    generate_markdown_report,
+)
 from xpyd_plan.models import (
     DatasetStats,
     GPUProfile,
@@ -175,4 +180,7 @@ __all__ = [
     "StepType",
     "load_pipeline_config",
     "run_pipeline",
+    "MarkdownReportConfig",
+    "MarkdownReporter",
+    "generate_markdown_report",
 ]
