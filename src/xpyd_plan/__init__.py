@@ -165,6 +165,14 @@ from xpyd_plan.interpolator import (
     PredictedPerformance,
     interpolate_performance,
 )
+from xpyd_plan.load_profile import (
+    LoadProfile,
+    LoadProfileClassifier,
+    LoadProfileReport,
+    ProfileType,
+    RateWindow,
+    classify_load_profile,
+)
 from xpyd_plan.md_report import (
     MarkdownReportConfig,
     MarkdownReporter,
@@ -350,6 +358,12 @@ __all__ = [
     "MetricConvergence",
     "StabilityStatus",
     "analyze_convergence",
+    "LoadProfileClassifier",
+    "LoadProfile",
+    "LoadProfileReport",
+    "ProfileType",
+    "RateWindow",
+    "classify_load_profile",
     "BenchmarkData",
     "BenchmarkMetadata",
     "BenchmarkRequest",
