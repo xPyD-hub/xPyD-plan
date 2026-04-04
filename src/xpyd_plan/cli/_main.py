@@ -20,6 +20,7 @@ from xpyd_plan.cli._decompose import _cmd_decompose, add_decompose_parser
 from xpyd_plan.cli._discover import _cmd_discover, add_discover_parser
 from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
 from xpyd_plan.cli._export import _cmd_export
+from xpyd_plan.cli._fairness import _cmd_fairness, add_fairness_parser
 from xpyd_plan.cli._filter import _cmd_filter
 from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._forecast import add_forecast_parser
@@ -872,6 +873,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- correlation subcommand ---
     add_correlation_parser(subparsers)
 
+    # --- fairness subcommand ---
+    add_fairness_parser(subparsers)
+
     # --- timeline subcommand ---
     add_timeline_parser(subparsers)
 
@@ -977,6 +981,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_metrics(args)
     elif args.command == "correlation":
         _cmd_correlation(args)
+    elif args.command == "fairness":
+        _cmd_fairness(args)
     elif args.command == "timeline":
         _cmd_timeline(args)
     elif args.command == "drift":
