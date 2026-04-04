@@ -815,7 +815,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ## Phase 2: Continuous Evolution
 
-### M62 – Request Queuing Time Analysis
+### M62 ✅ Request Queuing Time Analysis
+
+*Completed — PR #144*
 
 - `QueueAnalyzer` class in `queue_analysis.py`
 - `QueueReport`, `QueueStats`, `ConcurrencyProfile` Pydantic models
@@ -826,7 +828,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_queue()` API
 - ~20 new tests
 
-### M63 – Batch Size Impact Analysis
+### M63 ✅ Batch Size Impact Analysis
+
+*Completed — PR #146*
 
 - `BatchAnalyzer` class in `batch_analysis.py`
 - `BatchReport`, `BatchBucket`, `BatchEfficiency` Pydantic models
