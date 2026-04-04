@@ -392,7 +392,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Pure refactor — no behavioral changes
 - All 691 tests pass unchanged
 
-### M31 — Bootstrap Confidence Intervals
+### M31 ✅ Bootstrap Confidence Intervals
+
+*Completed — PR #74*
 
 - `ConfidenceAnalyzer` class in `confidence.py`
 - `ConfidenceInterval`, `MetricConfidence`, `ConfidenceReport`, `Adequacy` Pydantic models
@@ -403,4 +405,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `confidence` subcommand with `--benchmark`, `--percentile`, `--confidence-level`, `--iterations`, `--seed`, table + JSON output
 - Programmatic `analyze_confidence()` API
 - Reproducible results via `--seed` parameter
-- 21 new tests
+- 21 new tests (712 total)
+
+### M32 — Multi-Model Comparison Matrix
+
+- `ModelComparator` class in `model_compare.py`
+- `ModelProfile`, `ModelComparison`, `ComparisonMatrix`, `ModelRanking` Pydantic models
+- Load benchmark files tagged with model name (via annotation tags or filename convention)
+- Side-by-side latency comparison across models at same P:D ratio and QPS
+- Rank models by cost-efficiency (cost per token at SLA compliance)
+- Best-model recommendation per QPS tier
+- CLI `model-compare` subcommand with `--benchmarks`, `--models`, table + JSON output
+- Programmatic `compare_models()` API
+- ~24 new tests
