@@ -259,3 +259,13 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `annotate` subcommand: `add`, `list`, `remove`, `filter`, `clear`
 - Programmatic `annotate_benchmark()` API
 - 26 new tests (456 total)
+
+### M21 — Pareto Frontier Analysis
+
+- `ParetoAnalyzer` class in `pareto.py`
+- `ParetoCandidate`, `ParetoFrontier`, `ParetoObjective` Pydantic models
+- Pareto dominance algorithm: identifies non-dominated P:D ratios across latency, cost, waste
+- Weighted scoring for ranking Pareto-optimal candidates
+- CLI `pareto` subcommand with table and JSON output
+- Programmatic `find_pareto_frontier()` API
+- ~26 new tests (482 total)

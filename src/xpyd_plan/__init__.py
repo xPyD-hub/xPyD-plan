@@ -56,6 +56,13 @@ from xpyd_plan.models import (
     PDConfig,
     SLAConfig,
 )
+from xpyd_plan.pareto import (
+    ParetoAnalyzer,
+    ParetoCandidate,
+    ParetoFrontier,
+    ParetoObjective,
+    find_pareto_frontier,
+)
 from xpyd_plan.trend import TrendEntry, TrendReport, TrendTracker, track_trend
 from xpyd_plan.validator import (
     DataQualityScore,
@@ -91,6 +98,11 @@ __all__ = [
     "DatasetStats",
     "GPUProfile",
     "PDConfig",
+    "ParetoAnalyzer",
+    "ParetoCandidate",
+    "ParetoFrontier",
+    "ParetoObjective",
+    "find_pareto_frontier",
     "RatioCandidate",
     "SLACheck",
     "SLAConfig",
