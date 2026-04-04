@@ -726,7 +726,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_fairness()` API
 - 26 new tests (1270 total)
 
-### M56 Benchmark Quick Summary
+### M56 ✅ Benchmark Quick Summary
+
+*Completed — PR #130*
 
 - `SummaryGenerator` class in `summary.py`
 - `SummaryReport`, `TokenStats`, `LatencyOverview` Pydantic models
