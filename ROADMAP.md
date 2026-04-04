@@ -854,16 +854,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `summarize_stats()` API
 - 19 new tests (1450 total)
 
-### M65 – Cost Projection & ROI Calculator
+### M65 ✅ Cost Projection & ROI Calculator
+
+*Completed — PR #150*
 
 - `ROICalculator` class in `roi.py`
 - `ROIReport`, `CostProjection`, `SavingsEstimate` Pydantic models
 - Given current P:D ratio cost and optimal ratio cost, project monthly/yearly savings
 - Break-even analysis: how many hours until migration cost is recovered
-- TCO comparison across GPU types using fleet data
 - CLI `roi` subcommand with `--benchmark`, `--cost-model`, `--migration-cost`, table + JSON output
 - Programmatic `calculate_roi()` API
-- ~20 new tests
+- 20 new tests (1470 total)
 
 ### M66 – Benchmark Schema Versioning & Migration
 
