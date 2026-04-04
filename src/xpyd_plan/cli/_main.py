@@ -28,6 +28,7 @@ from xpyd_plan.cli._forecast import add_forecast_parser
 from xpyd_plan.cli._generate import _cmd_generate
 from xpyd_plan.cli._heatmap import _cmd_heatmap, add_heatmap_parser
 from xpyd_plan.cli._interpolate import _cmd_interpolate
+from xpyd_plan.cli._load_profile import add_load_profile_parser
 from xpyd_plan.cli._merge import _cmd_merge
 from xpyd_plan.cli._metrics import _cmd_metrics, add_metrics_parser
 from xpyd_plan.cli._model_compare import _cmd_model_compare
@@ -899,6 +900,7 @@ def main(argv: list[str] | None = None) -> None:
     # --- tail subcommand ---
     add_tail_parser(subparsers)
     add_convergence_parser(subparsers)
+    add_load_profile_parser(subparsers)
 
     # --- scorecard subcommand ---
     add_scorecard_parser(subparsers)
@@ -1006,6 +1008,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "convergence":
         from xpyd_plan.cli._convergence import _cmd_convergence
         _cmd_convergence(args)
+    elif args.command == "load-profile":
+        from xpyd_plan.cli._load_profile import _cmd_load_profile
+        _cmd_load_profile(args)
     elif args.command == "summary":
         _cmd_summary(args)
     elif args.command == "outlier-impact":

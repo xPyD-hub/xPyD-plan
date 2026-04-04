@@ -763,3 +763,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `convergence` subcommand with `--benchmark`, `--steps`, `--threshold`, table + JSON output
 - Programmatic `analyze_convergence()` API
 - 21 new tests (1331 total)
+
+### M59 – Load Profile Classification
+
+- `LoadProfileClassifier` class in `load_profile.py`
+- `LoadProfile`, `LoadProfileReport`, `ProfileType`, `RateWindow` Pydantic models
+- Time-windowed request rate computation with configurable window size
+- 6 profile types: STEADY_STATE, RAMP_UP, RAMP_DOWN, BURST, CYCLIC, UNKNOWN
+- Rate CV analysis for steady-state detection
+- Linear regression on rate for ramp classification
+- Peak-to-trough ratio for burst detection
+- Direction change counting for cyclic detection
+- CLI `load-profile` subcommand with `--benchmark`, `--window-size`, table + JSON output
+- Programmatic `classify_load_profile()` API
+- ~22 new tests
