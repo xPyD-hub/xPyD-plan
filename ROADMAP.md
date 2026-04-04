@@ -611,9 +611,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `advise_thresholds()` API
 - 19 new tests (1084 total)
 
-### M47 ⏳ Capacity Forecasting
+### M47 ✅ Capacity Forecasting
 
-*In Progress — PR #TBD*
+*Completed — PR #111*
 
 - `CapacityForecaster` class in `forecaster.py`
 - `ForecastPoint`, `ForecastReport`, `ForecastMethod`, `CapacityExhaustion` Pydantic models
