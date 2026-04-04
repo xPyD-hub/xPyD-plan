@@ -46,6 +46,7 @@ from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
+from xpyd_plan.cli._stat_summary import add_stat_summary_parser
 from xpyd_plan.cli._summary import _cmd_summary, add_summary_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
 from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_threshold_advisor_parser
@@ -890,6 +891,7 @@ def main(argv: list[str] | None = None) -> None:
     add_throughput_parser(subparsers)
     add_queue_parser(subparsers)
     add_batch_analysis_parser(subparsers)
+    add_stat_summary_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
