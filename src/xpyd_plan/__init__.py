@@ -227,6 +227,14 @@ from xpyd_plan.tail import (
     TailReport,
     analyze_tail,
 )
+from xpyd_plan.threshold_advisor import (
+    AdvisorReport,
+    PassRateTarget,
+    SweetSpot,
+    ThresholdAdvisor,
+    ThresholdSuggestion,
+    advise_thresholds,
+)
 from xpyd_plan.timeline import (
     LatencyTrend,
     LatencyTrendDirection,
@@ -445,4 +453,10 @@ __all__ = [
     "PlannedRatio",
     "RatioPriority",
     "generate_benchmark_plan",
+    "AdvisorReport",
+    "PassRateTarget",
+    "SweetSpot",
+    "ThresholdAdvisor",
+    "ThresholdSuggestion",
+    "advise_thresholds",
 ]
