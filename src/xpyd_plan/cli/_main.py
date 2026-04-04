@@ -902,6 +902,16 @@ def main(argv: list[str] | None = None) -> None:
     add_sla_tier_parser(subparsers)
     add_decompose_parser(subparsers)
 
+    # --- plugins subcommand ---
+    from xpyd_plan.cli._plugins import add_plugins_subcommand
+
+    add_plugins_subcommand(subparsers)
+
+    # Let plugins register their own CLI subcommands
+    from xpyd_plan.plugin import get_registry
+
+    get_registry().register_all_cli(subparsers)
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -995,6 +1005,10 @@ def main(argv: list[str] | None = None) -> None:
         _run_sla_tier(args)
     elif args.command == "decompose":
         _cmd_decompose(args)
+    elif args.command == "plugins":
+        from xpyd_plan.cli._plugins import _run_plugins
+
+        _run_plugins(args)
     else:
         parser.print_help()
         sys.exit(1)
