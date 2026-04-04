@@ -298,7 +298,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `calculate_fleet()` API
 - 22 new tests (526 total)
 
-### M24 — Batch Pipeline Runner
+### M24 ✅ Batch Pipeline Runner
+
+*Completed — PR #59*
 
 - `PipelineRunner` class in `pipeline.py`
 - `PipelineConfig`, `PipelineStep`, `PipelineResult` Pydantic models
@@ -307,7 +309,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `pipeline` subcommand with `--config pipeline.yaml`
 - Dry-run mode (`--dry-run`) to preview pipeline without execution
 - Programmatic `run_pipeline()` API
-- ~24 new tests
+- 28 new tests
 
 ### M25 ✅ Markdown Report Generation
 
