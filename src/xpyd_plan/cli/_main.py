@@ -32,6 +32,7 @@ from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
+from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
 from xpyd_plan.cli._trend import _cmd_trend
@@ -876,6 +877,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- tail subcommand ---
     add_tail_parser(subparsers)
 
+    # --- scorecard subcommand ---
+    add_scorecard_parser(subparsers)
+
     # --- discover subcommand ---
     add_discover_parser(subparsers)
     add_heatmap_parser(subparsers)
@@ -951,6 +955,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_root_cause(args)
     elif args.command == "tail":
         _cmd_tail(args)
+    elif args.command == "scorecard":
+        _cmd_scorecard(args)
     elif args.command == "discover":
         _cmd_discover(args)
     elif args.command == "heatmap":
