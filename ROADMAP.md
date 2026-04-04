@@ -667,7 +667,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `decompose_latency()` API
 - 23 new tests (1164 total)
 
-### M51 ⬜ Comprehensive README Rewrite
+### M51 ✅ Comprehensive README Rewrite
+
+*Completed — PR #120*
 
 - Rewrite README.md to reflect all 50 milestones of current capabilities
 - Accurate quick-start examples using current CLI subcommands

@@ -205,6 +205,17 @@ from xpyd_plan.plan_generator import (
     RatioPriority,
     generate_benchmark_plan,
 )
+from xpyd_plan.plugin import (
+    PluginInfo,
+    PluginListReport,
+    PluginMetadata,
+    PluginRegistry,
+    PluginSpec,
+    PluginType,
+    get_plugin,
+    get_registry,
+    list_plugins,
+)
 from xpyd_plan.recommender import (
     ActionCategory,
     Recommendation,
@@ -513,4 +524,13 @@ __all__ = [
     "LatencyDecomposer",
     "PhaseStats",
     "decompose_latency",
+    "PluginMetadata",
+    "PluginRegistry",
+    "PluginSpec",
+    "PluginType",
+    "PluginInfo",
+    "PluginListReport",
+    "list_plugins",
+    "get_plugin",
+    "get_registry",
 ]
