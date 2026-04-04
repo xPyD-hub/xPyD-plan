@@ -378,3 +378,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `filter` subcommand with all filter flags, table + JSON output
 - Programmatic `filter_benchmark()` API
 - 28 new tests (691 total)
+
+### M30 ✅ Refactor Monolithic cli.py into cli/ Package
+
+*Completed — PR #72*
+
+- Split 2504-line `cli.py` into `cli/` package with 23 focused modules
+- `cli/__init__.py` re-exports `main()` and `_apply_config_defaults`
+- `cli/_main.py` contains `main()` with argument parser setup and command dispatch
+- `cli/_helpers.py` contains shared CLI helper functions
+- `cli/_config.py` contains config helpers (`_add_config_flag`, `_apply_config_defaults`)
+- Each subcommand in its own module (e.g., `_analyze.py`, `_export.py`, `_fleet.py`)
+- Pure refactor — no behavioral changes
+- All 691 tests pass unchanged
