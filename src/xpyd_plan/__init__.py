@@ -160,6 +160,14 @@ from xpyd_plan.validator import (
     ValidationResult,
     validate_benchmark,
 )
+from xpyd_plan.workload import (
+    WorkloadCategory,
+    WorkloadClass,
+    WorkloadClassifier,
+    WorkloadProfile,
+    WorkloadReport,
+    classify_workload,
+)
 
 __all__ = [
     "AnnotatedBenchmark",
@@ -285,4 +293,10 @@ __all__ = [
     "BenchmarkFilterResult",
     "FilterConfig",
     "filter_benchmark",
+    "WorkloadCategory",
+    "WorkloadClass",
+    "WorkloadClassifier",
+    "WorkloadProfile",
+    "WorkloadReport",
+    "classify_workload",
 ]

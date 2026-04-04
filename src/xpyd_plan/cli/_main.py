@@ -28,6 +28,7 @@ from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
 from xpyd_plan.cli._whatif import _cmd_what_if
+from xpyd_plan.cli._workload import _cmd_workload
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -815,6 +816,36 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # --- workload subcommand ---
+    workload_parser = subparsers.add_parser(
+        "workload",
+        help="Workload characterization: segment requests by token patterns",
+    )
+    workload_parser.add_argument(
+        "--benchmark", type=str, nargs="+", required=True,
+        help="Benchmark JSON file(s)",
+    )
+    workload_parser.add_argument(
+        "--sla-ttft", type=float, default=None,
+        help="SLA TTFT threshold (ms)",
+    )
+    workload_parser.add_argument(
+        "--sla-tpot", type=float, default=None,
+        help="SLA TPOT threshold (ms)",
+    )
+    workload_parser.add_argument(
+        "--sla-max-latency", type=float, default=None,
+        help="SLA max total latency threshold (ms)",
+    )
+    workload_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA evaluation percentile (default: 95)",
+    )
+    workload_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -870,6 +901,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_model_compare(args)
     elif args.command == "ab-test":
         _cmd_ab_test(args)
+    elif args.command == "workload":
+        _cmd_workload(args)
     else:
         parser.print_help()
         sys.exit(1)
