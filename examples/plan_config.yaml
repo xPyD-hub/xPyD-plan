@@ -1,8 +1,22 @@
 # Example planner config
-budget: 8  # total nodes/GPUs available
+budget: 8  # total GPUs available
+num_requests: 500  # concurrent requests to model
 
-# Option 1: use benchmark results from xpyd-bench
-# data: bench_results.json
+sla:
+  ttft_ms: 1000    # max 1s time to first token
+  tpot_ms: 100     # max 100ms per output token
 
-# Option 2: use dataset for offline estimation
-# dataset: prompts.json
+gpu:
+  name: "A100-80G"
+  prefill_tokens_per_sec: 50000   # tokens/s per GPU for prefill
+  decode_tokens_per_sec: 2000     # tokens/s per GPU for decode
+  memory_gb: 80
+  cost_per_hour: 2.50
+
+# Inline dataset stats (alternative to --dataset flag)
+dataset:
+  prompt_len_mean: 500
+  prompt_len_p95: 2000
+  output_len_mean: 200
+  output_len_p95: 800
+  num_requests: 500

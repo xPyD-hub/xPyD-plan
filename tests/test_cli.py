@@ -3,9 +3,6 @@
 from __future__ import annotations
 
 import subprocess
-import sys
-
-import pytest
 
 
 def test_plan_help():
