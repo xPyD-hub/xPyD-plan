@@ -318,6 +318,15 @@ from xpyd_plan.timeline import (
     WarmupAnalysis,
     analyze_timeline,
 )
+from xpyd_plan.token_efficiency import (
+    AggregateEfficiency,
+    EfficiencyGrade,
+    InstanceEfficiency,
+    PerRequestEfficiency,
+    TokenEfficiencyAnalyzer,
+    TokenEfficiencyReport,
+    analyze_token_efficiency,
+)
 from xpyd_plan.trend import TrendEntry, TrendReport, TrendTracker, track_trend
 from xpyd_plan.validator import (
     DataQualityScore,
@@ -526,6 +535,13 @@ __all__ = [
     "ThroughputStability",
     "ThroughputStats",
     "analyze_throughput",
+    "AggregateEfficiency",
+    "EfficiencyGrade",
+    "InstanceEfficiency",
+    "PerRequestEfficiency",
+    "TokenEfficiencyAnalyzer",
+    "TokenEfficiencyReport",
+    "analyze_token_efficiency",
     "TimelineAnalyzer",
     "TimelineReport",
     "TimeWindow",
