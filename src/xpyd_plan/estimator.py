@@ -1,5 +1,9 @@
 """Performance estimator — predict TTFT/TPOT for a given PD configuration.
 
+.. deprecated::
+    This module uses mathematical models to simulate performance.
+    Use :mod:`xpyd_plan.analyzer` (BenchmarkAnalyzer) for measured-data analysis instead.
+
 V2: Queuing-theory based estimator (M/M/c) with batching effects.
 
 Model:
