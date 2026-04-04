@@ -2,6 +2,15 @@
 
 __version__ = "0.2.0"
 
+from xpyd_plan.alerting import (
+    AlertEngine,
+    AlertReport,
+    AlertResult,
+    AlertRule,
+    AlertSeverity,
+    Comparator,
+    evaluate_alerts,
+)
 from xpyd_plan.analyzer import BenchmarkAnalyzer
 from xpyd_plan.benchmark_models import (
     AnalysisResult,
@@ -50,6 +59,13 @@ from xpyd_plan.validator import (
 )
 
 __all__ = [
+    "AlertEngine",
+    "AlertReport",
+    "AlertResult",
+    "AlertRule",
+    "AlertSeverity",
+    "Comparator",
+    "evaluate_alerts",
     "AnalysisResult",
     "BenchmarkAnalyzer",
     "BenchmarkComparator",
