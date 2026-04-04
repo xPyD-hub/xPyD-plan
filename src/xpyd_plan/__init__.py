@@ -48,6 +48,12 @@ from xpyd_plan.dashboard import (
     DashboardView,
     run_dashboard,
 )
+from xpyd_plan.filter import (
+    BenchmarkFilter,
+    BenchmarkFilterResult,
+    FilterConfig,
+    filter_benchmark,
+)
 from xpyd_plan.fleet import (
     FleetAllocation,
     FleetCalculator,
@@ -225,4 +231,8 @@ __all__ = [
     "BudgetAllocator",
     "StageBudget",
     "allocate_budget",
+    "BenchmarkFilter",
+    "BenchmarkFilterResult",
+    "FilterConfig",
+    "filter_benchmark",
 ]
