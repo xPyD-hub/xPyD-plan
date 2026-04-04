@@ -99,11 +99,13 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `--cost-model` flag accepting YAML cost config
 - 22 new tests
 
-### M9: JSON/CSV Export & Programmatic API
+### M9 ✅ JSON/CSV Export & Programmatic API
 
-- Machine-readable output formats: `--output-format json|csv|table` (default: table)
-- JSON export includes full analysis results, cost data, sensitivity data
-- CSV export for spreadsheet integration (one row per ratio candidate)
+*Completed — PR #20*
+
+- Machine-readable output: `--output-format json|csv|table` (default: table)
+- JSON export with full analysis results, cost data, sensitivity data
+- CSV export: one row per ratio candidate for spreadsheet integration
 - Programmatic Python API: `analyze()` returns structured results without CLI
 - `xpyd-plan export` subcommand for batch export of multiple benchmark sets
-- Tests: ≥15 new tests
+- 20 new tests
