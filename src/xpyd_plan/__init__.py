@@ -26,6 +26,14 @@ from xpyd_plan.dashboard import (
     run_dashboard,
 )
 from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
+from xpyd_plan.interpolator import (
+    InterpolationConfidence,
+    InterpolationMethod,
+    InterpolationResult,
+    PerformanceInterpolator,
+    PredictedPerformance,
+    interpolate_performance,
+)
 from xpyd_plan.models import (
     DatasetStats,
     GPUProfile,
@@ -71,6 +79,12 @@ __all__ = [
     "OutlierMethod",
     "ValidationResult",
     "validate_benchmark",
+    "InterpolationConfidence",
+    "InterpolationMethod",
+    "InterpolationResult",
+    "PerformanceInterpolator",
+    "PredictedPerformance",
+    "interpolate_performance",
     "Dashboard",
     "DashboardState",
     "DashboardView",
