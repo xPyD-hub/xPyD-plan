@@ -204,6 +204,14 @@ from xpyd_plan.scaling import (
     ScalingReport,
     analyze_scaling,
 )
+from xpyd_plan.tail import (
+    LongTailProfile,
+    TailAnalyzer,
+    TailClassification,
+    TailMetric,
+    TailReport,
+    analyze_tail,
+)
 from xpyd_plan.timeline import (
     LatencyTrend,
     LatencyTrendDirection,
@@ -391,6 +399,12 @@ __all__ = [
     "TimeWindow",
     "WarmupAnalysis",
     "analyze_timeline",
+    "LongTailProfile",
+    "TailAnalyzer",
+    "TailClassification",
+    "TailMetric",
+    "TailReport",
+    "analyze_tail",
     "BenchmarkDiscovery",
     "ConfigGroup",
     "DiscoveredBenchmark",

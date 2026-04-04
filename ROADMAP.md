@@ -558,3 +558,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `root-cause` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, table + JSON output
 - Programmatic `analyze_root_cause()` API
 - ~25 new tests
+
+### M43 ✅ Tail Latency Analysis
+
+*Completed — PR #TBD*
+
+- `TailAnalyzer` class in `tail.py`
+- `TailMetric`, `TailReport`, `TailClassification`, `LongTailProfile` Pydantic models
+- Extended percentile computation: P50, P90, P95, P99, P99.9, P99.99 for TTFT, TPOT, total_latency
+- Tail ratio metrics: P99/P50, P99.9/P50 — quantify tail heaviness
+- Tail classification: LIGHT (<2x), MODERATE (2-5x), HEAVY (5-10x), EXTREME (>10x)
+- Long-tail request characterization: token distribution stats for P99+ requests
+- CLI `tail` subcommand with table + JSON output
+- Programmatic `analyze_tail()` API
+- 17 new tests (1015 total)
