@@ -517,9 +517,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `generate_heatmap()` API
 - 25 new tests (911 total)
 
-### M40 — Request Timeline Analysis
+### M40 ✅ Request Timeline Analysis
 
-*In progress*
+*Completed — PR #96*
 
 - `TimelineAnalyzer` class in `timeline.py`
 - `TimeWindow`, `WarmupAnalysis`, `LatencyTrend`, `TimelineReport` Pydantic models
@@ -530,3 +530,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `timeline` subcommand with `--benchmark`, `--window-size`, `--warmup-factor`, table + JSON output
 - Programmatic `analyze_timeline()` API
 - 29 new tests (940 total)
+
+### M41 — Distribution Drift Detection
+
+*In progress*
+
+- `DriftDetector` class in `drift.py`
+- `DriftResult`, `DriftReport`, `DriftSeverity` Pydantic models
+- Kolmogorov-Smirnov two-sample test for TTFT, TPOT, and total_latency distributions
+- Severity classification: NONE (p>0.05), MINOR (p≤0.05, D<0.2), MODERATE (D≥0.2), MAJOR (D≥0.4)
+- Summary with which metrics drifted and by how much
+- CLI `drift` subcommand with `--baseline`, `--current`, table + JSON output
+- Programmatic `detect_drift()` API
+- ~22 new tests

@@ -83,6 +83,13 @@ from xpyd_plan.discovery import (
     ValidationStatus,
     discover_benchmarks,
 )
+from xpyd_plan.drift import (
+    DriftDetector,
+    DriftReport,
+    DriftResult,
+    DriftSeverity,
+    detect_drift,
+)
 from xpyd_plan.filter import (
     BenchmarkFilter,
     BenchmarkFilterResult,
@@ -360,6 +367,11 @@ __all__ = [
     "CorrelationReport",
     "CorrelationStrength",
     "analyze_correlation",
+    "DriftDetector",
+    "DriftReport",
+    "DriftResult",
+    "DriftSeverity",
+    "detect_drift",
     "LatencyTrend",
     "LatencyTrendDirection",
     "TimelineAnalyzer",
