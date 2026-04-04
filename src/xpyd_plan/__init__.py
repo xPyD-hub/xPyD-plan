@@ -564,3 +564,21 @@ __all__ += [
     "TokenStats",
     "summarize_benchmark",
 ]
+
+from xpyd_plan.outlier_impact import (  # noqa: E402
+    ImpactRecommendation,
+    ImpactReport,
+    MetricImpact,
+    OutlierImpactAnalyzer,
+    SLAComplianceComparison,
+    analyze_outlier_impact,
+)
+
+__all__ += [
+    "ImpactRecommendation",
+    "ImpactReport",
+    "MetricImpact",
+    "OutlierImpactAnalyzer",
+    "SLAComplianceComparison",
+    "analyze_outlier_impact",
+]

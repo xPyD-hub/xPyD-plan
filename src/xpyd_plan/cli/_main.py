@@ -30,6 +30,9 @@ from xpyd_plan.cli._interpolate import _cmd_interpolate
 from xpyd_plan.cli._merge import _cmd_merge
 from xpyd_plan.cli._metrics import _cmd_metrics, add_metrics_parser
 from xpyd_plan.cli._model_compare import _cmd_model_compare
+from xpyd_plan.cli._outlier_impact import (
+    add_outlier_impact_parser,
+)
 from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
@@ -889,6 +892,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- summary subcommand ---
     add_summary_parser(subparsers)
 
+    # --- outlier-impact subcommand ---
+    add_outlier_impact_parser(subparsers)
+
     # --- tail subcommand ---
     add_tail_parser(subparsers)
 
@@ -997,6 +1003,9 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_tail(args)
     elif args.command == "summary":
         _cmd_summary(args)
+    elif args.command == "outlier-impact":
+        from xpyd_plan.cli._outlier_impact import _cmd_outlier_impact
+        _cmd_outlier_impact(args)
     elif args.command == "scorecard":
         _cmd_scorecard(args)
     elif args.command == "discover":
