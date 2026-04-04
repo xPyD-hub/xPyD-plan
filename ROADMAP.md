@@ -544,9 +544,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `detect_drift()` API
 - ~22 new tests
 
-### M42 — Anomaly Root Cause Analysis
+### M42 ✅ Anomaly Root Cause Analysis
 
-*In progress*
+*Completed — PR #100*
 
 - `RootCauseAnalyzer` class in `root_cause.py`
 - `RootCause`, `CauseFactor`, `RootCauseReport`, `FactorSignificance` Pydantic models
