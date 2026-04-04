@@ -38,6 +38,7 @@ from xpyd_plan.cli._outlier_impact import (
 from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
+from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
@@ -886,6 +887,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- timeline subcommand ---
     add_throughput_parser(subparsers)
+    add_queue_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
