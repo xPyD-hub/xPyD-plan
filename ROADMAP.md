@@ -599,9 +599,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `generate_benchmark_plan()` API
 - 19 new tests (1065 total)
 
-### M46 ⏳ SLA Threshold Tuning Advisor
+### M46 ✅ SLA Threshold Tuning Advisor
 
-*In Progress — PR #TBD*
+*Completed — PR #109*
 
 - `ThresholdAdvisor` class in `threshold_advisor.py`
 - `ThresholdSuggestion`, `AdvisorReport`, `SweetSpot`, `PassRateTarget` Pydantic models
@@ -610,3 +610,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `threshold-advisor` subcommand with `--benchmark`, `--pass-rates`, table + JSON output
 - Programmatic `advise_thresholds()` API
 - 19 new tests (1084 total)
+
+### M47 ⏳ Capacity Forecasting
+
+*In Progress — PR #TBD*
+
+- `CapacityForecaster` class in `forecaster.py`
+- `ForecastPoint`, `ForecastReport`, `ForecastMethod`, `CapacityExhaustion` Pydantic models
+- Given historical trend data (from TrendTracker), project future latency and QPS trajectories
+- Linear and exponential extrapolation methods
+- Estimate time-to-SLA-breach: when will latency percentiles exceed SLA thresholds at current growth rate
+- Capacity exhaustion warning with configurable planning horizon (default 30 days)
+- CLI `forecast` subcommand with `--trend-db`, `--horizon-days`, `--method`, table + JSON output
+- Programmatic `forecast_capacity()` API
+- ~20 new tests
