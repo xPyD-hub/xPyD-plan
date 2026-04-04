@@ -478,9 +478,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `export_metrics()` API
 - ~20 new tests
 
-### M37 — Correlation Analysis
+### M37 ✅ Correlation Analysis
 
-*In progress — PR #89*
+*Completed — PR #89*
 
 - `CorrelationAnalyzer` class in `correlation.py`
 - `CorrelationPair`, `CorrelationReport`, `CorrelationStrength` Pydantic models
@@ -489,3 +489,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `correlation` subcommand with `--benchmark`, `--output-format table|json`
 - Programmatic `analyze_correlation()` API
 - 21 new tests (861 total)
+
+### M38 — Batch Benchmark Discovery & Auto-Loading
+
+*In progress — PR #TBD*
+
+- `BenchmarkDiscovery` class in `discovery.py`
+- `DiscoveredBenchmark`, `DiscoveryReport`, `ConfigGroup`, `ValidationStatus` Pydantic models
+- Recursive directory scanning with configurable depth limit
+- Glob pattern filtering (`--pattern '**/*h100*.json'`)
+- Quick validation without full deserialization
+- Group-by-config summary
+- CLI `discover` subcommand with `--dir`, `--pattern`, `--max-depth`, table + JSON output
+- Programmatic `discover_benchmarks()` API
+- ~22 new tests

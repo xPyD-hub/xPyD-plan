@@ -75,6 +75,14 @@ from xpyd_plan.dashboard import (
     DashboardView,
     run_dashboard,
 )
+from xpyd_plan.discovery import (
+    BenchmarkDiscovery,
+    ConfigGroup,
+    DiscoveredBenchmark,
+    DiscoveryReport,
+    ValidationStatus,
+    discover_benchmarks,
+)
 from xpyd_plan.filter import (
     BenchmarkFilter,
     BenchmarkFilterResult,
@@ -333,4 +341,10 @@ __all__ = [
     "CorrelationReport",
     "CorrelationStrength",
     "analyze_correlation",
+    "BenchmarkDiscovery",
+    "ConfigGroup",
+    "DiscoveredBenchmark",
+    "DiscoveryReport",
+    "ValidationStatus",
+    "discover_benchmarks",
 ]
