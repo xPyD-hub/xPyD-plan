@@ -47,6 +47,7 @@ from xpyd_plan.cli._sla_tier import add_sla_tier_parser
 from xpyd_plan.cli._summary import _cmd_summary, add_summary_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
 from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_threshold_advisor_parser
+from xpyd_plan.cli._throughput import add_throughput_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
@@ -883,6 +884,7 @@ def main(argv: list[str] | None = None) -> None:
     add_fairness_parser(subparsers)
 
     # --- timeline subcommand ---
+    add_throughput_parser(subparsers)
     add_timeline_parser(subparsers)
 
     # --- drift subcommand ---

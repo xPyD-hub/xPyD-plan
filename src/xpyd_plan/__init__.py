@@ -301,6 +301,14 @@ from xpyd_plan.threshold_advisor import (
     ThresholdSuggestion,
     advise_thresholds,
 )
+from xpyd_plan.throughput import (
+    ThroughputAnalyzer,
+    ThroughputBucket,
+    ThroughputReport,
+    ThroughputStability,
+    ThroughputStats,
+    analyze_throughput,
+)
 from xpyd_plan.timeline import (
     LatencyTrend,
     LatencyTrendDirection,
@@ -512,6 +520,12 @@ __all__ = [
     "analyze_root_cause",
     "LatencyTrend",
     "LatencyTrendDirection",
+    "ThroughputAnalyzer",
+    "ThroughputBucket",
+    "ThroughputReport",
+    "ThroughputStability",
+    "ThroughputStats",
+    "analyze_throughput",
     "TimelineAnalyzer",
     "TimelineReport",
     "TimeWindow",
