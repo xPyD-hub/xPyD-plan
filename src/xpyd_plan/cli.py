@@ -316,6 +316,16 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
             result = analyzer.find_optimal_ratio(total, sla)
             Path(args.output).write_text(result.model_dump_json(indent=2))
             console.print(f"\n[dim]Result written to {args.output}[/dim]")
+
+        # Machine-readable output format
+        if args.output_format in ("json", "csv"):
+            from xpyd_plan.export import result_to_csv, result_to_json
+
+            result = analyzer.find_optimal_ratio(total, sla)
+            if args.output_format == "json":
+                print(result_to_json(result))
+            else:
+                print(result_to_csv(result), end="")
     else:
         # Multi-file mode
         if load_fn:
@@ -401,6 +411,15 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
             Path(args.output).write_text(multi_result.model_dump_json(indent=2))
             console.print(f"\n[dim]Result written to {args.output}[/dim]")
 
+        # Machine-readable output format
+        if args.output_format in ("json", "csv"):
+            from xpyd_plan.export import result_to_csv, result_to_json
+
+            if args.output_format == "json":
+                print(result_to_json(multi_result))
+            else:
+                print(result_to_csv(multi_result), end="")
+
 
 def _cmd_plan_legacy(args: argparse.Namespace) -> None:
     """Handle the legacy 'plan' subcommand (deprecated)."""
@@ -466,6 +485,24 @@ def _cmd_plan_legacy(args: argparse.Namespace) -> None:
         console.print(f"\n[dim]Result written to {args.output}[/dim]")
 
 
+def _cmd_export(args: argparse.Namespace) -> None:
+    """Handle the 'export' subcommand for batch export."""
+    from xpyd_plan.export import export_batch
+
+    sla = SLAConfig(
+        ttft_ms=args.sla_ttft,
+        tpot_ms=args.sla_tpot,
+        max_latency_ms=args.sla_max_latency,
+    )
+    output = export_batch(
+        benchmark_dir=args.dir,
+        sla_config=sla,
+        output_format=args.output_format,
+        total_instances=args.total_instances,
+    )
+    print(output, end="" if args.output_format == "csv" else "\n")
+
+
 def main(argv: list[str] | None = None) -> None:
     """Entry point for `xpyd-plan` command."""
     parser = argparse.ArgumentParser(
@@ -527,6 +564,11 @@ def main(argv: list[str] | None = None) -> None:
         "--budget-ceiling", type=float, default=None,
         help="Max hourly cost budget (used with --cost-model)",
     )
+    analyze_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json", "csv"],
+        default="table",
+        help="Output format: table (Rich), json, or csv (default: table)",
+    )
 
     # plan subcommand (legacy, deprecated)
     plan_parser = subparsers.add_parser(
@@ -538,12 +580,41 @@ def main(argv: list[str] | None = None) -> None:
     plan_parser.add_argument("--top", type=int, default=5, help="Top N candidates")
     plan_parser.add_argument("--output", type=str, default=None, help="Output JSON path")
 
+    # export subcommand
+    export_parser = subparsers.add_parser(
+        "export",
+        help="Batch export benchmark analysis results from a directory",
+    )
+    export_parser.add_argument(
+        "--dir", type=str, required=True,
+        help="Directory containing benchmark JSON files",
+    )
+    export_parser.add_argument(
+        "--output-format", type=str, choices=["json", "csv"], default="json",
+        help="Export format (default: json)",
+    )
+    export_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    export_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    export_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    export_parser.add_argument(
+        "--total-instances", type=int, default=None,
+        help="Total instances to optimize for",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "analyze":
         _cmd_analyze(args)
     elif args.command == "plan":
         _cmd_plan_legacy(args)
+    elif args.command == "export":
+        _cmd_export(args)
     else:
         parser.print_help()
         sys.exit(1)
