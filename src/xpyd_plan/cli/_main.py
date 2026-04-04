@@ -14,6 +14,7 @@ from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._compare import _cmd_compare
 from xpyd_plan.cli._confidence import _cmd_confidence
 from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
+from xpyd_plan.cli._convergence import add_convergence_parser
 from xpyd_plan.cli._correlation import _cmd_correlation, add_correlation_parser
 from xpyd_plan.cli._dashboard import _cmd_dashboard
 from xpyd_plan.cli._decompose import _cmd_decompose, add_decompose_parser
@@ -897,6 +898,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- tail subcommand ---
     add_tail_parser(subparsers)
+    add_convergence_parser(subparsers)
 
     # --- scorecard subcommand ---
     add_scorecard_parser(subparsers)
@@ -1001,6 +1003,9 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_root_cause(args)
     elif args.command == "tail":
         _cmd_tail(args)
+    elif args.command == "convergence":
+        from xpyd_plan.cli._convergence import _cmd_convergence
+        _cmd_convergence(args)
     elif args.command == "summary":
         _cmd_summary(args)
     elif args.command == "outlier-impact":

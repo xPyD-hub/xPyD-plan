@@ -751,4 +751,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Recommendation logic: FILTER if SLA flips or >5% P95 shift, KEEP otherwise
 - CLI `outlier-impact` subcommand with `--benchmark`, `--sla-*`, `--iqr-multiplier`, table + JSON output
 - Programmatic `analyze_outlier_impact()` API
-- 21 new tests (1310 total)
+- 21 new tests (1331 total)
+
+### M58 – Percentile Convergence Analysis
+
+- `ConvergenceAnalyzer` class in `convergence.py`
+- `ConvergencePoint`, `ConvergenceReport`, `MetricConvergence`, `StabilityStatus` Pydantic models
+- Running P50/P95/P99 computation at cumulative sample windows (configurable steps)
+- CV-based stability classification: STABLE (≤threshold), MARGINAL (≤2×threshold), UNSTABLE
+- Minimum stable sample size detection per metric
+- CLI `convergence` subcommand with `--benchmark`, `--steps`, `--threshold`, table + JSON output
+- Programmatic `analyze_convergence()` API
+- 21 new tests (1331 total)

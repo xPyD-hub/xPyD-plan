@@ -62,6 +62,14 @@ from xpyd_plan.confidence import (
     analyze_confidence,
 )
 from xpyd_plan.config import ConfigProfile, load_config
+from xpyd_plan.convergence import (
+    ConvergenceAnalyzer,
+    ConvergencePoint,
+    ConvergenceReport,
+    MetricConvergence,
+    StabilityStatus,
+    analyze_convergence,
+)
 from xpyd_plan.correlation import (
     CorrelationAnalyzer,
     CorrelationPair,
@@ -336,6 +344,12 @@ __all__ = [
     "ConfidenceReport",
     "MetricConfidence",
     "analyze_confidence",
+    "ConvergenceAnalyzer",
+    "ConvergencePoint",
+    "ConvergenceReport",
+    "MetricConvergence",
+    "StabilityStatus",
+    "analyze_convergence",
     "BenchmarkData",
     "BenchmarkMetadata",
     "BenchmarkRequest",
