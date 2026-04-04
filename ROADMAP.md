@@ -60,11 +60,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `--benchmark` accepts multiple files, auto-detects multi-scenario mode
 - 15 new tests
 
-### M5: Sensitivity Analysis
+### M5 ✅ Sensitivity Analysis
 
-- P:D ratio vs SLA satisfaction rate curves
-- Identify the "cliff" where SLA starts failing
-- Margin-of-safety recommendations
+*Completed — PR #11*
+
+- P:D ratio vs SLA satisfaction rate curves with margin computation
+- Cliff detection: identify pass→fail transitions with failing metric
+- Safety-margin recommendations with cliff distance awareness
+- CLI `--sensitivity` flag for analyze subcommand
+- 26 new tests
 
 ### M6: xpyd-bench Integration
 
