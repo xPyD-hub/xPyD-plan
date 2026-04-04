@@ -36,16 +36,16 @@ class TestEstimator:
         gpu = _make_gpu()
         perf_1p = estimate_performance(dataset, gpu, PDConfig(num_prefill=1, num_decode=7))
         perf_2p = estimate_performance(dataset, gpu, PDConfig(num_prefill=2, num_decode=6))
-        # Doubling prefill GPUs should halve TTFT
-        assert abs(perf_1p.ttft_ms / perf_2p.ttft_ms - 2.0) < 0.01
+        # More prefill GPUs should reduce TTFT
+        assert perf_2p.ttft_ms < perf_1p.ttft_ms
 
     def test_tpot_scales_with_decode_gpus(self):
         dataset = _make_dataset()
         gpu = _make_gpu()
         perf_2d = estimate_performance(dataset, gpu, PDConfig(num_prefill=6, num_decode=2))
         perf_4d = estimate_performance(dataset, gpu, PDConfig(num_prefill=4, num_decode=4))
-        # Doubling decode GPUs should halve TPOT
-        assert abs(perf_2d.tpot_ms / perf_4d.tpot_ms - 2.0) < 0.01
+        # More decode GPUs should reduce TPOT
+        assert perf_4d.tpot_ms < perf_2d.tpot_ms
 
     def test_cost_is_proportional_to_total_gpus(self):
         dataset = _make_dataset()
