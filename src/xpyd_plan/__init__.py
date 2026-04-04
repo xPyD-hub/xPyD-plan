@@ -548,3 +548,19 @@ __all__ = [
     "get_plugin",
     "get_registry",
 ]
+
+from xpyd_plan.summary import (  # noqa: E402
+    LatencyOverview,
+    SummaryGenerator,
+    SummaryReport,
+    TokenStats,
+    summarize_benchmark,
+)
+
+__all__ += [
+    "LatencyOverview",
+    "SummaryGenerator",
+    "SummaryReport",
+    "TokenStats",
+    "summarize_benchmark",
+]
