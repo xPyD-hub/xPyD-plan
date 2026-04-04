@@ -477,3 +477,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `metrics` subcommand with `--benchmark`, `--output`, `--output-format text|json|table`
 - Programmatic `export_metrics()` API
 - ~20 new tests
+
+### M37 — Correlation Analysis
+
+*In progress — PR #89*
+
+- `CorrelationAnalyzer` class in `correlation.py`
+- `CorrelationPair`, `CorrelationReport`, `CorrelationStrength` Pydantic models
+- Pearson r computation between request characteristics and latency metrics (6 pairs)
+- Strength classification: strong (|r|≥0.7), moderate (0.4–0.7), weak (0.2–0.4), negligible (<0.2)
+- CLI `correlation` subcommand with `--benchmark`, `--output-format table|json`
+- Programmatic `analyze_correlation()` API
+- 21 new tests (861 total)
