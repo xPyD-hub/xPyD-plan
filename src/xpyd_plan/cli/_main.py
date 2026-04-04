@@ -16,6 +16,7 @@ from xpyd_plan.cli._confidence import _cmd_confidence
 from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
 from xpyd_plan.cli._correlation import _cmd_correlation, add_correlation_parser
 from xpyd_plan.cli._dashboard import _cmd_dashboard
+from xpyd_plan.cli._decompose import _cmd_decompose, add_decompose_parser
 from xpyd_plan.cli._discover import _cmd_discover, add_discover_parser
 from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
 from xpyd_plan.cli._export import _cmd_export
@@ -899,6 +900,7 @@ def main(argv: list[str] | None = None) -> None:
     # --- forecast subcommand ---
     add_forecast_parser(subparsers)
     add_sla_tier_parser(subparsers)
+    add_decompose_parser(subparsers)
 
     args = parser.parse_args(argv)
 
@@ -991,6 +993,8 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._sla_tier import _run_sla_tier
 
         _run_sla_tier(args)
+    elif args.command == "decompose":
+        _cmd_decompose(args)
     else:
         parser.print_help()
         sys.exit(1)

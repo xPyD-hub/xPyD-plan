@@ -75,6 +75,14 @@ from xpyd_plan.dashboard import (
     DashboardView,
     run_dashboard,
 )
+from xpyd_plan.decomposer import (
+    BottleneckType,
+    DecomposedRequest,
+    DecompositionReport,
+    LatencyDecomposer,
+    PhaseStats,
+    decompose_latency,
+)
 from xpyd_plan.discovery import (
     BenchmarkDiscovery,
     ConfigGroup,
@@ -499,4 +507,10 @@ __all__ = [
     "MultiTierReport",
     "analyze_sla_tiers",
     "load_tiers_from_yaml",
+    "BottleneckType",
+    "DecomposedRequest",
+    "DecompositionReport",
+    "LatencyDecomposer",
+    "PhaseStats",
+    "decompose_latency",
 ]
