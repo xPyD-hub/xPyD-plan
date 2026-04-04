@@ -30,6 +30,7 @@ from xpyd_plan.cli._model_compare import _cmd_model_compare
 from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._recommend import _cmd_recommend
+from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
 from xpyd_plan.cli._trend import _cmd_trend
@@ -868,6 +869,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- drift subcommand ---
     add_drift_parser(subparsers)
 
+    # --- root-cause subcommand ---
+    add_root_cause_parser(subparsers)
+
     # --- discover subcommand ---
     add_discover_parser(subparsers)
     add_heatmap_parser(subparsers)
@@ -939,6 +943,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_timeline(args)
     elif args.command == "drift":
         _cmd_drift(args)
+    elif args.command == "root-cause":
+        _cmd_root_cause(args)
     elif args.command == "discover":
         _cmd_discover(args)
     elif args.command == "heatmap":

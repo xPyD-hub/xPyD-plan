@@ -531,9 +531,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_timeline()` API
 - 29 new tests (940 total)
 
-### M41 — Distribution Drift Detection
+### M41 ✅ Distribution Drift Detection
 
-*In progress*
+*Completed — PR #98*
 
 - `DriftDetector` class in `drift.py`
 - `DriftResult`, `DriftReport`, `DriftSeverity` Pydantic models
@@ -543,3 +543,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `drift` subcommand with `--baseline`, `--current`, table + JSON output
 - Programmatic `detect_drift()` API
 - ~22 new tests
+
+### M42 — Anomaly Root Cause Analysis
+
+*In progress*
+
+- `RootCauseAnalyzer` class in `root_cause.py`
+- `RootCause`, `CauseFactor`, `RootCauseReport`, `FactorSignificance` Pydantic models
+- Segment requests into SLA-passing vs SLA-failing groups
+- Compare prompt_tokens, output_tokens distributions between groups (Mann-Whitney U)
+- Compare temporal patterns between groups
+- Rank factors by effect size and p-value
+- Significance: HIGH (p<0.001), MEDIUM (p<0.01), LOW (p<0.05), NONE (p>=0.05)
+- CLI `root-cause` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, table + JSON output
+- Programmatic `analyze_root_cause()` API
+- ~25 new tests
