@@ -211,11 +211,13 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `validate_benchmark()` API
 - ~22 new tests (351 total)
 
-### M17 — Interactive CLI Dashboard
+### M17 ✅ Interactive CLI Dashboard
+
+*Completed — PR #43*
 
 - Rich Live-based TUI dashboard for real-time monitoring
 - Auto-refreshing panels: latency distribution, utilization, SLA status
 - Support both file-based and streaming input
 - Keyboard shortcuts for switching views
 - CLI `dashboard` subcommand with `--refresh-interval`
-- ~15 new tests
+- ~34 new tests (385 total)

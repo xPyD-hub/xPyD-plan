@@ -19,6 +19,12 @@ from xpyd_plan.comparator import (
     compare_benchmarks,
 )
 from xpyd_plan.config import ConfigProfile, load_config
+from xpyd_plan.dashboard import (
+    Dashboard,
+    DashboardState,
+    DashboardView,
+    run_dashboard,
+)
 from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
 from xpyd_plan.models import (
     DatasetStats,
@@ -65,4 +71,8 @@ __all__ = [
     "OutlierMethod",
     "ValidationResult",
     "validate_benchmark",
+    "Dashboard",
+    "DashboardState",
+    "DashboardView",
+    "run_dashboard",
 ]
