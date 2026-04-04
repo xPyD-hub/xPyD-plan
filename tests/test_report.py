@@ -5,6 +5,10 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
+import pytest
+
+jinja2 = pytest.importorskip("jinja2", reason="jinja2 required for report tests")
+
 from xpyd_plan.analyzer import BenchmarkAnalyzer
 from xpyd_plan.benchmark_models import (
     BenchmarkData,

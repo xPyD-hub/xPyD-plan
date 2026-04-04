@@ -8,8 +8,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from jinja2 import BaseLoader, Environment
-
 from xpyd_plan.benchmark_models import (
     AnalysisResult,
     MultiScenarioResult,
@@ -294,6 +292,13 @@ class ReportGenerator:
     """Generate self-contained HTML reports from analysis results."""
 
     def __init__(self) -> None:
+        try:
+            from jinja2 import BaseLoader, Environment
+        except ImportError:
+            raise ImportError(
+                "jinja2 is required for report generation. "
+                "Install it with: pip install xpyd-plan[report]"
+            ) from None
         self._env = Environment(loader=BaseLoader(), autoescape=False)
         self._env.globals["True"] = True
         self._env.globals["False"] = False
