@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import sys
 
+from xpyd_plan.cli._ab_test import _cmd_ab_test
 from xpyd_plan.cli._alert import _cmd_alert
 from xpyd_plan.cli._analyze import _cmd_analyze
 from xpyd_plan.cli._annotate import _cmd_annotate
@@ -788,6 +789,32 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # --- ab-test subcommand ---
+    ab_parser = subparsers.add_parser(
+        "ab-test",
+        help="A/B test analysis: compare control vs treatment benchmarks",
+    )
+    ab_parser.add_argument(
+        "--control", type=str, required=True,
+        help="Control (baseline) benchmark JSON file",
+    )
+    ab_parser.add_argument(
+        "--treatment", type=str, required=True,
+        help="Treatment benchmark JSON file",
+    )
+    ab_parser.add_argument(
+        "--alpha", type=float, default=0.05,
+        help="Significance level (default: 0.05)",
+    )
+    ab_parser.add_argument(
+        "--metric", type=str, nargs="+", default=None,
+        help="Metrics to compare (default: ttft_ms tpot_ms total_latency_ms)",
+    )
+    ab_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -841,6 +868,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_confidence(args)
     elif args.command == "model-compare":
         _cmd_model_compare(args)
+    elif args.command == "ab-test":
+        _cmd_ab_test(args)
     else:
         parser.print_help()
         sys.exit(1)
