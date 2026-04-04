@@ -143,3 +143,14 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Side-by-side comparison table output, JSON output format support
 - Programmatic API: `what_if()` function
 - 20 new tests (223 total)
+
+### M12 — Configuration Profile Support
+
+- `ConfigProfile` Pydantic model with `SLAProfile`, `CostProfile`, `OutputProfile`, `DefaultsProfile`
+- YAML config file loading with fallback chain: `--config` → `./xpyd-plan.yaml` → `~/.config/xpyd-plan/config.yaml`
+- CLI flags override config file values
+- `xpyd-plan config init` generates commented starter YAML
+- `xpyd-plan config show` displays resolved configuration
+- All subcommands (`analyze`, `export`, `plan-capacity`, `what-if`) respect config defaults
+- Backward compatible — works exactly as before when no config file exists
+- 31 new tests (254 total)

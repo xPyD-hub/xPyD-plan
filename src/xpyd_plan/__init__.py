@@ -12,6 +12,7 @@ from xpyd_plan.benchmark_models import (
     SLACheck,
     UtilizationResult,
 )
+from xpyd_plan.config import ConfigProfile, load_config
 from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
 from xpyd_plan.models import (
     DatasetStats,
@@ -26,6 +27,7 @@ __all__ = [
     "BenchmarkData",
     "BenchmarkMetadata",
     "BenchmarkRequest",
+    "ConfigProfile",
     "DatasetStats",
     "GPUProfile",
     "PDConfig",
@@ -35,4 +37,5 @@ __all__ = [
     "UtilizationResult",
     "get_gpu_profile",
     "list_gpu_profiles",
+    "load_config",
 ]
