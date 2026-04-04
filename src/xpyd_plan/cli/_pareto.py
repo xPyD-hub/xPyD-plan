@@ -31,7 +31,8 @@ def _cmd_pareto(args: argparse.Namespace) -> None:
     )
     total = args.total_instances or data.metadata.total_instances
 
-    analyzer = BenchmarkAnalyzer(data)
+    analyzer = BenchmarkAnalyzer()
+    analyzer._data = data
     analysis = analyzer.find_optimal_ratio(total, sla)
     measured_qps = data.metadata.measured_qps
 

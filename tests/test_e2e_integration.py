@@ -304,7 +304,6 @@ class TestTailE2E:
 
 
 class TestScorecardE2E:
-    @pytest.mark.xfail(reason="Pre-existing bug: scorecard CLI missing total_instances arg")
     def test_scorecard(self, single_benchmark: Path):
         _run(["scorecard", "--benchmark", str(single_benchmark),
               "--sla-ttft", "5000", "--sla-tpot", "500"])
@@ -348,7 +347,6 @@ class TestPlanBenchmarksE2E:
 
 
 class TestThresholdAdvisorE2E:
-    @pytest.mark.xfail(reason="Pre-existing bug: threshold-advisor CLI")
     def test_threshold_advisor(self, single_benchmark: Path):
         _run(["threshold-advisor", "--benchmark", str(single_benchmark)])
 
@@ -382,7 +380,6 @@ class TestInterpolateE2E:
 
 
 class TestParetoE2E:
-    @pytest.mark.xfail(reason="Pre-existing bug: pareto CLI passes data to BenchmarkAnalyzer")
     def test_pareto(self, single_benchmark: Path):
         _run(["pareto", "--benchmark", str(single_benchmark),
               "--sla-ttft", "5000", "--sla-tpot", "500"])
