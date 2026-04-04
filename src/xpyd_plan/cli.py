@@ -304,13 +304,22 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
             _print_sensitivity(console, analyzer, sla, total)
 
         if args.report:
-            from xpyd_plan.report import ReportGenerator
-
             result = analyzer.find_optimal_ratio(total, sla)
-            gen = ReportGenerator()
-            html = gen.generate_single(result, total_instances=total)
-            gen.write(html, args.report)
-            console.print(f"\n[dim]HTML report written to {args.report}[/dim]")
+            report_fmt = getattr(args, "report_format", "html")
+            if report_fmt == "markdown":
+                from xpyd_plan.md_report import MarkdownReporter
+
+                gen = MarkdownReporter()
+                md = gen.generate_single(result, total_instances=total)
+                gen.write(md, args.report)
+                console.print(f"\n[dim]Markdown report written to {args.report}[/dim]")
+            else:
+                from xpyd_plan.report import ReportGenerator
+
+                gen = ReportGenerator()
+                html = gen.generate_single(result, total_instances=total)
+                gen.write(html, args.report)
+                console.print(f"\n[dim]HTML report written to {args.report}[/dim]")
 
         if args.output:
             result = analyzer.find_optimal_ratio(total, sla)
@@ -400,12 +409,21 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
             analyzer._data = analyzer.multi_data[0]
 
         if args.report:
-            from xpyd_plan.report import ReportGenerator
+            report_fmt = getattr(args, "report_format", "html")
+            if report_fmt == "markdown":
+                from xpyd_plan.md_report import MarkdownReporter
 
-            gen = ReportGenerator()
-            html = gen.generate_multi(multi_result)
-            gen.write(html, args.report)
-            console.print(f"\n[dim]HTML report written to {args.report}[/dim]")
+                gen = MarkdownReporter()
+                md = gen.generate_multi(multi_result)
+                gen.write(md, args.report)
+                console.print(f"\n[dim]Markdown report written to {args.report}[/dim]")
+            else:
+                from xpyd_plan.report import ReportGenerator
+
+                gen = ReportGenerator()
+                html = gen.generate_multi(multi_result)
+                gen.write(html, args.report)
+                console.print(f"\n[dim]HTML report written to {args.report}[/dim]")
 
         if args.output:
             Path(args.output).write_text(multi_result.model_dump_json(indent=2))
@@ -1569,7 +1587,11 @@ def main(argv: list[str] | None = None) -> None:
     analyze_parser.add_argument("--output", type=str, default=None, help="Output JSON path")
     analyze_parser.add_argument(
         "--report", type=str, default=None,
-        help="Generate HTML report to the given path (e.g. report.html)",
+        help="Generate report to the given path (e.g. report.html or report.md)",
+    )
+    analyze_parser.add_argument(
+        "--report-format", type=str, default="html", choices=["html", "markdown"],
+        help="Report format: html (default) or markdown",
     )
     analyze_parser.add_argument(
         "--cost-model", type=str, default=None,
