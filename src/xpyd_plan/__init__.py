@@ -2,6 +2,7 @@
 
 __version__ = "0.1.0"
 
+from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
 from xpyd_plan.models import (
     CandidateResult,
     DatasetStats,
@@ -21,5 +22,7 @@ __all__ = [
     "PerformanceEstimate",
     "PlanResult",
     "SLAConfig",
+    "get_gpu_profile",
+    "list_gpu_profiles",
     "plan",
 ]
