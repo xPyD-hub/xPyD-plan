@@ -63,6 +63,14 @@ from xpyd_plan.pareto import (
     ParetoObjective,
     find_pareto_frontier,
 )
+from xpyd_plan.recommender import (
+    ActionCategory,
+    Recommendation,
+    RecommendationEngine,
+    RecommendationPriority,
+    RecommendationReport,
+    get_recommendations,
+)
 from xpyd_plan.trend import TrendEntry, TrendReport, TrendTracker, track_trend
 from xpyd_plan.validator import (
     DataQualityScore,
@@ -129,4 +137,10 @@ __all__ = [
     "DashboardState",
     "DashboardView",
     "run_dashboard",
+    "ActionCategory",
+    "Recommendation",
+    "RecommendationEngine",
+    "RecommendationPriority",
+    "RecommendationReport",
+    "get_recommendations",
 ]

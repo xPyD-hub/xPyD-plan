@@ -260,7 +260,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `annotate_benchmark()` API
 - 26 new tests (456 total)
 
-### M21 — Pareto Frontier Analysis
+### M21 ✅ Pareto Frontier Analysis
+
+*Completed — PR #52*
 
 - `ParetoAnalyzer` class in `pareto.py`
 - `ParetoCandidate`, `ParetoFrontier`, `ParetoObjective` Pydantic models
@@ -269,3 +271,14 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `pareto` subcommand with table and JSON output
 - Programmatic `find_pareto_frontier()` API
 - ~26 new tests (482 total)
+
+### M22 — Recommendation Engine
+
+- `RecommendationEngine` class in `recommender.py`
+- `Recommendation`, `RecommendationReport`, `RecommendationPriority` Pydantic models
+- Combine SLA compliance, cost analysis, Pareto frontier, and trend data into ranked recommendations
+- Priority levels: CRITICAL, HIGH, MEDIUM, LOW
+- Action categories: SCALE_UP, SCALE_DOWN, REBALANCE, INVESTIGATE, NO_ACTION
+- CLI `recommend` subcommand with table and JSON output
+- Programmatic `get_recommendations()` API
+- ~24 new tests

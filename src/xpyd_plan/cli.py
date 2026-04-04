@@ -1265,6 +1265,84 @@ def _cmd_pareto(args: argparse.Namespace) -> None:
                 f"  waste={c.waste_rate:.3f}[/dim]"
             )
 
+def _cmd_recommend(args: argparse.Namespace) -> None:
+    """Handle 'recommend' subcommand."""
+    import json as json_mod
+
+    from xpyd_plan.recommender import RecommendationEngine
+
+    console = Console()
+
+    data = load_benchmark_auto(args.benchmark[0])
+
+    sla = SLAConfig(
+        ttft_ms=args.sla_ttft,
+        tpot_ms=args.sla_tpot,
+        max_latency_ms=args.sla_max_latency,
+        sla_percentile=args.sla_percentile,
+    )
+    total = args.total_instances or data.metadata.total_instances
+
+    analyzer = BenchmarkAnalyzer(data)
+    analysis = analyzer.find_optimal_ratio(total, sla)
+    measured_qps = data.metadata.measured_qps
+
+    # Cost config
+    cost_config = None
+    if args.cost_model:
+        from xpyd_plan.cost import CostConfig
+
+        cost_config = CostConfig.from_yaml(args.cost_model)
+
+    engine = RecommendationEngine(
+        cost_config=cost_config,
+        waste_threshold=args.waste_threshold,
+    )
+    report = engine.analyze(analysis, measured_qps=measured_qps)
+
+    if args.output_format == "json":
+        console.print(json_mod.dumps(report.model_dump(), indent=2))
+        return
+
+    # Table output
+    console.print("\n[bold]📋 Recommendation Report[/bold]")
+    console.print(f"   {report.analysis_summary}")
+    if report.current_ratio:
+        console.print(f"   Current: {report.current_ratio}")
+    if report.optimal_ratio:
+        console.print(f"   Optimal: {report.optimal_ratio}")
+
+    if not report.recommendations:
+        console.print("[green]No recommendations.[/green]")
+        return
+
+    table = Table(title="Recommendations")
+    table.add_column("Priority", style="bold")
+    table.add_column("Action")
+    table.add_column("Title")
+    table.add_column("Detail")
+    table.add_column("Suggested Ratio", style="cyan")
+
+    priority_styles = {
+        "critical": "bold red",
+        "high": "red",
+        "medium": "yellow",
+        "low": "green",
+    }
+
+    for rec in report.recommendations:
+        style = priority_styles.get(rec.priority.value, "")
+        table.add_row(
+            f"[{style}]{rec.priority.value.upper()}[/{style}]",
+            rec.action.value,
+            rec.title,
+            rec.detail,
+            rec.suggested_ratio or "-",
+        )
+
+    console.print(table)
+
+
 def main(argv: list[str] | None = None) -> None:
     """Entry point for `xpyd-plan` command."""
     parser = argparse.ArgumentParser(
@@ -1709,6 +1787,46 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # recommend subcommand
+    recommend_parser = subparsers.add_parser(
+        "recommend",
+        help="Generate actionable P:D ratio recommendations",
+    )
+    _add_config_flag(recommend_parser)
+    recommend_parser.add_argument(
+        "--benchmark", type=str, nargs="+", required=True,
+        help="Benchmark JSON file(s)",
+    )
+    recommend_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    recommend_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    recommend_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    recommend_parser.add_argument(
+        "--sla-percentile", type=float, default=95.0,
+        help="SLA percentile for evaluation (default: 95.0, range: 1-100)",
+    )
+    recommend_parser.add_argument(
+        "--total-instances", type=int, default=None,
+        help="Total instances to optimize for",
+    )
+    recommend_parser.add_argument(
+        "--cost-model", type=str, default=None,
+        help="YAML file with GPU cost config",
+    )
+    recommend_parser.add_argument(
+        "--waste-threshold", type=float, default=0.3,
+        help="Waste rate threshold for rebalance recommendations (default: 0.3)",
+    )
+    recommend_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -1742,6 +1860,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "pareto":
         _apply_config_defaults(args)
         _cmd_pareto(args)
+    elif args.command == "recommend":
+        _apply_config_defaults(args)
+        _cmd_recommend(args)
     else:
         parser.print_help()
         sys.exit(1)
