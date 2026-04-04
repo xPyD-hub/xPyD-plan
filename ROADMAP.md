@@ -652,3 +652,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `saturation` subcommand with `--benchmark`, `--increase-threshold`, table + JSON output
 - Programmatic `detect_saturation()` API
 - 21 new tests (1141 total)
+
+### M50 ✅ Latency Decomposition Analysis
+
+*Completed — PR #118*
+
+- `LatencyDecomposer` class in `decomposer.py`
+- `DecomposedRequest`, `DecompositionReport`, `BottleneckType`, `PhaseStats` Pydantic models
+- Per-request decomposition: prefill_fraction, decode_fraction, overhead_fraction
+- Aggregate statistics at P50/P95 for each phase
+- Bottleneck classification: PREFILL_BOUND, DECODE_BOUND, OVERHEAD_BOUND, BALANCED (configurable threshold, default 50%)
+- Actionable recommendations based on bottleneck type
+- CLI `decompose` subcommand with `--benchmark`, `--bottleneck-threshold`, table + JSON output
+- Programmatic `decompose_latency()` API
+- 23 new tests (1164 total)
