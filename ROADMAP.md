@@ -711,3 +711,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Fix `threshold-advisor` subcommand: load data via `load_benchmark_auto()` first
 - Convert 3 xfail integration tests to passing
 - 1244 passed, 0 xfail
+
+### M55 Request Fairness Analysis
+
+- `FairnessAnalyzer` class in `fairness.py`
+- `FairnessReport`, `BucketStats`, `FairnessIndex`, `FairnessClassification` Pydantic models
+- Bucket requests by prompt_tokens into configurable quantile-based bins (default 4)
+- Per-bucket P50/P95 latency stats for TTFT, TPOT, total_latency
+- Jain's fairness index (J = (Σxi)² / (n·Σxi²)) computed on per-bucket P95 latencies
+- Fairness classification: FAIR (J≥0.9), MODERATE (0.7-0.9), UNFAIR (<0.7)
+- CLI `fairness` subcommand with `--benchmark`, `--buckets`, table + JSON output
+- Programmatic `analyze_fairness()` API
+- 26 new tests (1270 total)

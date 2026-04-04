@@ -98,6 +98,14 @@ from xpyd_plan.drift import (
     DriftSeverity,
     detect_drift,
 )
+from xpyd_plan.fairness import (
+    BucketStats,
+    FairnessAnalyzer,
+    FairnessClassification,
+    FairnessIndex,
+    FairnessReport,
+    analyze_fairness,
+)
 from xpyd_plan.filter import (
     BenchmarkFilter,
     BenchmarkFilterResult,
@@ -458,6 +466,12 @@ __all__ = [
     "CorrelationReport",
     "CorrelationStrength",
     "analyze_correlation",
+    "BucketStats",
+    "FairnessAnalyzer",
+    "FairnessClassification",
+    "FairnessIndex",
+    "FairnessReport",
+    "analyze_fairness",
     "DriftDetector",
     "DriftReport",
     "DriftResult",
