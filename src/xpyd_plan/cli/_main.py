@@ -17,6 +17,7 @@ from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd
 from xpyd_plan.cli._correlation import _cmd_correlation, add_correlation_parser
 from xpyd_plan.cli._dashboard import _cmd_dashboard
 from xpyd_plan.cli._discover import _cmd_discover, add_discover_parser
+from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
 from xpyd_plan.cli._export import _cmd_export
 from xpyd_plan.cli._filter import _cmd_filter
 from xpyd_plan.cli._fleet import _cmd_fleet
@@ -864,6 +865,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- timeline subcommand ---
     add_timeline_parser(subparsers)
 
+    # --- drift subcommand ---
+    add_drift_parser(subparsers)
+
     # --- discover subcommand ---
     add_discover_parser(subparsers)
     add_heatmap_parser(subparsers)
@@ -933,6 +937,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_correlation(args)
     elif args.command == "timeline":
         _cmd_timeline(args)
+    elif args.command == "drift":
+        _cmd_drift(args)
     elif args.command == "discover":
         _cmd_discover(args)
     elif args.command == "heatmap":
