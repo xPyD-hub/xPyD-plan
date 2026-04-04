@@ -170,3 +170,14 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Sensitivity and streaming analysis respect the configured percentile
 - Backward compatible — default P95 behavior unchanged
 - 34 new tests (288 total)
+
+### M14 — Benchmark Comparison & Regression Detection
+
+- `BenchmarkComparator` class in `comparator.py`
+- `MetricDelta` and `ComparisonResult` Pydantic models
+- Latency deltas at P50/P95/P99 for TTFT, TPOT, total latency
+- QPS delta (higher-is-better semantics)
+- Configurable regression threshold (default 10%)
+- CLI `compare` subcommand with table and JSON output
+- Programmatic `compare_benchmarks()` API
+- 23 new tests (311 total)
