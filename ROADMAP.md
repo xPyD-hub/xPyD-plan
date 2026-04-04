@@ -35,9 +35,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 > ⚠️ Direction was off — this is a simulation model, not what we need.
 > May be deprecated or removed in future milestones.
 
-### M3: Core Refactor — Benchmark Data Analyzer ← **current**
+### M3 ✅ Core Refactor — Benchmark Data Analyzer
 
-Replace the estimator approach with real benchmark data analysis.
+*Completed — PR #6*
 
 - **Benchmark data format** — define JSON schema for xpyd-bench output
   - Per-request: request_id, prompt_tokens, output_tokens, ttft_ms, tpot_ms, total_latency_ms, timestamp
@@ -50,11 +50,15 @@ Replace the estimator approach with real benchmark data analysis.
 - **CLI rewrite** — support the new analysis workflow
 - **Tests** — comprehensive test suite with fixture-generated benchmark datasets
 
-### M4: Multi-Scenario Analysis
+### M4 ✅ Multi-Scenario Analysis
 
-- Support analyzing multiple QPS levels from different benchmark runs
-- Find optimal P:D ratio for each QPS tier
-- Recommend scaling strategy across traffic patterns
+*Completed — PR #8*
+
+- Support loading multiple benchmark files (different QPS levels)
+- Per-scenario independent analysis with `find_optimal_ratio_multi()`
+- Unified P:D ratio recommendation across all QPS scenarios (min worst-case waste)
+- CLI `--benchmark` accepts multiple files, auto-detects multi-scenario mode
+- 15 new tests
 
 ### M5: Sensitivity Analysis
 
