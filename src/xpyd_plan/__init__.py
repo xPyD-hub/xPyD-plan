@@ -639,6 +639,26 @@ __all__ += [
     "summarize_benchmark",
 ]
 
+from xpyd_plan.stat_summary import (  # noqa: E402
+    AggregatedStats,
+    LatencyAggStats,
+    RunStability,
+    RunSummary,
+    StatSummaryAnalyzer,
+    StatSummaryReport,
+    summarize_stats,
+)
+
+__all__ += [
+    "AggregatedStats",
+    "LatencyAggStats",
+    "RunStability",
+    "RunSummary",
+    "StatSummaryAnalyzer",
+    "StatSummaryReport",
+    "summarize_stats",
+]
+
 from xpyd_plan.outlier_impact import (  # noqa: E402
     ImpactRecommendation,
     ImpactReport,
