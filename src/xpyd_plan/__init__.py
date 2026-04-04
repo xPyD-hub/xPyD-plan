@@ -104,6 +104,14 @@ from xpyd_plan.fleet import (
     GPUTypeConfig,
     calculate_fleet,
 )
+from xpyd_plan.forecaster import (
+    CapacityExhaustion,
+    CapacityForecaster,
+    ForecastMethod,
+    ForecastPoint,
+    ForecastReport,
+    forecast_capacity,
+)
 from xpyd_plan.generator import (
     AnomalyConfig,
     AnomalyType,
@@ -459,4 +467,10 @@ __all__ = [
     "ThresholdAdvisor",
     "ThresholdSuggestion",
     "advise_thresholds",
+    "CapacityForecaster",
+    "ForecastMethod",
+    "ForecastPoint",
+    "ForecastReport",
+    "CapacityExhaustion",
+    "forecast_capacity",
 ]

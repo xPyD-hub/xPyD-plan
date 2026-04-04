@@ -21,6 +21,7 @@ from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
 from xpyd_plan.cli._export import _cmd_export
 from xpyd_plan.cli._filter import _cmd_filter
 from xpyd_plan.cli._fleet import _cmd_fleet
+from xpyd_plan.cli._forecast import add_forecast_parser
 from xpyd_plan.cli._generate import _cmd_generate
 from xpyd_plan.cli._heatmap import _cmd_heatmap, add_heatmap_parser
 from xpyd_plan.cli._interpolate import _cmd_interpolate
@@ -892,6 +893,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- threshold-advisor subcommand ---
     add_threshold_advisor_parser(subparsers)
 
+    # --- forecast subcommand ---
+    add_forecast_parser(subparsers)
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -973,6 +977,10 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_plan_benchmarks(args)
     elif args.command == "threshold-advisor":
         _cmd_threshold_advisor(args)
+    elif args.command == "forecast":
+        from xpyd_plan.cli._forecast import _run_forecast
+
+        _run_forecast(args)
     else:
         parser.print_help()
         sys.exit(1)
