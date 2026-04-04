@@ -41,6 +41,14 @@ from xpyd_plan.comparator import (
     MetricDelta,
     compare_benchmarks,
 )
+from xpyd_plan.confidence import (
+    Adequacy,
+    ConfidenceAnalyzer,
+    ConfidenceInterval,
+    ConfidenceReport,
+    MetricConfidence,
+    analyze_confidence,
+)
 from xpyd_plan.config import ConfigProfile, load_config
 from xpyd_plan.dashboard import (
     Dashboard,
@@ -152,6 +160,12 @@ __all__ = [
     "ComparisonResult",
     "MetricDelta",
     "compare_benchmarks",
+    "Adequacy",
+    "ConfidenceAnalyzer",
+    "ConfidenceInterval",
+    "ConfidenceReport",
+    "MetricConfidence",
+    "analyze_confidence",
     "BenchmarkData",
     "BenchmarkMetadata",
     "BenchmarkRequest",

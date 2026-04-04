@@ -391,3 +391,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Each subcommand in its own module (e.g., `_analyze.py`, `_export.py`, `_fleet.py`)
 - Pure refactor — no behavioral changes
 - All 691 tests pass unchanged
+
+### M31 — Bootstrap Confidence Intervals
+
+- `ConfidenceAnalyzer` class in `confidence.py`
+- `ConfidenceInterval`, `MetricConfidence`, `ConfidenceReport`, `Adequacy` Pydantic models
+- Bootstrap resampling (configurable iterations, default 1000) for percentile CI estimation
+- Configurable confidence level (default 95%) and target percentile
+- Sample size adequacy classification: SUFFICIENT, MARGINAL, INSUFFICIENT
+- Adequacy thresholds based on relative CI width (>10% marginal, >25% insufficient)
+- CLI `confidence` subcommand with `--benchmark`, `--percentile`, `--confidence-level`, `--iterations`, `--seed`, table + JSON output
+- Programmatic `analyze_confidence()` API
+- Reproducible results via `--seed` parameter
+- 21 new tests
