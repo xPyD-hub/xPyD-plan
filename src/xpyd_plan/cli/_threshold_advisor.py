@@ -17,7 +17,11 @@ def _cmd_threshold_advisor(args: argparse.Namespace) -> None:
     """Handle the 'threshold-advisor' subcommand."""
     console = Console()
 
-    analyzer = BenchmarkAnalyzer(args.benchmark)
+    from xpyd_plan.bench_adapter import load_benchmark_auto
+
+    data = load_benchmark_auto(args.benchmark)
+    analyzer = BenchmarkAnalyzer()
+    analyzer._data = data
     data = analyzer.data
 
     pass_rates = [float(x) for x in args.pass_rates.split(",")]

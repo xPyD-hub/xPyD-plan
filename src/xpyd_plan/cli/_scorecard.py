@@ -28,7 +28,8 @@ def _cmd_scorecard(args: argparse.Namespace) -> None:
 
     analyzer = BenchmarkAnalyzer()
     analyzer._data = data
-    analysis = analyzer.find_optimal_ratio(sla)
+    total_instances = data.metadata.total_instances
+    analysis = analyzer.find_optimal_ratio(total_instances, sla)
 
     calc = ScorecardCalculator(
         sla_weight=args.sla_weight,
