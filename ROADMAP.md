@@ -738,3 +738,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `summary` subcommand with `--benchmark`, table + JSON output
 - Programmatic `summarize_benchmark()` API
 - 19 new tests (1289 total)
+
+### M57 ✅ Outlier Impact Analysis
+
+*Completed — PR #132*
+
+- `OutlierImpactAnalyzer` class in `outlier_impact.py`
+- `ImpactReport`, `MetricImpact`, `SLAComplianceComparison`, `ImpactRecommendation` Pydantic models
+- IQR-based outlier identification (configurable multiplier, default 1.5)
+- Per-metric (TTFT, TPOT, total_latency) impact at P50/P95/P99
+- SLA compliance comparison (before/after outlier removal)
+- Recommendation logic: FILTER if SLA flips or >5% P95 shift, KEEP otherwise
+- CLI `outlier-impact` subcommand with `--benchmark`, `--sla-*`, `--iqr-multiplier`, table + JSON output
+- Programmatic `analyze_outlier_impact()` API
+- 21 new tests (1310 total)
