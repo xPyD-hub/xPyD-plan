@@ -152,6 +152,13 @@ from xpyd_plan.recommender import (
     RecommendationReport,
     get_recommendations,
 )
+from xpyd_plan.scaling import (
+    ScalingAnalyzer,
+    ScalingCurve,
+    ScalingPoint,
+    ScalingReport,
+    analyze_scaling,
+)
 from xpyd_plan.trend import TrendEntry, TrendReport, TrendTracker, track_trend
 from xpyd_plan.validator import (
     DataQualityScore,
@@ -299,4 +306,9 @@ __all__ = [
     "WorkloadProfile",
     "WorkloadReport",
     "classify_workload",
+    "ScalingAnalyzer",
+    "ScalingCurve",
+    "ScalingPoint",
+    "ScalingReport",
+    "analyze_scaling",
 ]
