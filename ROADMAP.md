@@ -490,9 +490,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_correlation()` API
 - 21 new tests (861 total)
 
-### M38 — Batch Benchmark Discovery & Auto-Loading
+### M38 ✅ Batch Benchmark Discovery & Auto-Loading
 
-*In progress — PR #TBD*
+*Completed — PR #91*
 
 - `BenchmarkDiscovery` class in `discovery.py`
 - `DiscoveredBenchmark`, `DiscoveryReport`, `ConfigGroup`, `ValidationStatus` Pydantic models
@@ -502,4 +502,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Group-by-config summary
 - CLI `discover` subcommand with `--dir`, `--pattern`, `--max-depth`, table + JSON output
 - Programmatic `discover_benchmarks()` API
+- 25 new tests (886 total)
+
+### M39 — Latency Heatmap Data Generation
+
+- `HeatmapGenerator` class in `heatmap.py`
+- `HeatmapConfig`, `HeatmapCell`, `HeatmapGrid`, `HeatmapReport` Pydantic models
+- 2D grid mapping (prompt_tokens bins × output_tokens bins) to aggregated latency metrics
+- Configurable bin count, aggregation metric (mean, P50, P95, P99), and target latency field (TTFT, TPOT, total)
+- Hotspot detection: identify cells exceeding SLA thresholds
+- CLI `heatmap` subcommand with `--benchmark`, `--bins`, `--metric`, `--field`, table + JSON output
+- Programmatic `generate_heatmap()` API
 - ~22 new tests

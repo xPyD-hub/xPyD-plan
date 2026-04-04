@@ -108,6 +108,16 @@ from xpyd_plan.generator import (
     load_generator_config,
 )
 from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
+from xpyd_plan.heatmap import (
+    AggregationMetric,
+    HeatmapCell,
+    HeatmapConfig,
+    HeatmapGenerator,
+    HeatmapGrid,
+    HeatmapReport,
+    LatencyField,
+    generate_heatmap,
+)
 from xpyd_plan.interpolator import (
     InterpolationConfidence,
     InterpolationMethod,
@@ -347,4 +357,12 @@ __all__ = [
     "DiscoveryReport",
     "ValidationStatus",
     "discover_benchmarks",
+    "AggregationMetric",
+    "HeatmapCell",
+    "HeatmapConfig",
+    "HeatmapGenerator",
+    "HeatmapGrid",
+    "HeatmapReport",
+    "LatencyField",
+    "generate_heatmap",
 ]

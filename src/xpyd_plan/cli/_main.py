@@ -21,6 +21,7 @@ from xpyd_plan.cli._export import _cmd_export
 from xpyd_plan.cli._filter import _cmd_filter
 from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._generate import _cmd_generate
+from xpyd_plan.cli._heatmap import _cmd_heatmap, add_heatmap_parser
 from xpyd_plan.cli._interpolate import _cmd_interpolate
 from xpyd_plan.cli._merge import _cmd_merge
 from xpyd_plan.cli._metrics import _cmd_metrics, add_metrics_parser
@@ -861,6 +862,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- discover subcommand ---
     add_discover_parser(subparsers)
+    add_heatmap_parser(subparsers)
 
     args = parser.parse_args(argv)
 
@@ -927,6 +929,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_correlation(args)
     elif args.command == "discover":
         _cmd_discover(args)
+    elif args.command == "heatmap":
+        _cmd_heatmap(args)
     else:
         parser.print_help()
         sys.exit(1)
