@@ -20,6 +20,7 @@ from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._generate import _cmd_generate
 from xpyd_plan.cli._interpolate import _cmd_interpolate
 from xpyd_plan.cli._merge import _cmd_merge
+from xpyd_plan.cli._model_compare import _cmd_model_compare
 from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._recommend import _cmd_recommend
@@ -765,6 +766,28 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # --- model-compare subcommand ---
+    mc_parser = subparsers.add_parser(
+        "model-compare",
+        help="Compare benchmark results across different LLM models",
+    )
+    mc_parser.add_argument(
+        "--benchmarks", type=str, nargs="+", required=True,
+        help="Benchmark JSON files (one per model)",
+    )
+    mc_parser.add_argument(
+        "--models", type=str, required=True,
+        help="Comma-separated model names (must match number of benchmark files)",
+    )
+    mc_parser.add_argument(
+        "--gpu-hourly-rate", type=float, default=None,
+        help="GPU hourly rate for cost-efficiency ranking",
+    )
+    mc_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -816,6 +839,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_filter(args)
     elif args.command == "confidence":
         _cmd_confidence(args)
+    elif args.command == "model-compare":
+        _cmd_model_compare(args)
     else:
         parser.print_help()
         sys.exit(1)
