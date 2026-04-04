@@ -110,6 +110,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - `xpyd-plan export` subcommand for batch export of multiple benchmark sets
 - 20 new tests
 
+### M10 ✅ Remove Deprecated Legacy Estimator & Planner
+
+*Completed — PR #TBD*
+
+- Remove `estimator.py` (M/M/c queuing model) and `planner.py` (brute-force estimator-based planning)
+- Remove legacy `plan` CLI subcommand
+- Remove `PerformanceEstimate`, `CandidateResult`, `PlanResult` model classes
+- Remove associated tests (`test_estimator.py`, `test_planner.py`, `test_queueing_estimator.py`)
+- Clean up unused imports in `cli.py` and `__init__.py`
+- 203 tests remain, all passing
+
 ### M10 ✅ Capacity Planning Mode
 
 *Completed — PR #23*

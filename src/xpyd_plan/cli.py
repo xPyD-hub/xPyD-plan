@@ -3,35 +3,15 @@
 from __future__ import annotations
 
 import argparse
-import json
 import sys
-import warnings
 from pathlib import Path
 
-import yaml
 from rich.console import Console
 from rich.table import Table
 
 from xpyd_plan.analyzer import BenchmarkAnalyzer
 from xpyd_plan.bench_adapter import load_benchmark_auto
-from xpyd_plan.models import DatasetStats, GPUProfile, SLAConfig
-
-
-def _load_config(path: str) -> dict:
-    """Load YAML config file."""
-    with open(path) as f:
-        return yaml.safe_load(f)
-
-
-def _load_dataset(path: str) -> list[dict[str, int]]:
-    """Load dataset from JSON lines file."""
-    records = []
-    with open(path) as f:
-        for line in f:
-            line = line.strip()
-            if line:
-                records.append(json.loads(line))
-    return records
+from xpyd_plan.models import SLAConfig
 
 
 def _print_cost_analysis(
@@ -421,70 +401,6 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
                 print(result_to_csv(multi_result), end="")
 
 
-def _cmd_plan_legacy(args: argparse.Namespace) -> None:
-    """Handle the legacy 'plan' subcommand (deprecated)."""
-    warnings.warn(
-        "The 'plan' subcommand is deprecated. Use 'analyze' with benchmark data instead.",
-        DeprecationWarning,
-        stacklevel=1,
-    )
-
-    from xpyd_plan.planner import plan
-
-    cfg = _load_config(args.config)
-    sla = SLAConfig(**(cfg.get("sla") or {}))
-    gpu = GPUProfile(**(cfg["gpu"]))
-    budget: int = cfg["budget"]
-
-    if args.dataset:
-        records = _load_dataset(args.dataset)
-        num_requests = cfg.get("num_requests", 1000)
-        dataset = DatasetStats.from_records(records, num_requests=num_requests)
-    elif "dataset" in cfg:
-        dataset = DatasetStats(**cfg["dataset"])
-    else:
-        print("Error: provide --dataset or include 'dataset' section in config", file=sys.stderr)
-        sys.exit(1)
-
-    result = plan(sla=sla, dataset=dataset, gpu=gpu, budget=budget)
-
-    console = Console()
-    if result.best:
-        console.print(
-            f"\n[bold green]✅ Best: {result.best.config.ratio_str}[/bold green]"
-            f"  (score: {result.best.score:.2f})"
-        )
-    else:
-        console.print("\n[bold red]❌ No configuration meets SLA constraints.[/bold red]")
-
-    table = Table(title=f"\nTop {args.top} Candidates (budget={budget} GPUs)")
-    table.add_column("Config", style="cyan")
-    table.add_column("TTFT (ms)", justify="right")
-    table.add_column("TPOT (ms)", justify="right")
-    table.add_column("Throughput", justify="right")
-    table.add_column("Cost/h", justify="right")
-    table.add_column("SLA", justify="center")
-    table.add_column("Score", justify="right")
-
-    for c in result.candidates[: args.top]:
-        sla_str = "✅" if c.meets_sla else "❌"
-        table.add_row(
-            c.config.ratio_str,
-            f"{c.performance.ttft_ms:.1f}",
-            f"{c.performance.tpot_ms:.1f}",
-            f"{c.performance.throughput_rps:.1f}",
-            f"${c.performance.total_cost_per_hour:.2f}",
-            sla_str,
-            f"{c.score:.2f}",
-        )
-
-    console.print(table)
-
-    if args.output:
-        Path(args.output).write_text(result.model_dump_json(indent=2))
-        console.print(f"\n[dim]Result written to {args.output}[/dim]")
-
-
 def _cmd_export(args: argparse.Namespace) -> None:
     """Handle the 'export' subcommand for batch export."""
     from xpyd_plan.export import export_batch
@@ -632,16 +548,6 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format: table (Rich), json, or csv (default: table)",
     )
 
-    # plan subcommand (legacy, deprecated)
-    plan_parser = subparsers.add_parser(
-        "plan",
-        help="[DEPRECATED] Estimate-based planning (use 'analyze' instead)",
-    )
-    plan_parser.add_argument("--config", type=str, required=True, help="YAML config path")
-    plan_parser.add_argument("--dataset", type=str, default=None, help="Dataset JSON lines file")
-    plan_parser.add_argument("--top", type=int, default=5, help="Top N candidates")
-    plan_parser.add_argument("--output", type=str, default=None, help="Output JSON path")
-
     # export subcommand
     export_parser = subparsers.add_parser(
         "export",
@@ -704,8 +610,6 @@ def main(argv: list[str] | None = None) -> None:
 
     if args.command == "analyze":
         _cmd_analyze(args)
-    elif args.command == "plan":
-        _cmd_plan_legacy(args)
     elif args.command == "export":
         _cmd_export(args)
     elif args.command == "plan-capacity":

@@ -81,30 +81,4 @@ class PDConfig(BaseModel):
         return f"{self.num_prefill}P:{self.num_decode}D"
 
 
-class PerformanceEstimate(BaseModel):
-    """Estimated performance metrics for a PD configuration."""
 
-    ttft_ms: float = Field(..., description="Estimated TTFT (ms)")
-    tpot_ms: float = Field(..., description="Estimated TPOT (ms)")
-    throughput_rps: float = Field(..., description="Estimated throughput (requests/s)")
-    total_cost_per_hour: float = Field(..., description="Total GPU cost ($/h)")
-
-
-class CandidateResult(BaseModel):
-    """A single candidate PD configuration with its evaluation."""
-
-    config: PDConfig
-    performance: PerformanceEstimate
-    meets_sla: bool = Field(..., description="Whether this config meets all SLA constraints")
-    score: float = Field(..., description="Cost-efficiency score (higher is better)")
-
-
-class PlanResult(BaseModel):
-    """Complete planning result."""
-
-    best: CandidateResult | None = Field(None, description="Best config (None if no SLA match)")
-    candidates: list[CandidateResult] = Field(
-        default_factory=list, description="All candidates sorted by score descending"
-    )
-    budget: int = Field(..., description="Total GPU budget")
-    sla: SLAConfig

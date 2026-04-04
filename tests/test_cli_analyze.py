@@ -76,26 +76,3 @@ def test_cli_no_command():
         main([])
 
 
-def test_cli_plan_deprecated(tmp_path: Path, capsys):
-    """Legacy plan command should still work but warn."""
-    cfg = {
-        "sla": {"ttft_ms": 1000},
-        "gpu": {
-            "name": "test",
-            "prefill_tokens_per_sec": 50000,
-            "decode_tokens_per_sec": 2000,
-        },
-        "budget": 4,
-        "dataset": {
-            "prompt_len_mean": 500,
-            "prompt_len_p95": 1000,
-            "output_len_mean": 200,
-            "output_len_p95": 400,
-        },
-    }
-    cfg_path = tmp_path / "config.yaml"
-    import yaml
-    cfg_path.write_text(yaml.dump(cfg))
-
-    with pytest.warns(DeprecationWarning, match="deprecated"):
-        main(["plan", "--config", str(cfg_path)])
