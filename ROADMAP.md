@@ -638,3 +638,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `sla-tier` subcommand with `--benchmark`, `--tiers`, table + JSON output
 - Programmatic `analyze_sla_tiers()` API
 - 18 new tests (1120 total)
+
+### M49 ✅ Saturation Point Detection
+
+*Completed — PR #115*
+
+- `SaturationDetector` class in `saturation.py`
+- `SaturationPoint`, `SaturationThreshold`, `SaturationReport` Pydantic models
+- Analyze multiple benchmarks at increasing QPS levels to find saturation point
+- Per-metric saturation detection (TTFT/TPOT/total at P95/P99)
+- Configurable increase threshold (default 50% relative increase)
+- Conservative overall safe QPS (minimum across all saturated metrics)
+- CLI `saturation` subcommand with `--benchmark`, `--increase-threshold`, table + JSON output
+- Programmatic `detect_saturation()` API
+- 21 new tests (1141 total)
