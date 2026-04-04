@@ -204,6 +204,14 @@ from xpyd_plan.scaling import (
     ScalingReport,
     analyze_scaling,
 )
+from xpyd_plan.scorecard import (
+    ConfigScorecard,
+    DimensionScore,
+    ScorecardCalculator,
+    ScorecardReport,
+    ScoreGrade,
+    calculate_scorecard,
+)
 from xpyd_plan.tail import (
     LongTailProfile,
     TailAnalyzer,
@@ -373,6 +381,12 @@ __all__ = [
     "ScalingPoint",
     "ScalingReport",
     "analyze_scaling",
+    "ConfigScorecard",
+    "DimensionScore",
+    "ScoreGrade",
+    "ScorecardCalculator",
+    "ScorecardReport",
+    "calculate_scorecard",
     "MetricLine",
     "MetricsExporter",
     "MetricsReport",
