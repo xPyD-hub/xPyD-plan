@@ -677,13 +677,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Installation instructions with optional dependencies
 - Remove all references to deprecated estimation-based workflow
 
-### M52 ⬜ Plugin Architecture
+### M52 ✅ Plugin Architecture
 
-- Define a plugin interface for custom analyzers
-- Entry-point based plugin discovery (`xpyd_plan.plugins`)
-- Allow third-party analysis modules to register CLI subcommands
-- Plugin metadata (name, version, description)
-- Documentation for plugin authors
+*Completed — PR #122*
+
+- `PluginSpec` ABC defining the interface plugins must implement
+- `PluginMetadata` Pydantic model (name, version, description, author, type)
+- `PluginRegistry` class: discover and load plugins via `importlib.metadata.entry_points()`
+- Plugins can register analysis functions and CLI subcommands
+- CLI `plugins` subcommand to list installed plugins (table + JSON)
+- Built-in plugin validation (interface compliance check)
+- Programmatic `list_plugins()`, `get_plugin()`, `get_registry()` API
+- 23 new tests (1187 total)
 
 ### M53 ⬜ End-to-End Integration Tests
 
