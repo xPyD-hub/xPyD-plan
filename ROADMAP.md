@@ -782,7 +782,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `classify_load_profile()` API
 - ~22 new tests
 
-### M60 – Throughput Percentile Analysis
+### M60 ✅ Throughput Percentile Analysis
+
+*Completed — PR #138*
 
 - `ThroughputAnalyzer` class in `throughput.py`
 - `ThroughputReport`, `ThroughputBucket`, `ThroughputStats`, `ThroughputStability` Pydantic models
@@ -794,3 +796,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `throughput` subcommand with `--benchmark`, `--bucket-size`, table + JSON output
 - Programmatic `analyze_throughput()` API
 - ~22 new tests
+
+### M61 – Token Efficiency Analysis
+
+- `TokenEfficiencyAnalyzer` class in `token_efficiency.py`
+- `TokenEfficiencyReport`, `AggregateEfficiency`, `InstanceEfficiency`, `PerRequestEfficiency`, `EfficiencyGrade` Pydantic models
+- Per-request output tokens/sec, total tokens/sec, and decode tokens/sec
+- Aggregate statistics: mean, P50, P95, P99, min, max for output and decode TPS
+- Instance efficiency: output tokens per instance, per decode instance, prompt tokens per prefill instance
+- Efficiency grade (EXCELLENT/GOOD/FAIR/POOR) based on P95/P50 throughput ratio
+- CLI `token-efficiency` subcommand with `--benchmark`, `--details`, table + JSON output
+- Programmatic `analyze_token_efficiency()` API
+- ~20 new tests

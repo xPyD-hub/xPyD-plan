@@ -49,6 +49,7 @@ from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
 from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_threshold_advisor_parser
 from xpyd_plan.cli._throughput import add_throughput_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
+from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_token_efficiency
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
 from xpyd_plan.cli._whatif import _cmd_what_if
@@ -885,6 +886,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- timeline subcommand ---
     add_throughput_parser(subparsers)
+    add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
     # --- drift subcommand ---
@@ -1042,6 +1044,8 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._plugins import _run_plugins
 
         _run_plugins(args)
+    elif args.command == "token-efficiency":
+        handle_token_efficiency(args)
     else:
         parser.print_help()
         sys.exit(1)
