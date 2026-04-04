@@ -80,6 +80,13 @@ from xpyd_plan.md_report import (
     MarkdownReporter,
     generate_markdown_report,
 )
+from xpyd_plan.merger import (
+    BenchmarkMerger,
+    MergeConfig,
+    MergeResult,
+    MergeStrategy,
+    merge_benchmarks,
+)
 from xpyd_plan.models import (
     DatasetStats,
     GPUProfile,
@@ -200,6 +207,11 @@ __all__ = [
     "MarkdownReportConfig",
     "MarkdownReporter",
     "generate_markdown_report",
+    "BenchmarkMerger",
+    "MergeConfig",
+    "MergeResult",
+    "MergeStrategy",
+    "merge_benchmarks",
     "AnomalyConfig",
     "AnomalyType",
     "BenchmarkGenerator",

@@ -1624,6 +1624,60 @@ def _cmd_budget(args: argparse.Namespace) -> None:
     raise SystemExit(0)
 
 
+def _cmd_merge(args: argparse.Namespace) -> None:
+    """Handle 'merge' subcommand."""
+    import json as json_mod
+
+    from rich.console import Console
+    from rich.table import Table
+
+    from xpyd_plan.benchmark_models import BenchmarkData
+    from xpyd_plan.merger import BenchmarkMerger, MergeConfig, MergeStrategy
+
+    console = Console()
+
+    datasets = []
+    for path in args.benchmark:
+        with open(path) as f:
+            data = json_mod.load(f)
+        datasets.append(BenchmarkData.model_validate(data))
+
+    config = MergeConfig(
+        strategy=MergeStrategy(args.strategy),
+        require_same_config=not args.no_config_check,
+    )
+    merger = BenchmarkMerger(config)
+    result = merger.merge(datasets)
+
+    # Write merged benchmark to output file
+    with open(args.output, "w") as f:
+        f.write(result.merged.model_dump_json(indent=2))
+
+    if args.output_format == "json":
+        summary = {
+            "source_count": result.source_count,
+            "total_requests_before": result.total_requests_before,
+            "total_requests_after": result.total_requests_after,
+            "duplicates_removed": result.duplicates_removed,
+            "strategy_used": result.strategy_used.value,
+            "output_file": args.output,
+        }
+        console.print_json(json_mod.dumps(summary))
+    else:
+        table = Table(title="Benchmark Merge Result")
+        table.add_column("Property", style="cyan")
+        table.add_column("Value", style="green")
+        table.add_row("Sources merged", str(result.source_count))
+        table.add_row("Strategy", result.strategy_used.value)
+        table.add_row("Requests before", str(result.total_requests_before))
+        table.add_row("Requests after", str(result.total_requests_after))
+        table.add_row("Duplicates removed", str(result.duplicates_removed))
+        table.add_row("Output file", args.output)
+        console.print(table)
+
+    raise SystemExit(0)
+
+
 def main(argv: list[str] | None = None) -> None:
     """Entry point for `xpyd-plan` command."""
     parser = argparse.ArgumentParser(
@@ -2201,6 +2255,32 @@ def main(argv: list[str] | None = None) -> None:
     )
 
     # budget subcommand
+    merge_parser = subparsers.add_parser(
+        "merge",
+        help="Merge multiple benchmark files into one aggregated dataset",
+    )
+    merge_parser.add_argument(
+        "--benchmark", type=str, action="append", required=True,
+        help="Benchmark JSON file (specify multiple times)",
+    )
+    merge_parser.add_argument(
+        "--output", type=str, required=True,
+        help="Output file path for merged benchmark JSON",
+    )
+    merge_parser.add_argument(
+        "--strategy", type=str, default="union",
+        choices=["union", "intersection"],
+        help="Merge strategy for overlapping request IDs (default: union)",
+    )
+    merge_parser.add_argument(
+        "--no-config-check", action="store_true",
+        help="Allow merging benchmarks with different cluster configurations",
+    )
+    merge_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     budget_parser = subparsers.add_parser(
         "budget",
         help="Allocate SLA budget across prefill and decode stages",
@@ -2272,6 +2352,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_generate(args)
     elif args.command == "budget":
         _cmd_budget(args)
+    elif args.command == "merge":
+        _cmd_merge(args)
     else:
         parser.print_help()
         sys.exit(1)
