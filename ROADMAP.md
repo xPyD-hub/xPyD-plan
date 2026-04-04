@@ -841,16 +841,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_batch_impact()` API
 - ~20 new tests
 
-### M64 – Multi-Benchmark Statistical Summary
+### M64 ✅ Multi-Benchmark Statistical Summary
 
-- `StatSummary` class in `stat_summary.py`
-- `StatSummaryReport`, `RunSummary`, `AggregatedStats` Pydantic models
+*Completed — PR #148*
+
+- `StatSummaryAnalyzer` class in `stat_summary.py`
+- `StatSummaryReport`, `RunSummary`, `AggregatedStats`, `LatencyAggStats` Pydantic models
 - Load N benchmark files and compute cross-run statistics (mean of means, std of P95s, etc.)
-- Identify most/least stable runs
+- Identify most/least stable runs via normalized P95 deviation
 - Coefficient of variation across runs for repeatability assessment
 - CLI `stat-summary` subcommand with `--benchmark` (multiple), table + JSON output
 - Programmatic `summarize_stats()` API
-- ~20 new tests
+- 19 new tests (1450 total)
 
 ### M65 – Cost Projection & ROI Calculator
 
