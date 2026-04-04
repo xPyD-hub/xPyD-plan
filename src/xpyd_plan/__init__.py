@@ -182,6 +182,13 @@ from xpyd_plan.pipeline import (
     load_pipeline_config,
     run_pipeline,
 )
+from xpyd_plan.plan_generator import (
+    BenchmarkPlan,
+    BenchmarkPlanGenerator,
+    PlannedRatio,
+    RatioPriority,
+    generate_benchmark_plan,
+)
 from xpyd_plan.recommender import (
     ActionCategory,
     Recommendation,
@@ -433,4 +440,9 @@ __all__ = [
     "HeatmapReport",
     "LatencyField",
     "generate_heatmap",
+    "BenchmarkPlan",
+    "BenchmarkPlanGenerator",
+    "PlannedRatio",
+    "RatioPriority",
+    "generate_benchmark_plan",
 ]

@@ -29,6 +29,7 @@ from xpyd_plan.cli._metrics import _cmd_metrics, add_metrics_parser
 from xpyd_plan.cli._model_compare import _cmd_model_compare
 from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
+from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
@@ -884,6 +885,9 @@ def main(argv: list[str] | None = None) -> None:
     add_discover_parser(subparsers)
     add_heatmap_parser(subparsers)
 
+    # --- plan-benchmarks subcommand ---
+    add_plan_benchmarks_parser(subparsers)
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -961,6 +965,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_discover(args)
     elif args.command == "heatmap":
         _cmd_heatmap(args)
+    elif args.command == "plan-benchmarks":
+        _cmd_plan_benchmarks(args)
     else:
         parser.print_help()
         sys.exit(1)
