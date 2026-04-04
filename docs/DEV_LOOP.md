@@ -2,6 +2,12 @@
 
 Autonomous infinite loop. Runs until explicitly stopped.
 
+## Setup (every iteration)
+```
+git config user.email "hlin99@gmail.com"
+git config user.name "hlin99"
+```
+
 ## Each Iteration
 
 1. Pull latest code
@@ -18,6 +24,11 @@ Autonomous infinite loop. Runs until explicitly stopped.
 12. Squash merge
 13. Update ROADMAP.md, push to main
 14. Go to step 1
+
+## Rules
+- Committer must be `hlin99 <hlin99@gmail.com>` — always set git config before any commit
+- All code, docs, issues, PRs in English
+- Commit messages: conventional commits format
 
 ## Phase 1: Roadmap-Driven
 Follow ROADMAP.md milestones in order.
