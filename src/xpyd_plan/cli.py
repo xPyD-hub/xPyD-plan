@@ -115,6 +115,66 @@ def _print_single_analysis(
     return result.model_dump()
 
 
+def _print_sensitivity(
+    console: Console, analyzer: BenchmarkAnalyzer, sla: SLAConfig, total: int
+) -> None:
+    """Print sensitivity analysis output."""
+    from xpyd_plan.sensitivity import analyze_sensitivity
+
+    sens = analyze_sensitivity(analyzer, total, sla)
+
+    table = Table(title="\n📈 Sensitivity Analysis — P:D vs SLA Margin")
+    table.add_column("Config", style="cyan")
+    table.add_column("SLA", justify="center")
+    table.add_column("Waste", justify="right")
+    if sla.ttft_ms is not None:
+        table.add_column("TTFT Margin", justify="right")
+    if sla.tpot_ms is not None:
+        table.add_column("TPOT Margin", justify="right")
+    if sla.max_latency_ms is not None:
+        table.add_column("Latency Margin", justify="right")
+
+    for p in sens.points:
+        sla_str = "[green]✅[/green]" if p.meets_sla else "[red]❌[/red]"
+        row = [p.ratio_str, sla_str, f"{p.waste_rate:.1%}"]
+        if sla.ttft_ms is not None and p.ttft_margin_pct is not None:
+            color = "green" if p.ttft_margin_pct >= 0 else "red"
+            row.append(f"[{color}]{p.ttft_margin_pct:+.1%}[/{color}]")
+        if sla.tpot_ms is not None and p.tpot_margin_pct is not None:
+            color = "green" if p.tpot_margin_pct >= 0 else "red"
+            row.append(f"[{color}]{p.tpot_margin_pct:+.1%}[/{color}]")
+        if sla.max_latency_ms is not None and p.total_latency_margin_pct is not None:
+            color = "green" if p.total_latency_margin_pct >= 0 else "red"
+            row.append(f"[{color}]{p.total_latency_margin_pct:+.1%}[/{color}]")
+        table.add_row(*row)
+
+    console.print(table)
+
+    if sens.cliffs:
+        console.print("\n[bold yellow]⚠️  SLA Cliff Points[/bold yellow]")
+        for cliff in sens.cliffs:
+            if cliff.last_pass and cliff.first_fail:
+                console.print(
+                    f"   {cliff.last_pass.ratio_str} → {cliff.first_fail.ratio_str}"
+                    f"  ({cliff.direction}, fails on: {cliff.failing_metric})"
+                )
+
+    if sens.recommendation and sens.recommendation.recommended:
+        rec = sens.recommendation
+        console.print("\n[bold]🛡️  Safety Recommendation[/bold]")
+        console.print(
+            f"   Recommended: [bold green]{rec.recommended.ratio_str}[/bold green]"
+            f"  (cliff distance: {rec.cliff_distance} steps)"
+        )
+        if rec.min_margin_pct is not None:
+            console.print(f"   Min SLA margin: {rec.min_margin_pct:.1%}")
+        if rec.optimal and rec.recommended.num_prefill != rec.optimal.num_prefill:
+            console.print(
+                f"   (Optimal by waste: {rec.optimal.ratio_str},"
+                f" but too close to cliff)"
+            )
+
+
 def _cmd_analyze(args: argparse.Namespace) -> None:
     """Handle the 'analyze' subcommand."""
     console = Console()
@@ -133,6 +193,9 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
         analyzer.load_data(benchmarks[0])
         total = args.total_instances or analyzer.data.metadata.total_instances
         _print_single_analysis(console, analyzer, sla, total, args.top)
+
+        if args.sensitivity:
+            _print_sensitivity(console, analyzer, sla, total)
 
         if args.output:
             result = analyzer.find_optimal_ratio(total, sla)
@@ -193,6 +256,17 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
                     console.print(f"   QPS {scenario.qps:.1f}: {best.ratio_str}")
                 else:
                     console.print(f"   QPS {scenario.qps:.1f}: No ratio meets SLA")
+
+        if args.sensitivity:
+            for dataset in analyzer.multi_data:
+                analyzer._data = dataset
+                meta = dataset.metadata
+                console.print(
+                    f"\n[bold]📈 Sensitivity Analysis"
+                    f" (QPS={meta.measured_qps:.1f})[/bold]"
+                )
+                _print_sensitivity(console, analyzer, sla, total)
+            analyzer._data = analyzer.multi_data[0]
 
         if args.output:
             Path(args.output).write_text(multi_result.model_dump_json(indent=2))
@@ -294,6 +368,10 @@ def main(argv: list[str] | None = None) -> None:
         help="Total instances to optimize for (default: same as benchmark)",
     )
     analyze_parser.add_argument("--top", type=int, default=5, help="Top N candidates to show")
+    analyze_parser.add_argument(
+        "--sensitivity", action="store_true", default=False,
+        help="Run sensitivity analysis (P:D ratio vs SLA margin curves)",
+    )
     analyze_parser.add_argument("--output", type=str, default=None, help="Output JSON path")
 
     # plan subcommand (legacy, deprecated)
