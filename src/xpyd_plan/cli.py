@@ -33,19 +33,10 @@ def _load_dataset(path: str) -> list[dict[str, int]]:
     return records
 
 
-def _cmd_analyze(args: argparse.Namespace) -> None:
-    """Handle the 'analyze' subcommand."""
-    console = Console()
-
-    sla = SLAConfig(
-        ttft_ms=args.sla_ttft,
-        tpot_ms=args.sla_tpot,
-        max_latency_ms=args.sla_max_latency,
-    )
-
-    analyzer = BenchmarkAnalyzer()
-    analyzer.load_data(args.benchmark)
-
+def _print_single_analysis(
+    console: Console, analyzer: BenchmarkAnalyzer, sla: SLAConfig, total: int, top: int
+) -> dict:
+    """Print single-scenario analysis and return the result dict."""
     # Show current config analysis
     console.print("\n[bold]📊 Current Configuration Analysis[/bold]")
     meta = analyzer.data.metadata
@@ -71,8 +62,6 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
         f"  Waste={current_util.waste_rate:.1%}"
     )
 
-    # Find optimal ratio
-    total = args.total_instances or meta.total_instances
     result = analyzer.find_optimal_ratio(total, sla)
 
     console.print(f"\n[bold]🔍 Optimal P:D Ratio Search (total={total} instances)[/bold]")
@@ -99,7 +88,6 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
         )
 
     # Candidates table
-    top = args.top
     table = Table(title=f"\nTop {top} Candidates")
     table.add_column("Config", style="cyan")
     table.add_column("P Util", justify="right")
@@ -124,11 +112,91 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
         )
 
     console.print(table)
+    return result.model_dump()
 
-    # JSON output
-    if args.output:
-        Path(args.output).write_text(result.model_dump_json(indent=2))
-        console.print(f"\n[dim]Result written to {args.output}[/dim]")
+
+def _cmd_analyze(args: argparse.Namespace) -> None:
+    """Handle the 'analyze' subcommand."""
+    console = Console()
+
+    sla = SLAConfig(
+        ttft_ms=args.sla_ttft,
+        tpot_ms=args.sla_tpot,
+        max_latency_ms=args.sla_max_latency,
+    )
+
+    analyzer = BenchmarkAnalyzer()
+    benchmarks = args.benchmark
+
+    if len(benchmarks) == 1:
+        # Single-file mode (original behavior)
+        analyzer.load_data(benchmarks[0])
+        total = args.total_instances or analyzer.data.metadata.total_instances
+        _print_single_analysis(console, analyzer, sla, total, args.top)
+
+        if args.output:
+            result = analyzer.find_optimal_ratio(total, sla)
+            Path(args.output).write_text(result.model_dump_json(indent=2))
+            console.print(f"\n[dim]Result written to {args.output}[/dim]")
+    else:
+        # Multi-file mode
+        analyzer.load_multi_data(benchmarks)
+        total = args.total_instances or analyzer.multi_data[0].metadata.total_instances
+
+        console.print(f"\n[bold]📊 Multi-Scenario Analysis ({len(benchmarks)} scenarios)[/bold]")
+
+        multi_result = analyzer.find_optimal_ratio_multi(total, sla)
+
+        # Per-scenario summary table
+        summary_table = Table(title="\nPer-Scenario Summary")
+        summary_table.add_column("QPS", justify="right")
+        summary_table.add_column("Config", style="cyan")
+        summary_table.add_column("Best P:D", style="green")
+        summary_table.add_column("Waste", justify="right")
+        summary_table.add_column("SLA", justify="center")
+
+        for scenario in multi_result.scenarios:
+            sla_check = scenario.analysis.current_sla_check
+            best = scenario.analysis.best
+            sla_str = "✅" if sla_check and sla_check.meets_all else "❌"
+            best_str = best.ratio_str if best else "N/A"
+            waste_str = f"{best.waste_rate:.1%}" if best else "N/A"
+            summary_table.add_row(
+                f"{scenario.qps:.1f}",
+                f"{scenario.analysis.total_instances}",
+                best_str,
+                waste_str,
+                sla_str,
+            )
+
+        console.print(summary_table)
+
+        # Unified recommendation
+        console.print(
+            f"\n[bold]🎯 Unified Recommendation (total={total} instances)[/bold]"
+        )
+        if multi_result.unified_best:
+            u = multi_result.unified_best
+            console.print(
+                f"\n[bold green]✅ Unified Best: {u.ratio_str}[/bold green]"
+                f"  (worst-case waste: {u.waste_rate:.1%})"
+            )
+        else:
+            console.print(
+                "\n[bold red]❌ No single P:D ratio meets SLA"
+                " across all scenarios.[/bold red]"
+            )
+            console.print("   Consider per-scenario scaling:")
+            for i, scenario in enumerate(multi_result.scenarios):
+                best = scenario.analysis.best
+                if best:
+                    console.print(f"   QPS {scenario.qps:.1f}: {best.ratio_str}")
+                else:
+                    console.print(f"   QPS {scenario.qps:.1f}: No ratio meets SLA")
+
+        if args.output:
+            Path(args.output).write_text(multi_result.model_dump_json(indent=2))
+            console.print(f"\n[dim]Result written to {args.output}[/dim]")
 
 
 def _cmd_plan_legacy(args: argparse.Namespace) -> None:
@@ -209,7 +277,8 @@ def main(argv: list[str] | None = None) -> None:
         help="Analyze benchmark data to find optimal P:D ratio",
     )
     analyze_parser.add_argument(
-        "--benchmark", type=str, required=True, help="Path to benchmark JSON file"
+        "--benchmark", type=str, required=True, nargs="+",
+        help="Path(s) to benchmark JSON file(s). Multiple files enable multi-scenario analysis.",
     )
     analyze_parser.add_argument(
         "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)"

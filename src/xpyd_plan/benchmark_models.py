@@ -86,3 +86,24 @@ class AnalysisResult(BaseModel):
     total_instances: int
     current_config: UtilizationResult | None = None
     current_sla_check: SLACheck | None = None
+
+
+class ScenarioResult(BaseModel):
+    """Analysis result for a single QPS scenario."""
+
+    qps: float = Field(..., description="Measured QPS for this scenario")
+    analysis: AnalysisResult
+
+
+class MultiScenarioResult(BaseModel):
+    """Complete multi-scenario analysis result."""
+
+    scenarios: list[ScenarioResult] = Field(default_factory=list)
+    total_instances: int
+    unified_best: RatioCandidate | None = Field(
+        None, description="Best P:D ratio that meets SLA across ALL scenarios"
+    )
+    per_scenario_best: list[RatioCandidate | None] = Field(
+        default_factory=list,
+        description="Best ratio per scenario (for reference)",
+    )

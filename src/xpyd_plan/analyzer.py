@@ -15,7 +15,9 @@ import numpy as np
 from xpyd_plan.benchmark_models import (
     AnalysisResult,
     BenchmarkData,
+    MultiScenarioResult,
     RatioCandidate,
+    ScenarioResult,
     SLACheck,
     UtilizationResult,
 )
@@ -40,12 +42,164 @@ class BenchmarkAnalyzer:
 
     def __init__(self) -> None:
         self._data: BenchmarkData | None = None
+        self._multi_data: list[BenchmarkData] | None = None
 
     @property
     def data(self) -> BenchmarkData:
         if self._data is None:
             raise RuntimeError("No benchmark data loaded. Call load_data() first.")
         return self._data
+
+    @property
+    def multi_data(self) -> list[BenchmarkData]:
+        """Return loaded multi-scenario datasets."""
+        if self._multi_data is None:
+            raise RuntimeError("No multi-scenario data loaded. Call load_multi_data() first.")
+        return self._multi_data
+
+    def load_multi_data(self, paths: list[str | Path]) -> list[BenchmarkData]:
+        """Load multiple benchmark datasets from JSON files.
+
+        Each file represents a different QPS scenario / traffic level.
+
+        Args:
+            paths: List of paths to benchmark JSON files.
+
+        Returns:
+            List of parsed BenchmarkData, sorted by measured_qps ascending.
+
+        Raises:
+            ValueError: If paths is empty.
+            FileNotFoundError: If any file does not exist.
+        """
+        if not paths:
+            raise ValueError("At least one benchmark file is required.")
+
+        datasets = []
+        for p in paths:
+            p = Path(p)
+            if not p.exists():
+                raise FileNotFoundError(f"Benchmark file not found: {p}")
+            raw = json.loads(p.read_text())
+            datasets.append(BenchmarkData(**raw))
+
+        datasets.sort(key=lambda d: d.metadata.measured_qps)
+        self._multi_data = datasets
+        # Also set _data to first dataset for backward compatibility
+        if not self._data:
+            self._data = datasets[0]
+        return datasets
+
+    def load_multi_data_from_dicts(self, data_list: list[dict]) -> list[BenchmarkData]:
+        """Load multiple benchmark datasets from dictionaries.
+
+        Args:
+            data_list: List of dicts matching BenchmarkData schema.
+
+        Returns:
+            List of parsed BenchmarkData, sorted by measured_qps ascending.
+        """
+        if not data_list:
+            raise ValueError("At least one benchmark dataset is required.")
+
+        datasets = [BenchmarkData(**d) for d in data_list]
+        datasets.sort(key=lambda d: d.metadata.measured_qps)
+        self._multi_data = datasets
+        if not self._data:
+            self._data = datasets[0]
+        return datasets
+
+    def find_optimal_ratio_multi(
+        self,
+        total_instances: int,
+        sla: SLAConfig,
+    ) -> MultiScenarioResult:
+        """Find optimal P:D ratio across multiple QPS scenarios.
+
+        For each scenario, runs find_optimal_ratio independently. Then finds
+        a unified ratio that meets SLA in ALL scenarios with minimum worst-case
+        waste.
+
+        Args:
+            total_instances: Total number of instances to allocate.
+            sla: SLA constraints.
+
+        Returns:
+            MultiScenarioResult with per-scenario and unified results.
+        """
+        datasets = self.multi_data
+
+        scenarios: list[ScenarioResult] = []
+        per_scenario_best: list[RatioCandidate | None] = []
+
+        # Collect all per-scenario analyses
+        all_scenario_candidates: list[list[RatioCandidate]] = []
+        for dataset in datasets:
+            # Temporarily set data to this scenario
+            self._data = dataset
+            analysis = self.find_optimal_ratio(total_instances, sla)
+            scenarios.append(ScenarioResult(
+                qps=dataset.metadata.measured_qps,
+                analysis=analysis,
+            ))
+            per_scenario_best.append(analysis.best)
+            all_scenario_candidates.append(analysis.candidates)
+
+        # Restore _data
+        self._data = datasets[0]
+
+        # Find unified best: a ratio that meets SLA in ALL scenarios
+        unified_best = self._find_unified_best(
+            total_instances, all_scenario_candidates
+        )
+
+        return MultiScenarioResult(
+            scenarios=scenarios,
+            total_instances=total_instances,
+            unified_best=unified_best,
+            per_scenario_best=per_scenario_best,
+        )
+
+    def _find_unified_best(
+        self,
+        total_instances: int,
+        all_scenario_candidates: list[list[RatioCandidate]],
+    ) -> RatioCandidate | None:
+        """Find the best ratio that meets SLA across all scenarios.
+
+        For each P:D split, checks if it meets SLA in every scenario.
+        Among those that pass all, picks the one with minimum max-waste
+        (worst case waste across scenarios).
+        """
+        if total_instances < 2 or not all_scenario_candidates:
+            return None
+
+        # Build a map: (num_p, num_d) -> list of candidates across scenarios
+        from collections import defaultdict
+
+        ratio_map: dict[tuple[int, int], list[RatioCandidate]] = defaultdict(list)
+        for scenario_candidates in all_scenario_candidates:
+            for c in scenario_candidates:
+                ratio_map[(c.num_prefill, c.num_decode)].append(c)
+
+        num_scenarios = len(all_scenario_candidates)
+        best: RatioCandidate | None = None
+        best_max_waste = float("inf")
+
+        for (num_p, num_d), candidates in ratio_map.items():
+            # Must have an entry in every scenario
+            if len(candidates) != num_scenarios:
+                continue
+            # Must meet SLA in all scenarios
+            if not all(c.meets_sla for c in candidates):
+                continue
+            max_waste = max(c.waste_rate for c in candidates)
+            if max_waste < best_max_waste:
+                best_max_waste = max_waste
+                # Use the candidate from highest-QPS scenario as representative
+                best = candidates[-1]
+
+        return best
 
     def load_data(self, path: str | Path) -> BenchmarkData:
         """Load benchmark data from a JSON file.
