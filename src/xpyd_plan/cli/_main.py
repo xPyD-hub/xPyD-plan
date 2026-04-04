@@ -39,6 +39,7 @@ from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
+from xpyd_plan.cli._summary import _cmd_summary, add_summary_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
 from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_threshold_advisor_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
@@ -885,6 +886,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- root-cause subcommand ---
     add_root_cause_parser(subparsers)
 
+    # --- summary subcommand ---
+    add_summary_parser(subparsers)
+
     # --- tail subcommand ---
     add_tail_parser(subparsers)
 
@@ -991,6 +995,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_root_cause(args)
     elif args.command == "tail":
         _cmd_tail(args)
+    elif args.command == "summary":
+        _cmd_summary(args)
     elif args.command == "scorecard":
         _cmd_scorecard(args)
     elif args.command == "discover":

@@ -725,3 +725,14 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `fairness` subcommand with `--benchmark`, `--buckets`, table + JSON output
 - Programmatic `analyze_fairness()` API
 - 26 new tests (1270 total)
+
+### M56 Benchmark Quick Summary
+
+- `SummaryGenerator` class in `summary.py`
+- `SummaryReport`, `TokenStats`, `LatencyOverview` Pydantic models
+- Compact overview: request count, duration, measured QPS, P:D ratio, instance counts
+- Token distribution stats (min, mean, P50, P95, max) for prompt and output tokens
+- Latency overview (min, mean, P50, P95, P99, max) for TTFT, TPOT, total latency
+- CLI `summary` subcommand with `--benchmark`, table + JSON output
+- Programmatic `summarize_benchmark()` API
+- 19 new tests (1289 total)
