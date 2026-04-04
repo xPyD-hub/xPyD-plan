@@ -70,11 +70,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `--sensitivity` flag for analyze subcommand
 - 26 new tests
 
-### M6: xpyd-bench Integration
+### M6 ✅ xpyd-bench Integration
 
-- Direct ingestion of xpyd-bench output format
-- Streaming analysis during benchmark execution
-- Auto-detect benchmark data schema version
+*Completed — PR #13*
+
+- XpydBenchAdapter for direct ingestion of xpyd-bench output format
+- StreamingAnalyzer for live analysis during benchmark execution
+- Schema version auto-detection with clear error on unsupported versions
+- CLI `--format auto|native|xpyd-bench` and `--stream` flags
+- 20 new tests
 
 ### M7: Report Generation
 
