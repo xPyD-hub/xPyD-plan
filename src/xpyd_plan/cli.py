@@ -228,6 +228,15 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
         if args.sensitivity:
             _print_sensitivity(console, analyzer, sla, total)
 
+        if args.report:
+            from xpyd_plan.report import ReportGenerator
+
+            result = analyzer.find_optimal_ratio(total, sla)
+            gen = ReportGenerator()
+            html = gen.generate_single(result, total_instances=total)
+            gen.write(html, args.report)
+            console.print(f"\n[dim]HTML report written to {args.report}[/dim]")
+
         if args.output:
             result = analyzer.find_optimal_ratio(total, sla)
             Path(args.output).write_text(result.model_dump_json(indent=2))
@@ -304,6 +313,14 @@ def _cmd_analyze(args: argparse.Namespace) -> None:
                 )
                 _print_sensitivity(console, analyzer, sla, total)
             analyzer._data = analyzer.multi_data[0]
+
+        if args.report:
+            from xpyd_plan.report import ReportGenerator
+
+            gen = ReportGenerator()
+            html = gen.generate_multi(multi_result)
+            gen.write(html, args.report)
+            console.print(f"\n[dim]HTML report written to {args.report}[/dim]")
 
         if args.output:
             Path(args.output).write_text(multi_result.model_dump_json(indent=2))
@@ -423,6 +440,10 @@ def main(argv: list[str] | None = None) -> None:
         help="Run sensitivity analysis (P:D ratio vs SLA margin curves)",
     )
     analyze_parser.add_argument("--output", type=str, default=None, help="Output JSON path")
+    analyze_parser.add_argument(
+        "--report", type=str, default=None,
+        help="Generate HTML report to the given path (e.g. report.html)",
+    )
 
     # plan subcommand (legacy, deprecated)
     plan_parser = subparsers.add_parser(
