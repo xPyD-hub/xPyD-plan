@@ -436,3 +436,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `ab-test` subcommand with `--control`, `--treatment`, `--alpha`, `--metric`, table + JSON output
 - Programmatic `analyze_ab_test()` API
 - 41 new tests (775 total)
+
+### M34 ✅ Workload Characterization & Clustering
+
+*Completed — PR #83*
+
+- `WorkloadClassifier` class in `workload.py`
+- `WorkloadCategory`, `WorkloadClass`, `WorkloadProfile`, `WorkloadReport` Pydantic models
+- 5 workload categories: PREFILL_HEAVY, DECODE_HEAVY, BALANCED, SHORT, LONG
+- Per-class latency statistics (TTFT, TPOT, total) at P50/P95/P99
+- Per-class SLA compliance check with margin calculation
+- Bottleneck class identification (worst SLA margin)
+- CLI `workload` subcommand with table + JSON output
+- Programmatic `classify_workload()` API
+- 25 new tests (800 total)
