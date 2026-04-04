@@ -504,7 +504,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `discover_benchmarks()` API
 - 25 new tests (886 total)
 
-### M39 — Latency Heatmap Data Generation
+### M39 ✅ Latency Heatmap Data Generation
+
+*Completed — PR #93*
 
 - `HeatmapGenerator` class in `heatmap.py`
 - `HeatmapConfig`, `HeatmapCell`, `HeatmapGrid`, `HeatmapReport` Pydantic models
@@ -513,4 +515,4 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Hotspot detection: identify cells exceeding SLA thresholds
 - CLI `heatmap` subcommand with `--benchmark`, `--bins`, `--metric`, `--field`, table + JSON output
 - Programmatic `generate_heatmap()` API
-- ~22 new tests
+- 25 new tests (911 total)
