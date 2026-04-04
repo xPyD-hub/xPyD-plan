@@ -797,7 +797,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_throughput()` API
 - ~22 new tests
 
-### M61 – Token Efficiency Analysis
+### M61 ✅ Token Efficiency Analysis
+
+*Completed — PR #140*
 
 - `TokenEfficiencyAnalyzer` class in `token_efficiency.py`
 - `TokenEfficiencyReport`, `AggregateEfficiency`, `InstanceEfficiency`, `PerRequestEfficiency`, `EfficiencyGrade` Pydantic models
@@ -807,4 +809,63 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Efficiency grade (EXCELLENT/GOOD/FAIR/POOR) based on P95/P50 throughput ratio
 - CLI `token-efficiency` subcommand with `--benchmark`, `--details`, table + JSON output
 - Programmatic `analyze_token_efficiency()` API
+- 18 new tests (1390 total)
+
+---
+
+## Phase 2: Continuous Evolution
+
+### M62 – Request Queuing Time Analysis
+
+- `QueueAnalyzer` class in `queue_analysis.py`
+- `QueueReport`, `QueueStats`, `ConcurrencyProfile` Pydantic models
+- Estimate per-request queuing delay from timestamp gaps and concurrency overlap
+- Concurrency profile: concurrent in-flight requests over time
+- Peak concurrency detection and queue depth estimation
+- CLI `queue` subcommand with `--benchmark`, table + JSON output
+- Programmatic `analyze_queue()` API
+- ~20 new tests
+
+### M63 – Batch Size Impact Analysis
+
+- `BatchAnalyzer` class in `batch_analysis.py`
+- `BatchReport`, `BatchBucket`, `BatchEfficiency` Pydantic models
+- Group requests by temporal proximity into inferred batches
+- Per-batch latency and throughput statistics
+- Optimal batch size recommendation based on throughput/latency tradeoff
+- CLI `batch-analysis` subcommand with `--benchmark`, `--window-ms`, table + JSON output
+- Programmatic `analyze_batch_impact()` API
+- ~20 new tests
+
+### M64 – Multi-Benchmark Statistical Summary
+
+- `StatSummary` class in `stat_summary.py`
+- `StatSummaryReport`, `RunSummary`, `AggregatedStats` Pydantic models
+- Load N benchmark files and compute cross-run statistics (mean of means, std of P95s, etc.)
+- Identify most/least stable runs
+- Coefficient of variation across runs for repeatability assessment
+- CLI `stat-summary` subcommand with `--benchmark` (multiple), table + JSON output
+- Programmatic `summarize_stats()` API
+- ~20 new tests
+
+### M65 – Cost Projection & ROI Calculator
+
+- `ROICalculator` class in `roi.py`
+- `ROIReport`, `CostProjection`, `SavingsEstimate` Pydantic models
+- Given current P:D ratio cost and optimal ratio cost, project monthly/yearly savings
+- Break-even analysis: how many hours until migration cost is recovered
+- TCO comparison across GPU types using fleet data
+- CLI `roi` subcommand with `--benchmark`, `--cost-model`, `--migration-cost`, table + JSON output
+- Programmatic `calculate_roi()` API
+- ~20 new tests
+
+### M66 – Benchmark Schema Versioning & Migration
+
+- `SchemaMigrator` class in `schema_migrate.py`
+- `MigrationResult`, `SchemaVersion` Pydantic models
+- Detect benchmark JSON schema version from file content
+- Migrate older schema versions to current format (v1 → v2 transformations)
+- Dry-run mode to preview changes without writing
+- CLI `migrate` subcommand with `--benchmark`, `--target-version`, `--dry-run`
+- Programmatic `migrate_schema()` API
 - ~20 new tests
