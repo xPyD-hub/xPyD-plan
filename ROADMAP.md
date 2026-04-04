@@ -336,3 +336,14 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `generate` subcommand with `--config gen.yaml` and `--output benchmark.json`
 - Programmatic `generate_benchmark()` API
 - 33 new tests (620 total)
+
+### M27 — SLA Budget Allocation
+
+- `BudgetAllocator` class in `budget.py`
+- `BudgetAllocation`, `StageBudget`, `AllocationStrategy` Pydantic models
+- Analyze TTFT/TPOT contribution ratios from benchmark data at configurable percentiles
+- 4 allocation strategies: proportional, balanced, ttft-priority, tpot-priority
+- Feasibility check with headroom calculation
+- CLI `budget` subcommand with `--benchmark`, `--total-budget-ms`, `--strategy`, table + JSON output
+- Programmatic `allocate_budget()` API
+- 23 new tests (643 total)
