@@ -35,6 +35,7 @@ from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
+from xpyd_plan.cli._sla_tier import add_sla_tier_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
 from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_threshold_advisor_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
@@ -895,6 +896,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- forecast subcommand ---
     add_forecast_parser(subparsers)
+    add_sla_tier_parser(subparsers)
 
     args = parser.parse_args(argv)
 
@@ -981,6 +983,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._forecast import _run_forecast
 
         _run_forecast(args)
+    elif args.command == "sla-tier":
+        from xpyd_plan.cli._sla_tier import _run_sla_tier
+
+        _run_sla_tier(args)
     else:
         parser.print_help()
         sys.exit(1)
