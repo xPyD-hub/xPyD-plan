@@ -25,6 +25,7 @@ from xpyd_plan.cli._model_compare import _cmd_model_compare
 from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._recommend import _cmd_recommend
+from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
 from xpyd_plan.cli._whatif import _cmd_what_if
@@ -846,6 +847,9 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # --- scaling subcommand ---
+    add_scaling_parser(subparsers)
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -903,6 +907,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_ab_test(args)
     elif args.command == "workload":
         _cmd_workload(args)
+    elif args.command == "scaling":
+        _cmd_scaling(args)
     else:
         parser.print_help()
         sys.exit(1)

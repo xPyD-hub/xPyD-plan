@@ -450,3 +450,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `workload` subcommand with table + JSON output
 - Programmatic `classify_workload()` API
 - 25 new tests (800 total)
+
+### M35 ✅ Throughput Scaling Analysis
+
+*Completed — PR #TBD*
+
+- `ScalingAnalyzer` class in `scaling.py`
+- `ScalingPoint`, `ScalingCurve`, `ScalingReport` Pydantic models
+- Per-instance throughput and scaling efficiency calculation (relative to baseline)
+- Knee-point detection: first configuration where efficiency drops below threshold (default 80%)
+- Optimal scaling point recommendation (highest QPS while above threshold)
+- CLI `scaling` subcommand with `--benchmark` (multiple files), `--knee-threshold`, table + JSON output
+- Programmatic `analyze_scaling()` API
+- 21 new tests (821 total)
