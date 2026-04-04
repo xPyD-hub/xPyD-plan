@@ -101,6 +101,14 @@ from xpyd_plan.merger import (
     MergeStrategy,
     merge_benchmarks,
 )
+from xpyd_plan.model_compare import (
+    ComparisonMatrix,
+    ModelComparator,
+    ModelComparison,
+    ModelProfile,
+    ModelRanking,
+    compare_models,
+)
 from xpyd_plan.models import (
     DatasetStats,
     GPUProfile,
@@ -232,6 +240,12 @@ __all__ = [
     "MergeResult",
     "MergeStrategy",
     "merge_benchmarks",
+    "ComparisonMatrix",
+    "ModelComparator",
+    "ModelComparison",
+    "ModelProfile",
+    "ModelRanking",
+    "compare_models",
     "AnomalyConfig",
     "AnomalyType",
     "BenchmarkGenerator",
