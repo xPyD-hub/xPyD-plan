@@ -113,6 +113,12 @@ from xpyd_plan.merger import (
     MergeStrategy,
     merge_benchmarks,
 )
+from xpyd_plan.metrics_export import (
+    MetricLine,
+    MetricsExporter,
+    MetricsReport,
+    export_metrics,
+)
 from xpyd_plan.model_compare import (
     ComparisonMatrix,
     ModelComparator,
@@ -311,4 +317,8 @@ __all__ = [
     "ScalingPoint",
     "ScalingReport",
     "analyze_scaling",
+    "MetricLine",
+    "MetricsExporter",
+    "MetricsReport",
+    "export_metrics",
 ]
