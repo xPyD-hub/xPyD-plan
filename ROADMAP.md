@@ -156,3 +156,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - All subcommands (`analyze`, `export`, `plan-capacity`, `what-if`) respect config defaults
 - Backward compatible — works exactly as before when no config file exists
 - 31 new tests (254 total)
+
+### M13 ✅ Configurable SLA Percentile Threshold
+
+*Completed — PR #33*
+
+- `SLAConfig.sla_percentile` field (default: 95.0, valid range: 1-100)
+- `SLACheck.evaluated_percentile` reports which percentile was used for pass/fail
+- `SLACheck.{ttft,tpot,total_latency}_evaluated_ms` — values at the evaluated percentile
+- `check_sla()` and `_estimate_ratio_performance()` use the configured percentile
+- CLI `--sla-percentile` flag on analyze, export, plan-capacity, what-if subcommands
+- Config profile `sla.percentile` YAML key support
+- Sensitivity and streaming analysis respect the configured percentile
+- Backward compatible — default P95 behavior unchanged
+- 34 new tests (288 total)
