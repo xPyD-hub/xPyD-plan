@@ -20,9 +20,10 @@ STARTER_CONFIG = """\
 # CLI flags always override these defaults.
 
 sla:
-  # ttft_ms: 200.0       # Max TTFT P95 (ms)
-  # tpot_ms: 50.0        # Max TPOT P95 (ms)
-  # max_latency_ms: 5000.0  # Max total latency P95 (ms)
+  # ttft_ms: 200.0       # Max TTFT (ms)
+  # tpot_ms: 50.0        # Max TPOT (ms)
+  # max_latency_ms: 5000.0  # Max total latency (ms)
+  # percentile: 95.0     # Percentile for SLA evaluation (90, 95, 99)
 
 cost:
   # gpu_hourly_rate: 2.50
@@ -45,6 +46,7 @@ class SLAProfile(BaseModel):
     ttft_ms: Optional[float] = None
     tpot_ms: Optional[float] = None
     max_latency_ms: Optional[float] = None
+    percentile: Optional[float] = Field(None, ge=1.0, le=100.0)
 
 
 class CostProfile(BaseModel):

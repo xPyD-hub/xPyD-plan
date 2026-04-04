@@ -46,6 +46,18 @@ class SLACheck(BaseModel):
     meets_tpot: bool
     meets_total_latency: bool
     meets_all: bool
+    evaluated_percentile: float = Field(
+        95.0, description="The percentile used for SLA pass/fail evaluation"
+    )
+    ttft_evaluated_ms: float | None = Field(
+        None, description="TTFT at the evaluated percentile (None falls back to P95)"
+    )
+    tpot_evaluated_ms: float | None = Field(
+        None, description="TPOT at the evaluated percentile (None falls back to P95)"
+    )
+    total_latency_evaluated_ms: float | None = Field(
+        None, description="Total latency at the evaluated percentile (None falls back to P95)"
+    )
 
 
 class UtilizationResult(BaseModel):
