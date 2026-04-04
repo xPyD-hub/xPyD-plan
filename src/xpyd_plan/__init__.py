@@ -71,6 +71,16 @@ from xpyd_plan.pareto import (
     ParetoObjective,
     find_pareto_frontier,
 )
+from xpyd_plan.pipeline import (
+    PipelineConfig,
+    PipelineResult,
+    PipelineRunner,
+    PipelineStep,
+    StepResult,
+    StepType,
+    load_pipeline_config,
+    run_pipeline,
+)
 from xpyd_plan.recommender import (
     ActionCategory,
     Recommendation,
@@ -157,4 +167,12 @@ __all__ = [
     "FleetReport",
     "GPUTypeConfig",
     "calculate_fleet",
+    "PipelineConfig",
+    "PipelineResult",
+    "PipelineRunner",
+    "PipelineStep",
+    "StepResult",
+    "StepType",
+    "load_pipeline_config",
+    "run_pipeline",
 ]

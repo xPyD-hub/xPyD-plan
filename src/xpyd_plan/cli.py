@@ -1441,6 +1441,63 @@ def _cmd_fleet(args: argparse.Namespace) -> None:
     console.print(table)
 
 
+def _cmd_pipeline(args: argparse.Namespace) -> None:
+    """Handle 'pipeline' subcommand."""
+    import json as json_mod
+
+    from rich.console import Console
+
+    from xpyd_plan.pipeline import PipelineRunner, load_pipeline_config
+
+    console = Console()
+
+    cfg = load_pipeline_config(args.config)
+    benchmarks = args.benchmark or []
+    runner = PipelineRunner(cfg, benchmark_paths=benchmarks)
+    result = runner.run(dry_run=args.dry_run)
+
+    output_format = getattr(args, "output_format", "table")
+
+    if output_format == "json":
+        console.print(json_mod.dumps(result.model_dump(), indent=2, default=str))
+        return
+
+    # Table output
+    status = "[green]✅ PASSED[/green]" if result.success else "[red]❌ FAILED[/red]"
+    console.print(f"\n[bold]Pipeline: {result.name}[/bold]  {status}")
+    if result.dry_run:
+        console.print("[yellow](dry run)[/yellow]")
+    console.print(
+        f"Steps: {result.completed_steps}/{result.total_steps} completed, "
+        f"{result.failed_steps} failed, {result.duration_ms:.1f}ms\n"
+    )
+
+    from rich.table import Table
+
+    table = Table(title="Pipeline Steps")
+    table.add_column("Step", style="cyan")
+    table.add_column("Type")
+    table.add_column("Status")
+    table.add_column("Duration (ms)", justify="right")
+    table.add_column("Details")
+
+    for sr in result.step_results:
+        if sr.success:
+            status_str = "[green]✅[/green]"
+            details = str(sr.output)[:80] if sr.output else ""
+        else:
+            status_str = "[red]❌[/red]"
+            details = sr.error or ""
+        table.add_row(sr.name, sr.type.value, status_str, f"{sr.duration_ms:.1f}", details)
+
+    console.print(table)
+
+    if not result.success:
+        import sys
+
+        sys.exit(1)
+
+
 def main(argv: list[str] | None = None) -> None:
     """Entry point for `xpyd-plan` command."""
     parser = argparse.ArgumentParser(
@@ -1965,6 +2022,28 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # pipeline subcommand
+    pipeline_parser = subparsers.add_parser(
+        "pipeline",
+        help="Run a batch analysis pipeline from YAML config",
+    )
+    pipeline_parser.add_argument(
+        "--config", type=str, required=True,
+        help="Path to pipeline YAML config file",
+    )
+    pipeline_parser.add_argument(
+        "--benchmark", type=str, nargs="+",
+        help="Benchmark JSON file(s)",
+    )
+    pipeline_parser.add_argument(
+        "--dry-run", action="store_true", default=False,
+        help="Preview pipeline steps without executing",
+    )
+    pipeline_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -2004,6 +2083,8 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "fleet":
         _apply_config_defaults(args)
         _cmd_fleet(args)
+    elif args.command == "pipeline":
+        _cmd_pipeline(args)
     else:
         parser.print_help()
         sys.exit(1)
