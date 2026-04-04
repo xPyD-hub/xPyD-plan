@@ -1678,6 +1678,71 @@ def _cmd_merge(args: argparse.Namespace) -> None:
     raise SystemExit(0)
 
 
+def _cmd_filter(args: argparse.Namespace) -> None:
+    """Handle 'filter' subcommand."""
+    import json as json_mod
+
+    from rich.console import Console
+    from rich.table import Table
+
+    from xpyd_plan.benchmark_models import BenchmarkData
+    from xpyd_plan.filter import BenchmarkFilter, FilterConfig
+
+    console = Console()
+
+    with open(args.benchmark) as f:
+        data = BenchmarkData.model_validate(json_mod.load(f))
+
+    config = FilterConfig(
+        min_prompt_tokens=args.min_prompt_tokens,
+        max_prompt_tokens=args.max_prompt_tokens,
+        min_output_tokens=args.min_output_tokens,
+        max_output_tokens=args.max_output_tokens,
+        min_ttft_ms=args.min_ttft_ms,
+        max_ttft_ms=args.max_ttft_ms,
+        min_tpot_ms=args.min_tpot_ms,
+        max_tpot_ms=args.max_tpot_ms,
+        min_total_latency_ms=args.min_total_latency_ms,
+        max_total_latency_ms=args.max_total_latency_ms,
+        time_start=args.time_start,
+        time_end=args.time_end,
+        sample_count=args.sample_count,
+        sample_fraction=args.sample_fraction,
+        seed=args.seed,
+    )
+
+    bf = BenchmarkFilter(config)
+    result = bf.apply(data)
+
+    # Write filtered benchmark to output file
+    with open(args.output, "w") as f:
+        f.write(result.data.model_dump_json(indent=2))
+
+    if args.output_format == "json":
+        summary = {
+            "original_count": result.original_count,
+            "filtered_count": result.filtered_count,
+            "removed_count": result.removed_count,
+            "retention_rate": round(result.retention_rate, 4),
+            "filters_applied": result.filters_applied,
+            "output_file": args.output,
+        }
+        console.print_json(json_mod.dumps(summary))
+    else:
+        table = Table(title="Benchmark Filter Result")
+        table.add_column("Property", style="cyan")
+        table.add_column("Value", style="green")
+        table.add_row("Original requests", str(result.original_count))
+        table.add_row("Filtered requests", str(result.filtered_count))
+        table.add_row("Removed", str(result.removed_count))
+        table.add_row("Retention rate", f"{result.retention_rate:.1%}")
+        table.add_row("Filters applied", ", ".join(result.filters_applied) or "none")
+        table.add_row("Output file", args.output)
+        console.print(table)
+
+    raise SystemExit(0)
+
+
 def main(argv: list[str] | None = None) -> None:
     """Entry point for `xpyd-plan` command."""
     parser = argparse.ArgumentParser(
@@ -2307,6 +2372,84 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # filter subcommand
+    filter_parser = subparsers.add_parser(
+        "filter",
+        help="Filter benchmark data by token count, latency, time window, or sampling",
+    )
+    filter_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Benchmark JSON file",
+    )
+    filter_parser.add_argument(
+        "--output", type=str, required=True,
+        help="Output file path for filtered benchmark JSON",
+    )
+    filter_parser.add_argument(
+        "--min-prompt-tokens", type=int, default=None,
+        help="Minimum prompt token count",
+    )
+    filter_parser.add_argument(
+        "--max-prompt-tokens", type=int, default=None,
+        help="Maximum prompt token count",
+    )
+    filter_parser.add_argument(
+        "--min-output-tokens", type=int, default=None,
+        help="Minimum output token count",
+    )
+    filter_parser.add_argument(
+        "--max-output-tokens", type=int, default=None,
+        help="Maximum output token count",
+    )
+    filter_parser.add_argument(
+        "--min-ttft-ms", type=float, default=None,
+        help="Minimum TTFT (ms)",
+    )
+    filter_parser.add_argument(
+        "--max-ttft-ms", type=float, default=None,
+        help="Maximum TTFT (ms)",
+    )
+    filter_parser.add_argument(
+        "--min-tpot-ms", type=float, default=None,
+        help="Minimum TPOT (ms)",
+    )
+    filter_parser.add_argument(
+        "--max-tpot-ms", type=float, default=None,
+        help="Maximum TPOT (ms)",
+    )
+    filter_parser.add_argument(
+        "--min-total-latency-ms", type=float, default=None,
+        help="Minimum total latency (ms)",
+    )
+    filter_parser.add_argument(
+        "--max-total-latency-ms", type=float, default=None,
+        help="Maximum total latency (ms)",
+    )
+    filter_parser.add_argument(
+        "--time-start", type=float, default=None,
+        help="Start timestamp (epoch seconds)",
+    )
+    filter_parser.add_argument(
+        "--time-end", type=float, default=None,
+        help="End timestamp (epoch seconds)",
+    )
+    filter_parser.add_argument(
+        "--sample-count", type=int, default=None,
+        help="Random sample N requests",
+    )
+    filter_parser.add_argument(
+        "--sample-fraction", type=float, default=None,
+        help="Random sample fraction (0, 1]",
+    )
+    filter_parser.add_argument(
+        "--seed", type=int, default=None,
+        help="Random seed for reproducible sampling",
+    )
+    filter_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "config":
@@ -2354,6 +2497,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_budget(args)
     elif args.command == "merge":
         _cmd_merge(args)
+    elif args.command == "filter":
+        _cmd_filter(args)
     else:
         parser.print_help()
         sys.exit(1)
