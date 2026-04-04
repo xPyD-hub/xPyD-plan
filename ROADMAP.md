@@ -666,3 +666,27 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `decompose` subcommand with `--benchmark`, `--bottleneck-threshold`, table + JSON output
 - Programmatic `decompose_latency()` API
 - 23 new tests (1164 total)
+
+### M51 ⬜ Comprehensive README Rewrite
+
+- Rewrite README.md to reflect all 50 milestones of current capabilities
+- Accurate quick-start examples using current CLI subcommands
+- Feature matrix grouped by category (analysis, comparison, planning, etc.)
+- Installation instructions with optional dependencies
+- Remove all references to deprecated estimation-based workflow
+
+### M52 ⬜ Plugin Architecture
+
+- Define a plugin interface for custom analyzers
+- Entry-point based plugin discovery (`xpyd_plan.plugins`)
+- Allow third-party analysis modules to register CLI subcommands
+- Plugin metadata (name, version, description)
+- Documentation for plugin authors
+
+### M53 ⬜ End-to-End Integration Tests
+
+- Full CLI integration tests covering all subcommands
+- Test with realistic multi-file benchmark datasets
+- Pipeline integration test (validate → analyze → compare → alert → report)
+- Verify JSON/CSV output schema stability
+- CI matrix: Python 3.10, 3.11, 3.12
