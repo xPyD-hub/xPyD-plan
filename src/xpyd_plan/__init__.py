@@ -41,6 +41,14 @@ from xpyd_plan.dashboard import (
     DashboardView,
     run_dashboard,
 )
+from xpyd_plan.fleet import (
+    FleetAllocation,
+    FleetCalculator,
+    FleetOption,
+    FleetReport,
+    GPUTypeConfig,
+    calculate_fleet,
+)
 from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
 from xpyd_plan.interpolator import (
     InterpolationConfidence,
@@ -143,4 +151,10 @@ __all__ = [
     "RecommendationPriority",
     "RecommendationReport",
     "get_recommendations",
+    "FleetAllocation",
+    "FleetCalculator",
+    "FleetOption",
+    "FleetReport",
+    "GPUTypeConfig",
+    "calculate_fleet",
 ]

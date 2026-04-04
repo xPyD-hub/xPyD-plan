@@ -272,7 +272,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `find_pareto_frontier()` API
 - ~26 new tests (482 total)
 
-### M22 — Recommendation Engine
+### M22 ✅ Recommendation Engine
+
+*Completed — PR #54*
 
 - `RecommendationEngine` class in `recommender.py`
 - `Recommendation`, `RecommendationReport`, `RecommendationPriority` Pydantic models
@@ -281,4 +283,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Action categories: SCALE_UP, SCALE_DOWN, REBALANCE, INVESTIGATE, NO_ACTION
 - CLI `recommend` subcommand with table and JSON output
 - Programmatic `get_recommendations()` API
+- 22 new tests (504 total)
+
+### M23 — Fleet Sizing Calculator
+
+- `FleetCalculator` class in `fleet.py`
+- `FleetConfig`, `FleetOption`, `FleetReport` Pydantic models
+- Multi-GPU-type fleet optimization: given target QPS, available GPU types with costs, find cheapest fleet
+- Per-GPU-type P:D ratio optimization using benchmark data
+- Budget-constrained fleet sizing with cost ceiling
+- Availability-zone aware instance distribution
+- CLI `fleet` subcommand with `--target-qps`, `--gpu-configs`, table + JSON output
+- Programmatic `calculate_fleet()` API
 - ~24 new tests
