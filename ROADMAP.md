@@ -407,14 +407,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Reproducible results via `--seed` parameter
 - 21 new tests (712 total)
 
-### M32 — Multi-Model Comparison Matrix
+### M32 ✅ Multi-Model Comparison Matrix
+
+*Completed — PR #78*
 
 - `ModelComparator` class in `model_compare.py`
 - `ModelProfile`, `ModelComparison`, `ComparisonMatrix`, `ModelRanking` Pydantic models
-- Load benchmark files tagged with model name (via annotation tags or filename convention)
-- Side-by-side latency comparison across models at same P:D ratio and QPS
+- Load benchmark files tagged with model name (via CLI flag `--models name1,name2,...`)
+- Side-by-side latency comparison across models at P50/P95/P99
 - Rank models by cost-efficiency (cost per token at SLA compliance)
-- Best-model recommendation per QPS tier
+- Best-model recommendation per scenario with weighted scoring
 - CLI `model-compare` subcommand with `--benchmarks`, `--models`, table + JSON output
 - Programmatic `compare_models()` API
-- ~24 new tests
+- 22 new tests (734 total)
