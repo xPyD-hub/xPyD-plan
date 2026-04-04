@@ -656,3 +656,19 @@ __all__ += [
     "SLAComplianceComparison",
     "analyze_outlier_impact",
 ]
+
+from xpyd_plan.batch_analysis import (  # noqa: E402
+    BatchAnalyzer,
+    BatchBucket,
+    BatchEfficiency,
+    BatchReport,
+    analyze_batch_impact,
+)
+
+__all__ += [
+    "BatchAnalyzer",
+    "BatchBucket",
+    "BatchEfficiency",
+    "BatchReport",
+    "analyze_batch_impact",
+]

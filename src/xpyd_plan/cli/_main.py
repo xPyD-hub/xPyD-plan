@@ -9,6 +9,7 @@ from xpyd_plan.cli._ab_test import _cmd_ab_test
 from xpyd_plan.cli._alert import _cmd_alert
 from xpyd_plan.cli._analyze import _cmd_analyze
 from xpyd_plan.cli._annotate import _cmd_annotate
+from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._compare import _cmd_compare
@@ -888,6 +889,7 @@ def main(argv: list[str] | None = None) -> None:
     # --- timeline subcommand ---
     add_throughput_parser(subparsers)
     add_queue_parser(subparsers)
+    add_batch_analysis_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
