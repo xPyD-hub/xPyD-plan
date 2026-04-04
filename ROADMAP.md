@@ -133,11 +133,13 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - 20% headroom built into recommendations, `max_instances` cap
 - 24 new tests
 
-### M11: What-If Scenario Simulation
+### M11 ✅ What-If Scenario Simulation
 
-- Interactive what-if mode: tweak parameters and see impact without re-running benchmarks
-- `xpyd-plan what-if --benchmark ... --scale-qps 2x --add-instances 4`
-- Scale QPS up/down and predict SLA compliance from existing data
-- Add/remove instances and predict optimal P:D ratio shift
-- Compare multiple what-if scenarios side-by-side
-- Tests: ≥15 new tests
+*Completed — PR #28*
+
+- `WhatIfSimulator` class with `scale_qps()`, `scale_instances()`, `compare()` methods
+- `WhatIfScenario` and `WhatIfComparison` Pydantic models
+- CLI `what-if` subcommand with `--benchmark`, `--scale-qps`, `--add-instances`
+- Side-by-side comparison table output, JSON output format support
+- Programmatic API: `what_if()` function
+- 20 new tests (223 total)
