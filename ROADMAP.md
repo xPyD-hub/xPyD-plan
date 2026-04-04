@@ -184,7 +184,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `compare_benchmarks()` API
 - 23 new tests (311 total)
 
-### M15 — Historical Trend Tracking
+### M15 ✅ Historical Trend Tracking
+
+*Completed — PR #39*
 
 - `TrendTracker` class in `trend.py`
 - `TrendEntry` and `TrendReport` Pydantic models
@@ -195,7 +197,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `track_trend()` API
 - ~20 new tests
 
-### M16 — Benchmark Data Validation & Outlier Detection
+### M16 ✅ Benchmark Data Validation & Outlier Detection
+
+*Completed — PR #41*
 
 - `DataValidator` class in `validator.py`
 - `ValidationResult` and `DataQualityScore` Pydantic models
@@ -205,7 +209,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `validate` subcommand with table and JSON output
 - Integration with `analyze` subcommand via `--validate` flag
 - Programmatic `validate_benchmark()` API
-- ~22 new tests
+- ~22 new tests (351 total)
 
 ### M17 — Interactive CLI Dashboard
 
