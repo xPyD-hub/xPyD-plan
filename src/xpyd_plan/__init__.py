@@ -212,6 +212,13 @@ from xpyd_plan.root_cause import (
     RootCauseReport,
     analyze_root_cause,
 )
+from xpyd_plan.saturation import (
+    SaturationDetector,
+    SaturationPoint,
+    SaturationReport,
+    SaturationThreshold,
+    detect_saturation,
+)
 from xpyd_plan.scaling import (
     ScalingAnalyzer,
     ScalingCurve,
@@ -407,6 +414,11 @@ __all__ = [
     "WorkloadProfile",
     "WorkloadReport",
     "classify_workload",
+    "SaturationDetector",
+    "SaturationPoint",
+    "SaturationReport",
+    "SaturationThreshold",
+    "detect_saturation",
     "ScalingAnalyzer",
     "ScalingCurve",
     "ScalingPoint",

@@ -33,6 +33,7 @@ from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
+from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
@@ -864,6 +865,7 @@ def main(argv: list[str] | None = None) -> None:
     add_metrics_parser(subparsers)
 
     # --- scaling subcommand ---
+    add_saturation_parser(subparsers)
     add_scaling_parser(subparsers)
 
     # --- correlation subcommand ---
@@ -955,6 +957,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_ab_test(args)
     elif args.command == "workload":
         _cmd_workload(args)
+    elif args.command == "saturation":
+        _cmd_saturation(args)
     elif args.command == "scaling":
         _cmd_scaling(args)
     elif args.command == "metrics":
