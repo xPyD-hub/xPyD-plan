@@ -503,6 +503,68 @@ def _cmd_export(args: argparse.Namespace) -> None:
     print(output, end="" if args.output_format == "csv" else "\n")
 
 
+def _cmd_plan_capacity(args: argparse.Namespace) -> None:
+    """Handle the 'plan-capacity' subcommand."""
+    from xpyd_plan.bench_adapter import load_benchmark_auto
+    from xpyd_plan.capacity import CapacityPlanner
+
+    console = Console()
+
+    sla = SLAConfig(
+        ttft_ms=args.sla_ttft,
+        tpot_ms=args.sla_tpot,
+        max_latency_ms=args.sla_max_latency,
+    )
+
+    datasets = [load_benchmark_auto(b) for b in args.benchmark]
+    planner = CapacityPlanner()
+    planner.fit(datasets, sla=sla)
+    rec = planner.recommend(
+        target_qps=args.target_qps,
+        sla=sla,
+        max_instances=args.max_instances,
+    )
+
+    if args.output_format == "json":
+        print(rec.model_dump_json(indent=2))
+        return
+
+    console.print(f"\n[bold]📐 Capacity Planning — Target QPS: {rec.target_qps:.1f}[/bold]")
+    confidence_color = {"high": "green", "medium": "yellow", "low": "red"}[rec.confidence.value]
+    console.print(
+        f"\n   [bold {confidence_color}]Recommendation: {rec.recommended_ratio}"
+        f" ({rec.recommended_instances} instances)[/bold {confidence_color}]"
+    )
+    console.print(f"   Confidence: [{confidence_color}]{rec.confidence.value}[/{confidence_color}]")
+    console.print(f"   Estimated headroom: {rec.estimated_headroom_pct:+.1f}%")
+
+    if rec.notes:
+        for note in rec.notes:
+            console.print(f"   ⚠️  {note}")
+
+    # Scaling data table
+    table = Table(title="\nScaling Data Points")
+    table.add_column("Instances", justify="right")
+    table.add_column("Config", style="cyan")
+    table.add_column("QPS", justify="right")
+    table.add_column("Meets SLA", justify="center")
+    table.add_column("TTFT P95", justify="right")
+    table.add_column("TPOT P95", justify="right")
+
+    for p in rec.scaling_points:
+        sla_str = "✅" if p.max_qps_meeting_sla is not None else "❌"
+        table.add_row(
+            str(p.total_instances),
+            f"{p.num_prefill}P:{p.num_decode}D",
+            f"{p.measured_qps:.1f}",
+            sla_str,
+            f"{p.ttft_p95_ms:.1f}",
+            f"{p.tpot_p95_ms:.1f}",
+        )
+
+    console.print(table)
+
+
 def main(argv: list[str] | None = None) -> None:
     """Entry point for `xpyd-plan` command."""
     parser = argparse.ArgumentParser(
@@ -607,6 +669,37 @@ def main(argv: list[str] | None = None) -> None:
         help="Total instances to optimize for",
     )
 
+    # plan-capacity subcommand
+    cap_parser = subparsers.add_parser(
+        "plan-capacity",
+        help="Recommend minimum instances and P:D ratio for a target QPS",
+    )
+    cap_parser.add_argument(
+        "--benchmark", type=str, nargs="+", required=True,
+        help="Benchmark JSON files at different cluster sizes/QPS levels",
+    )
+    cap_parser.add_argument(
+        "--target-qps", type=float, required=True,
+        help="Target QPS to achieve",
+    )
+    cap_parser.add_argument(
+        "--sla-ttft", type=float, default=None, help="SLA: max TTFT P95 (ms)",
+    )
+    cap_parser.add_argument(
+        "--sla-tpot", type=float, default=None, help="SLA: max TPOT P95 (ms)",
+    )
+    cap_parser.add_argument(
+        "--sla-max-latency", type=float, default=None, help="SLA: max total latency P95 (ms)",
+    )
+    cap_parser.add_argument(
+        "--max-instances", type=int, default=64,
+        help="Maximum instances to consider (default: 64)",
+    )
+    cap_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "analyze":
@@ -615,6 +708,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_plan_legacy(args)
     elif args.command == "export":
         _cmd_export(args)
+    elif args.command == "plan-capacity":
+        _cmd_plan_capacity(args)
     else:
         parser.print_help()
         sys.exit(1)
