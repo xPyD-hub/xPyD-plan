@@ -222,7 +222,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `dashboard` subcommand with `--refresh-interval`
 - ~34 new tests (385 total)
 
-### M18 — Performance Interpolation Model
+### M18 ✅ Performance Interpolation Model
+
+*Completed — PR #45*
 
 - `PerformanceInterpolator` class in `interpolator.py`
 - `PredictedPerformance` and `InterpolationResult` Pydantic models
