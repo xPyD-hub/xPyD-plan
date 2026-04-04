@@ -28,6 +28,13 @@ from xpyd_plan.benchmark_models import (
     SLACheck,
     UtilizationResult,
 )
+from xpyd_plan.budget import (
+    AllocationStrategy,
+    BudgetAllocation,
+    BudgetAllocator,
+    StageBudget,
+    allocate_budget,
+)
 from xpyd_plan.comparator import (
     BenchmarkComparator,
     ComparisonResult,
@@ -201,4 +208,9 @@ __all__ = [
     "LatencyProfile",
     "generate_benchmark",
     "load_generator_config",
+    "AllocationStrategy",
+    "BudgetAllocation",
+    "BudgetAllocator",
+    "StageBudget",
+    "allocate_budget",
 ]
