@@ -190,6 +190,15 @@ from xpyd_plan.scaling import (
     ScalingReport,
     analyze_scaling,
 )
+from xpyd_plan.timeline import (
+    LatencyTrend,
+    LatencyTrendDirection,
+    TimelineAnalyzer,
+    TimelineReport,
+    TimeWindow,
+    WarmupAnalysis,
+    analyze_timeline,
+)
 from xpyd_plan.trend import TrendEntry, TrendReport, TrendTracker, track_trend
 from xpyd_plan.validator import (
     DataQualityScore,
@@ -351,6 +360,13 @@ __all__ = [
     "CorrelationReport",
     "CorrelationStrength",
     "analyze_correlation",
+    "LatencyTrend",
+    "LatencyTrendDirection",
+    "TimelineAnalyzer",
+    "TimelineReport",
+    "TimeWindow",
+    "WarmupAnalysis",
+    "analyze_timeline",
     "BenchmarkDiscovery",
     "ConfigGroup",
     "DiscoveredBenchmark",

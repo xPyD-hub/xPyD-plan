@@ -516,3 +516,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `heatmap` subcommand with `--benchmark`, `--bins`, `--metric`, `--field`, table + JSON output
 - Programmatic `generate_heatmap()` API
 - 25 new tests (911 total)
+
+### M40 — Request Timeline Analysis
+
+*In progress*
+
+- `TimelineAnalyzer` class in `timeline.py`
+- `TimeWindow`, `WarmupAnalysis`, `LatencyTrend`, `TimelineReport` Pydantic models
+- Time-window segmentation with configurable window size (seconds)
+- Per-window latency statistics (TTFT/TPOT/total at P50/P95)
+- Warmup detection: flag initial windows where P95 latency exceeds N× steady-state median
+- Trend detection via linear regression: IMPROVING, DEGRADING, STABLE classification
+- CLI `timeline` subcommand with `--benchmark`, `--window-size`, `--warmup-factor`, table + JSON output
+- Programmatic `analyze_timeline()` API
+- 29 new tests (940 total)
