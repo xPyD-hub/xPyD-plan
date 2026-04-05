@@ -1144,3 +1144,25 @@ __all__ += [
     "NormalizedStats",
     "normalize_benchmark",
 ]
+
+from xpyd_plan.qps_curve import (  # noqa: E402
+    Confidence,
+    FitMethod,
+    FitResult,
+    MaxSustainableQPS,
+    QPSCurveFitter,
+    QPSCurveReport,
+    QPSPrediction,
+    fit_qps_curve,
+)
+
+__all__ += [
+    "Confidence",
+    "FitMethod",
+    "FitResult",
+    "MaxSustainableQPS",
+    "QPSCurveFitter",
+    "QPSCurveReport",
+    "QPSPrediction",
+    "fit_qps_curve",
+]
