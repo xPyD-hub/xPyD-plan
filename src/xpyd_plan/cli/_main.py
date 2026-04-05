@@ -97,6 +97,7 @@ from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
 from xpyd_plan.cli._variance import _cmd_variance, add_variance_parser
+from xpyd_plan.cli._vllm_commands import register_vllm_commands
 from xpyd_plan.cli._warmup_filter import _cmd_warmup_filter, add_warmup_filter_parser
 from xpyd_plan.cli._weighted_goodput import register as _register_weighted_goodput
 from xpyd_plan.cli._whatif import _cmd_what_if
@@ -959,6 +960,7 @@ def main(argv: list[str] | None = None) -> None:
     add_throughput_parser(subparsers)
     add_queue_parser(subparsers)
     add_import_parser(subparsers)
+    register_vllm_commands(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
@@ -1296,6 +1298,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._rate_limit import _cmd_rate_limit
 
         _cmd_rate_limit(args)
+    elif args.command == "vllm-commands":
+        from xpyd_plan.cli._vllm_commands import _cmd_vllm_commands
+
+        _cmd_vllm_commands(args)
     else:
         parser.print_help()
         sys.exit(1)
