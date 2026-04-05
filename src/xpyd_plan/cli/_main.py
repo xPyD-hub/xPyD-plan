@@ -9,6 +9,7 @@ from xpyd_plan.cli._ab_test import _cmd_ab_test
 from xpyd_plan.cli._alert import _cmd_alert
 from xpyd_plan.cli._analyze import _cmd_analyze
 from xpyd_plan.cli._annotate import _cmd_annotate
+from xpyd_plan.cli._arrival_pattern import _cmd_arrival_pattern, add_arrival_pattern_parser
 from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
@@ -932,6 +933,7 @@ def main(argv: list[str] | None = None) -> None:
     add_heatmap_parser(subparsers)
     add_health_check_parser(subparsers)
     add_warmup_filter_parser(subparsers)
+    add_arrival_pattern_parser(subparsers)
 
     # --- plan-benchmarks subcommand ---
     add_plan_benchmarks_parser(subparsers)
@@ -1050,6 +1052,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_health_check(args)
     elif args.command == "warmup-filter":
         _cmd_warmup_filter(args)
+    elif args.command == "arrival-pattern":
+        _cmd_arrival_pattern(args)
     elif args.command == "plan-benchmarks":
         _cmd_plan_benchmarks(args)
     elif args.command == "threshold-advisor":
