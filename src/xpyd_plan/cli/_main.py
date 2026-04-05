@@ -11,6 +11,7 @@ from xpyd_plan.cli._analyze import _cmd_analyze
 from xpyd_plan.cli._annotate import _cmd_annotate
 from xpyd_plan.cli._anomaly_classify import add_anomaly_classify_parser
 from xpyd_plan.cli._arrival_pattern import _cmd_arrival_pattern, add_arrival_pattern_parser
+from xpyd_plan.cli._baseline import add_baseline_parser
 from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
 from xpyd_plan.cli._budget_tracker import _cmd_budget_tracker
@@ -929,6 +930,7 @@ def main(argv: list[str] | None = None) -> None:
     add_variance_parser(subparsers)
     add_anomaly_classify_parser(subparsers)
     add_sla_headroom_parser(subparsers)
+    add_baseline_parser(subparsers)
     add_jitter_parser(subparsers)
     add_cold_start_parser(subparsers)
     add_dedup_parser(subparsers)
