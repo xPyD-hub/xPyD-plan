@@ -1020,14 +1020,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `analyze_jitter()` API
 - 24 new tests (1717 total)
 
-### M78: Cold Start Detection
+### M78 ✅ Cold Start Detection
+
+*Completed — PR #176*
 
 - `ColdStartDetector` class in `cold_start.py`
 - `ColdStartReport`, `ColdStartWindow`, `ColdStartSeverity` Pydantic models
 - Detect elevated latency in initial N requests compared to steady-state baseline
-- Configurable warmup window size and detection threshold (default: P95 > 2× steady-state median)
-- Per-metric cold start duration estimation (number of requests until stabilization)
-- Steady-state vs warmup latency comparison at P50/P95
+- Configurable warmup window size and detection threshold (default: P95 > 2× steady-state P50)
+- Per-metric stabilization point estimation
+- Severity classification: NONE, MILD, MODERATE, SEVERE
 - CLI `cold-start` subcommand with `--benchmark`, `--warmup-window`, `--threshold`, table + JSON output
 - Programmatic `detect_cold_start()` API
-- ~20 new tests
+- 27 new tests (1744 total)
