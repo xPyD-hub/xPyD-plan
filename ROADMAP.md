@@ -1063,3 +1063,19 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `dedup` subcommand with `--benchmark`, `--tolerance`, `--output`, table + JSON output
 - Programmatic `analyze_dedup()` API
 - ~22 new tests
+
+### M81 ✅ Request Timeout Analysis
+
+*Completed — PR #TBD*
+
+- `TimeoutAnalyzer` class in `timeout.py`
+- `TimeoutReport`, `TimeoutEvent`, `TimeoutSeverity`, `TimeoutConfig`, `TokenCharacterization`, `TemporalCluster` Pydantic models
+- Configurable per-metric timeout thresholds (TTFT, TPOT, total latency)
+- Timeout rate computation and severity classification (NONE/LOW/MODERATE/HIGH/CRITICAL)
+- Token characterization of timed-out requests (mean, median, min, max for prompt/output tokens)
+- Temporal clustering of timeout events (configurable gap threshold)
+- Per-metric breakdown counts
+- Actionable recommendations based on severity and dominant bottleneck metric
+- CLI `timeout` subcommand with `--benchmark`, `--timeout-ttft`, `--timeout-tpot`, `--timeout-total`, table + JSON output
+- Programmatic `analyze_timeouts()` API
+- 29 new tests (1820 total)
