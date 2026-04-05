@@ -58,6 +58,7 @@ from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
 from xpyd_plan.cli._qps_curve import add_qps_curve_parser
 from xpyd_plan.cli._queue import add_queue_parser
+from xpyd_plan.cli._ranking import _cmd_ranking, add_ranking_parser
 from xpyd_plan.cli._ratio_compare import add_ratio_compare_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._regression import _cmd_regression, add_regression_parser
@@ -76,6 +77,7 @@ from xpyd_plan.cli._session import _cmd_session
 from xpyd_plan.cli._size_distribution import _cmd_size_distribution, add_size_distribution_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
 from xpyd_plan.cli._spike import add_spike_parser
+from xpyd_plan.cli._sqlite_export import add_sqlite_export_parser
 from xpyd_plan.cli._stat_summary import add_stat_summary_parser
 from xpyd_plan.cli._summary import _cmd_summary, add_summary_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
@@ -920,6 +922,7 @@ def main(argv: list[str] | None = None) -> None:
     add_correlation_parser(subparsers)
 
     # --- variance subcommand ---
+    add_ranking_parser(subparsers)
     add_variance_parser(subparsers)
     add_jitter_parser(subparsers)
     add_cold_start_parser(subparsers)
@@ -961,6 +964,7 @@ def main(argv: list[str] | None = None) -> None:
     add_cross_validate_parser(subparsers)
     add_scaling_policy_parser(subparsers)
     add_parquet_parser(subparsers)
+    add_sqlite_export_parser(subparsers)
     add_qps_curve_parser(subparsers)
     add_retry_optimize_parser(subparsers)
     add_retry_sim_parser(subparsers)
@@ -1250,6 +1254,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "parquet":
         from xpyd_plan.cli._parquet import _cmd_parquet
         _cmd_parquet(args)
+    elif args.command == "sqlite-export":
+        from xpyd_plan.cli._sqlite_export import _cmd_sqlite_export
+        _cmd_sqlite_export(args)
     elif args.command == "qps-curve":
         from xpyd_plan.cli._qps_curve import _cmd_qps_curve
         _cmd_qps_curve(args)
@@ -1264,6 +1271,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_budget_tracker(args)
     elif args.command == "variance":
         _cmd_variance(args)
+    elif args.command == "ranking":
+        _cmd_ranking(args)
     else:
         parser.print_help()
         sys.exit(1)
