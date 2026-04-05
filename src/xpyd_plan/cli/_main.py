@@ -21,6 +21,7 @@ from xpyd_plan.cli._confidence import _cmd_confidence
 from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
 from xpyd_plan.cli._convergence import add_convergence_parser
 from xpyd_plan.cli._correlation import _cmd_correlation, add_correlation_parser
+from xpyd_plan.cli._cross_validate import add_cross_validate_parser
 from xpyd_plan.cli._dashboard import _cmd_dashboard
 from xpyd_plan.cli._decompose import _cmd_decompose, add_decompose_parser
 from xpyd_plan.cli._dedup import add_dedup_parser
@@ -949,6 +950,7 @@ def main(argv: list[str] | None = None) -> None:
     add_size_distribution_parser(subparsers)
     add_token_budget_parser(subparsers)
     add_normalize_parser(subparsers)
+    add_cross_validate_parser(subparsers)
     add_parquet_parser(subparsers)
     add_qps_curve_parser(subparsers)
     add_retry_optimize_parser(subparsers)
@@ -1147,6 +1149,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "spike":
         from xpyd_plan.cli._spike import _cmd_spike
         _cmd_spike(args)
+    elif args.command == "cross-validate":
+        from xpyd_plan.cli._cross_validate import _cmd_cross_validate
+        _cmd_cross_validate(args)
     elif args.command == "parquet":
         from xpyd_plan.cli._parquet import _cmd_parquet
         _cmd_parquet(args)

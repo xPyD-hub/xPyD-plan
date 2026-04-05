@@ -93,6 +93,13 @@ from xpyd_plan.correlation import (
     CorrelationStrength,
     analyze_correlation,
 )
+from xpyd_plan.cross_validation import (
+    CrossValidationReport,
+    CrossValidator,
+    ErrorMetric,
+    ModelAccuracy,
+    cross_validate,
+)
 from xpyd_plan.dashboard import (
     Dashboard,
     DashboardState,
@@ -451,6 +458,11 @@ __all__ = [
     "MetricConvergence",
     "StabilityStatus",
     "analyze_convergence",
+    "CrossValidationReport",
+    "CrossValidator",
+    "ErrorMetric",
+    "ModelAccuracy",
+    "cross_validate",
     "LoadProfileClassifier",
     "LoadProfile",
     "LoadProfileReport",
