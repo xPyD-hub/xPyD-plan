@@ -32,6 +32,7 @@ from xpyd_plan.cli._error_budget import register as _register_error_budget
 from xpyd_plan.cli._export import _cmd_export
 from xpyd_plan.cli._fairness import _cmd_fairness, add_fairness_parser
 from xpyd_plan.cli._filter import _cmd_filter
+from xpyd_plan.cli._fingerprint import _cmd_fingerprint
 from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._forecast import add_forecast_parser
 from xpyd_plan.cli._generate import _cmd_generate
@@ -1005,6 +1006,24 @@ def main(argv: list[str] | None = None) -> None:
     add_plugins_subcommand(subparsers)
 
     # Let plugins register their own CLI subcommands
+        # --- fingerprint subcommand ---
+    fingerprint_parser = subparsers.add_parser(
+        "fingerprint",
+        help="Extract or compare environment fingerprints from benchmark data",
+    )
+    fingerprint_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Path to benchmark JSON file",
+    )
+    fingerprint_parser.add_argument(
+        "--compare", type=str, default=None,
+        help="Path to second benchmark file to compare against",
+    )
+    fingerprint_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
         # --- session subcommand ---
     session_parser = subparsers.add_parser(
         "session",
@@ -1200,6 +1219,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_scaling_policy(args)
     elif args.command == "session":
         _cmd_session(args)
+    elif args.command == "fingerprint":
+        _cmd_fingerprint(args)
     else:
         parser.print_help()
         sys.exit(1)
