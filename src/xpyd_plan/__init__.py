@@ -1086,3 +1086,23 @@ __all__ += [
     "PDImbalanceDetector",
     "detect_pd_imbalance",
 ]
+
+from xpyd_plan.retry_sim import (  # noqa: E402
+    BackoffType,
+    LoadAmplification,
+    RetryConfig,
+    RetryImpact,
+    RetrySimReport,
+    RetrySimulator,
+    simulate_retries,
+)
+
+__all__ += [
+    "BackoffType",
+    "LoadAmplification",
+    "RetryConfig",
+    "RetryImpact",
+    "RetrySimReport",
+    "RetrySimulator",
+    "simulate_retries",
+]
