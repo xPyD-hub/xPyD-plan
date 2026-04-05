@@ -1402,3 +1402,20 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `sla-headroom` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--percentile`, table + JSON output
 - Programmatic `analyze_sla_headroom()` API
 - 19 new tests
+
+### M104 ✅ Latency Baseline Manager
+
+*Completed — PR #TBD*
+
+- `BaselineManager` class in `baseline.py`
+- `BaselineProfile`, `BaselineComparison`, `BaselineVerdict`, `MetricBaseline`, `MetricDelta` Pydantic models
+- Save golden baseline profile (P50/P95/P99 for TTFT, TPOT, total_latency + QPS + cluster config)
+- Load baseline from JSON file
+- Compare current benchmark against saved baseline with configurable regression threshold (default 10%)
+- Per-metric-percentile delta reporting with PASS/WARN/FAIL verdict
+- Warning threshold at half of regression threshold
+- Overall verdict: worst across all metric-percentile pairs
+- CLI `baseline` subcommand: `baseline save` and `baseline compare`
+- Non-zero exit code on FAIL verdict (CI/CD friendly)
+- Programmatic `save_baseline()` and `compare_baseline()` APIs
+- 19 new tests

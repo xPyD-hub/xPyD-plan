@@ -1368,3 +1368,23 @@ __all__ += [
     "SLAHeadroomCalculator",
     "analyze_sla_headroom",
 ]
+
+from xpyd_plan.baseline import (  # noqa: E402
+    BaselineComparison,
+    BaselineManager,
+    BaselineProfile,
+    BaselineVerdict,
+    MetricBaseline,
+    compare_baseline,
+    save_baseline,
+)
+
+__all__ += [
+    "BaselineComparison",
+    "BaselineManager",
+    "BaselineProfile",
+    "BaselineVerdict",
+    "MetricBaseline",
+    "compare_baseline",
+    "save_baseline",
+]
