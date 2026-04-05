@@ -29,6 +29,7 @@ from xpyd_plan.cli._dedup import add_dedup_parser
 from xpyd_plan.cli._diff_report import register as _register_diff_report
 from xpyd_plan.cli._discover import _cmd_discover, add_discover_parser
 from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
+from xpyd_plan.cli._ensemble import add_ensemble_parser
 from xpyd_plan.cli._error_budget import register as _register_error_budget
 from xpyd_plan.cli._export import _cmd_export
 from xpyd_plan.cli._fairness import _cmd_fairness, add_fairness_parser
@@ -966,6 +967,7 @@ def main(argv: list[str] | None = None) -> None:
     add_parquet_parser(subparsers)
     add_sqlite_export_parser(subparsers)
     add_qps_curve_parser(subparsers)
+    add_ensemble_parser(subparsers)
     add_retry_optimize_parser(subparsers)
     add_retry_sim_parser(subparsers)
     add_token_efficiency_parser(subparsers)
