@@ -1288,3 +1288,14 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `scaling-policy` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--min-instances`, `--max-instances`, table + JSON output
 - Programmatic `generate_scaling_policy()` API
 - 21 new tests
+
+### M96 ✅ Benchmark Session Manager
+
+*Completed — PR #213*
+
+- `SessionManager` class in `session.py` with SQLite-backed storage
+- `Session`, `SessionEntry`, `SessionReport` Pydantic models
+- Create/add/remove/list/show/delete session operations
+- CLI `session` subcommand with table + JSON output
+- Programmatic `manage_session()` API
+- 26 new tests
