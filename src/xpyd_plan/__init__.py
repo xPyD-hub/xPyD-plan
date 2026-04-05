@@ -1316,3 +1316,21 @@ __all__ += [
     "RankWeights",
     "rank_benchmarks",
 ]
+
+from xpyd_plan.ensemble import (  # noqa: E402
+    DisagreementLevel,
+    EnsemblePrediction,
+    EnsemblePredictor,
+    EnsembleReport,
+    MethodPrediction,
+    ensemble_predict,
+)
+
+__all__ += [
+    "DisagreementLevel",
+    "EnsemblePrediction",
+    "EnsemblePredictor",
+    "EnsembleReport",
+    "MethodPrediction",
+    "ensemble_predict",
+]

@@ -56,6 +56,7 @@ from xpyd_plan.cli._parquet import add_parquet_parser
 from xpyd_plan.cli._pd_imbalance import add_pd_imbalance_parser
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
+from xpyd_plan.cli._ensemble import add_ensemble_parser
 from xpyd_plan.cli._qps_curve import add_qps_curve_parser
 from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._ranking import _cmd_ranking, add_ranking_parser
@@ -966,6 +967,7 @@ def main(argv: list[str] | None = None) -> None:
     add_parquet_parser(subparsers)
     add_sqlite_export_parser(subparsers)
     add_qps_curve_parser(subparsers)
+    add_ensemble_parser(subparsers)
     add_retry_optimize_parser(subparsers)
     add_retry_sim_parser(subparsers)
     add_token_efficiency_parser(subparsers)
