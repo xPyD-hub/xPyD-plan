@@ -185,12 +185,7 @@ from xpyd_plan.goodput import (
     GoodputWindow,
     analyze_goodput,
 )
-from xpyd_plan.gpu_profiles import (
-    get_all_profiles,
-    get_gpu_profile,
-    list_gpu_profiles,
-    load_gpu_profiles,
-)
+from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
 from xpyd_plan.health_check import (
     CheckResult,
     HealthChecker,
@@ -517,8 +512,6 @@ __all__ = [
     "UtilizationResult",
     "get_gpu_profile",
     "list_gpu_profiles",
-    "load_gpu_profiles",
-    "get_all_profiles",
     "load_config",
     "track_trend",
     "TrendEntry",

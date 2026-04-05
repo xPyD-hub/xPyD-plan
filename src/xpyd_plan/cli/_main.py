@@ -63,6 +63,7 @@ from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchm
 from xpyd_plan.cli._qps_curve import add_qps_curve_parser
 from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._ranking import _cmd_ranking, add_ranking_parser
+from xpyd_plan.cli._rate_limit import add_rate_limit_parser
 from xpyd_plan.cli._ratio_compare import add_ratio_compare_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._regression import _cmd_regression, add_regression_parser
@@ -956,6 +957,7 @@ def main(argv: list[str] | None = None) -> None:
     # --- timeline subcommand ---
     add_throughput_parser(subparsers)
     add_queue_parser(subparsers)
+    add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
     add_migrate_parser(subparsers)
@@ -1288,6 +1290,10 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_variance(args)
     elif args.command == "ranking":
         _cmd_ranking(args)
+    elif args.command == "rate-limit":
+        from xpyd_plan.cli._rate_limit import _cmd_rate_limit
+
+        _cmd_rate_limit(args)
     else:
         parser.print_help()
         sys.exit(1)
