@@ -1,105 +1,105 @@
-# xPyD-plan 使用指南
+# xPyD-plan User Guide
 
-xPyD-plan 是 [xPyD-proxy](https://github.com/xPyD-hub/xPyD-proxy) 的 benchmark 数据分析工具包，用于从真实 benchmark 结果中找到最优的 **Prefill:Decode 实例比例**。
+xPyD-plan is the benchmark data analysis toolkit for [xPyD-proxy](https://github.com/xPyD-hub/xPyD-proxy), designed to find the optimal **Prefill:Decode instance ratio** from real benchmark results.
 
-> **核心原则：** 不猜测、不建模、不仿真——一切基于实际 benchmark 数据。
+> **Core principle:** No guessing, no modeling, no simulation — everything is based on actual benchmark data.
 
 ---
 
-## 安装
+## Installation
 
 ```bash
-# 基础安装
+# Basic installation
 pip install xpyd-plan
 
-# 含 HTML 报告生成
+# With HTML report generation
 pip install "xpyd-plan[report]"
 
-# 开发环境
+# Development environment
 pip install "xpyd-plan[dev]"
 ```
 
 ---
 
-## 核心子命令
+## Core Subcommands
 
-### 分析类
+### Analysis
 
-| 子命令 | 说明 |
-|--------|------|
-| `analyze` | SLA 合规检查、利用率分析、最优 P:D ratio 搜索 |
-| `sensitivity` | P:D ratio 与 SLA 满足率曲线，含 cliff 检测 |
-| `confidence` | Bootstrap 置信区间（延迟百分位） |
-| `decompose` | 按请求分解延迟为 prefill/decode/overhead 阶段 |
-| `tail` | 扩展百分位分析（P99.9, P99.99） |
+| Subcommand | Description |
+|------------|-------------|
+| `analyze` | SLA compliance check, utilization analysis, optimal P:D ratio search |
+| `sensitivity` | P:D ratio vs. SLA satisfaction rate curve, with cliff detection |
+| `confidence` | Bootstrap confidence intervals (latency percentiles) |
+| `decompose` | Per-request latency decomposition into prefill/decode/overhead phases |
+| `tail` | Extended percentile analysis (P99.9, P99.99) |
 
-### 对比与测试
+### Comparison & Testing
 
-| 子命令 | 说明 |
-|--------|------|
-| `compare` | 两次 benchmark 对比，回归检测 |
-| `ab-test` | 统计 A/B 测试（Welch's t-test, Mann-Whitney U） |
-| `model-compare` | 多模型延迟和成本效率并排对比 |
-| `drift` | 分布漂移检测（Kolmogorov-Smirnov） |
+| Subcommand | Description |
+|------------|-------------|
+| `compare` | Two-benchmark comparison with regression detection |
+| `ab-test` | Statistical A/B testing (Welch's t-test, Mann-Whitney U) |
+| `model-compare` | Multi-model latency and cost-efficiency side-by-side comparison |
+| `drift` | Distribution drift detection (Kolmogorov-Smirnov) |
 
-### 规划与优化
+### Planning & Optimization
 
-| 子命令 | 说明 |
-|--------|------|
-| `recommend` | 综合 SLA、成本、Pareto、趋势数据的排序建议 |
-| `plan-capacity` | 线性扩展模型的容量规划 |
-| `what-if` | 场景模拟——扩缩 QPS 或实例数并对比 |
-| `fleet` | 多 GPU 类型 fleet 规模计算（含预算约束） |
-| `pareto` | 跨延迟、成本、浪费的 Pareto 前沿分析 |
-| `interpolate` | 对未测试 P:D ratio 做性能插值/外推 |
-| `forecast` | 基于历史趋势的容量预测 |
-| `threshold-advisor` | SLA 阈值调优 |
+| Subcommand | Description |
+|------------|-------------|
+| `recommend` | Ranked recommendations combining SLA, cost, Pareto, and trend data |
+| `plan-capacity` | Capacity planning with linear scaling model |
+| `what-if` | Scenario simulation — scale QPS or instance count and compare |
+| `fleet` | Multi-GPU-type fleet sizing (with budget constraints) |
+| `pareto` | Pareto frontier analysis across latency, cost, and waste |
+| `interpolate` | Performance interpolation/extrapolation for untested P:D ratios |
+| `forecast` | Capacity forecasting based on historical trends |
+| `threshold-advisor` | SLA threshold tuning |
 
-### 成本与预算
+### Cost & Budget
 
-| 子命令 | 说明 |
-|--------|------|
-| `budget` | SLA 预算在 TTFT/TPOT 阶段的分配 |
-| `scorecard` | 综合效率评分（SLA + 利用率 + 浪费） |
-| `sla-tier` | 多 SLA 层级分析 |
+| Subcommand | Description |
+|------------|-------------|
+| `budget` | SLA budget allocation across TTFT/TPOT phases |
+| `scorecard` | Comprehensive efficiency scoring (SLA + utilization + waste) |
+| `sla-tier` | Multi-SLA tier analysis |
 
-### 数据管理
+### Data Management
 
-| 子命令 | 说明 |
-|--------|------|
-| `validate` | 数据质量评分、异常值检测 |
-| `filter` | 按 token/延迟/时间窗过滤和采样 |
-| `merge` | 合并多个 benchmark 文件 |
-| `discover` | 递归扫描目录查找 benchmark 文件 |
-| `generate` | 生成合成 benchmark 数据（测试用） |
-| `export` | 批量导出分析结果（JSON/CSV/table） |
+| Subcommand | Description |
+|------------|-------------|
+| `validate` | Data quality scoring, outlier detection |
+| `filter` | Filter and sample by token/latency/time window |
+| `merge` | Merge multiple benchmark files |
+| `discover` | Recursively scan directories for benchmark files |
+| `generate` | Generate synthetic benchmark data (for testing) |
+| `export` | Batch export analysis results (JSON/CSV/table) |
 
-### 监控与告警
+### Monitoring & Alerting
 
-| 子命令 | 说明 |
-|--------|------|
-| `dashboard` | Rich TUI 实时仪表盘 |
-| `alert` | YAML 定义的告警规则，CI/CD 友好退出码 |
-| `trend` | 历史趋势追踪（SQLite 存储） |
-| `metrics` | Prometheus/OpenMetrics 格式导出 |
-| `timeline` | 时间窗分析，含 warmup 检测 |
+| Subcommand | Description |
+|------------|-------------|
+| `dashboard` | Rich TUI real-time dashboard |
+| `alert` | YAML-defined alert rules with CI/CD-friendly exit codes |
+| `trend` | Historical trend tracking (SQLite storage) |
+| `metrics` | Prometheus/OpenMetrics format export |
+| `timeline` | Time-window analysis with warmup detection |
 
 ---
 
-## 典型工作流
+## Typical Workflow
 
-### Step 1: 收集 Benchmark 数据
+### Step 1: Collect Benchmark Data
 
-使用 [xpyd-bench](https://github.com/xPyD-hub/xPyD-bench) 对不同 P:D ratio 配置进行性能测试：
+Use [xpyd-bench](https://github.com/xPyD-hub/xPyD-bench) to run performance tests across different P:D ratio configurations:
 
 ```bash
-# 在不同 P:D 配置下跑 benchmark
+# Run benchmarks under different P:D configurations
 xpyd-bench run --config cluster-2p6d.yaml --output results/2p6d.json
 xpyd-bench run --config cluster-3p5d.yaml --output results/3p5d.json
 xpyd-bench run --config cluster-4p4d.yaml --output results/4p4d.json
 ```
 
-### Step 2: 分析最优 P:D Ratio
+### Step 2: Analyze the Optimal P:D Ratio
 
 ```bash
 xpyd-plan analyze \
@@ -107,9 +107,9 @@ xpyd-plan analyze \
   --sla-ttft 200 --sla-tpot 50
 ```
 
-这会输出每种 P:D 配置的 SLA 合规率、利用率和资源浪费，标出最优 ratio。
+This outputs the SLA compliance rate, utilization, and resource waste for each P:D configuration, highlighting the optimal ratio.
 
-### Step 3: 获取部署建议
+### Step 3: Get Deployment Recommendations
 
 ```bash
 xpyd-plan recommend \
@@ -118,64 +118,64 @@ xpyd-plan recommend \
   --cost-model gpu-costs.yaml
 ```
 
-`recommend` 综合 SLA 合规、成本效率、Pareto 最优和趋势数据，给出排序后的部署建议。
+`recommend` combines SLA compliance, cost efficiency, Pareto optimality, and trend data to produce ranked deployment recommendations.
 
-### Step 4: 模拟扩容场景
+### Step 4: Simulate Scale-Up Scenarios
 
 ```bash
-# 假设 QPS 翻倍，看哪个 ratio 还能撑住
+# Assume QPS doubles — see which ratio can still hold up
 xpyd-plan what-if \
   --benchmark results/3p5d.json \
   --scale-qps 2.0 \
   --sla-ttft 200 --sla-tpot 50
 ```
 
-### Step 5: 导出结果
+### Step 5: Export Results
 
 ```bash
-# 导出为 JSON（供自动化消费）
+# Export as JSON (for automation)
 xpyd-plan export --benchmark results/ --format json --output plan-results.json
 
-# 导出为 CSV（供电子表格分析）
+# Export as CSV (for spreadsheet analysis)
 xpyd-plan export --benchmark results/ --format csv --output plan-results.csv
 
-# 生成 Markdown 报告（供 PR/Wiki）
+# Generate Markdown report (for PR/Wiki)
 xpyd-plan report --format markdown --benchmark results/ --output report.md
 ```
 
 ---
 
-## 结果解读
+## Interpreting Results
 
 ### P:D Ratio
 
-Prefill 实例数与 Decode 实例数的比值。例如 `2:6` 表示 2 个 Prefill 实例 + 6 个 Decode 实例（总共 8 个）。不同的 ratio 在 TTFT（首 token 延迟）和 TPOT（每 token 生成延迟）上表现不同。
+The ratio of Prefill instances to Decode instances. For example, `2:6` means 2 Prefill instances + 6 Decode instances (8 total). Different ratios exhibit different performance characteristics for TTFT (time to first token) and TPOT (time per output token).
 
 ### Throughput
 
-给定 P:D 配置下实际测得的吞吐量（QPS）。更高的 throughput 意味着同等硬件处理更多请求。
+The measured throughput (QPS) for a given P:D configuration. Higher throughput means more requests processed on the same hardware.
 
 ### Cost
 
-基于 GPU 小时费率计算的每请求成本或总运行成本。通过 `--cost-model` 提供 GPU 价格配置。
+Per-request cost or total operating cost calculated based on GPU-hour rates. Provide GPU pricing via `--cost-model`.
 
 ### Pareto Frontier
 
-在延迟、成本和资源浪费三个维度上，不存在被其他方案完全支配的配置集合。Pareto 前沿上的点代表「没有免费午餐」——改善一个指标必然牺牲另一个。`pareto` 子命令可视化这条边界，帮助做权衡决策。
+The set of configurations that are not fully dominated by any other configuration across latency, cost, and resource waste dimensions. Points on the Pareto frontier represent "no free lunch" — improving one metric necessarily sacrifices another. The `pareto` subcommand visualizes this boundary to help with trade-off decisions.
 
 ### SLA Compliance
 
-给定百分位（P95/P99）下，TTFT 和 TPOT 是否满足目标阈值。合规率 = 满足 SLA 的请求占比。
+Whether TTFT and TPOT meet target thresholds at a given percentile (P95/P99). Compliance rate = fraction of requests meeting the SLA.
 
 ### Resource Waste
 
-实际使用率与理论满载之间的差距。最优 ratio 在满足 SLA 的前提下最小化这个浪费。
+The gap between actual utilization and theoretical full capacity. The optimal ratio minimizes this waste while still meeting SLA requirements.
 
 ---
 
-## 更多信息
+## More Information
 
-- [README](../README.md) — 项目总览与快速上手
-- [设计原则](DESIGN_PRINCIPLES.md) — 架构与设计决策
-- [开发循环](DEV_LOOP.md) — 开发流程指南
-- [Roadmap](../ROADMAP.md) — 完整里程碑列表
+- [README](../README.md) — Project overview and quick start
+- [Design Principles](DESIGN_PRINCIPLES.md) — Architecture and design decisions
+- [Development Loop](DEV_LOOP.md) — Development workflow guide
+- [Roadmap](../ROADMAP.md) — Full milestone list
