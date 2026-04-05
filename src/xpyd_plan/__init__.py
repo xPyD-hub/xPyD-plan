@@ -155,6 +155,13 @@ from xpyd_plan.generator import (
     load_generator_config,
 )
 from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
+from xpyd_plan.health_check import (
+    CheckResult,
+    HealthChecker,
+    HealthReport,
+    HealthStatus,
+    check_health,
+)
 from xpyd_plan.heatmap import (
     AggregationMetric,
     HeatmapCell,
@@ -609,6 +616,11 @@ __all__ = [
     "HeatmapReport",
     "LatencyField",
     "generate_heatmap",
+    "CheckResult",
+    "HealthChecker",
+    "HealthReport",
+    "HealthStatus",
+    "check_health",
     "BenchmarkPlan",
     "BenchmarkPlanGenerator",
     "PlannedRatio",
