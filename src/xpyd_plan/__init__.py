@@ -257,6 +257,13 @@ from xpyd_plan.recommender import (
     RecommendationReport,
     get_recommendations,
 )
+from xpyd_plan.regression import (
+    PredictedLatency,
+    RegressionAnalyzer,
+    RegressionFit,
+    RegressionReport,
+    analyze_regression,
+)
 from xpyd_plan.root_cause import (
     CauseFactor,
     FactorSignificance,
@@ -434,6 +441,11 @@ __all__ = [
     "RecommendationPriority",
     "RecommendationReport",
     "get_recommendations",
+    "PredictedLatency",
+    "RegressionAnalyzer",
+    "RegressionFit",
+    "RegressionReport",
+    "analyze_regression",
     "FleetAllocation",
     "FleetCalculator",
     "FleetOption",
