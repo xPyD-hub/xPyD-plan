@@ -49,6 +49,7 @@ from xpyd_plan.cli._regression import _cmd_regression, add_regression_parser
 from xpyd_plan.cli._replay import add_replay_parser
 from xpyd_plan.cli._roi import add_roi_parser
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
+from xpyd_plan.cli._sample import add_sample_parser
 from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
@@ -905,6 +906,7 @@ def main(argv: list[str] | None = None) -> None:
     add_regression_parser(subparsers)
     add_replay_parser(subparsers)
     add_roi_parser(subparsers)
+    add_sample_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
