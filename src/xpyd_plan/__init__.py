@@ -793,6 +793,24 @@ __all__ += [
     "sample_benchmark",
 ]
 
+from xpyd_plan.concurrency_util import (  # noqa: E402
+    ConcurrencyUtilizationAnalyzer,
+    RightSizingRecommendation,
+    UtilizationLevel,
+    UtilizationReport,
+    UtilizationWindow,
+    analyze_concurrency_util,
+)
+
+__all__ += [
+    "ConcurrencyUtilizationAnalyzer",
+    "RightSizingRecommendation",
+    "UtilizationLevel",
+    "UtilizationReport",
+    "UtilizationWindow",
+    "analyze_concurrency_util",
+]
+
 from xpyd_plan.size_distribution import (  # noqa: E402
     DistributionShape,
     Histogram,
