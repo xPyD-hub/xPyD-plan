@@ -1058,3 +1058,39 @@ __all__ += [
     "ErrorBudgetReport",
     "analyze_error_budget",
 ]
+
+from xpyd_plan.coverage import (  # noqa: E402
+    CoverageAnalyzer,
+    CoverageGrade,
+    CoverageMetrics,
+    CoverageReport,
+    RatioGap,
+    analyze_coverage,
+)
+
+__all__ += [
+    "CoverageAnalyzer",
+    "CoverageGrade",
+    "CoverageMetrics",
+    "CoverageReport",
+    "RatioGap",
+    "analyze_coverage",
+]
+
+from xpyd_plan.pd_imbalance import (  # noqa: E402
+    ImbalanceClassification,
+    ImbalanceLevel,
+    ImbalanceReport,
+    MetricSensitivity,
+    PDImbalanceDetector,
+    detect_pd_imbalance,
+)
+
+__all__ += [
+    "ImbalanceClassification",
+    "ImbalanceLevel",
+    "ImbalanceReport",
+    "MetricSensitivity",
+    "PDImbalanceDetector",
+    "detect_pd_imbalance",
+]

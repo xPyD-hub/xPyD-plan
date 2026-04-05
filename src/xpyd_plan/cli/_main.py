@@ -21,6 +21,7 @@ from xpyd_plan.cli._confidence import _cmd_confidence
 from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
 from xpyd_plan.cli._convergence import add_convergence_parser
 from xpyd_plan.cli._correlation import _cmd_correlation, add_correlation_parser
+from xpyd_plan.cli._coverage import add_coverage_parser
 from xpyd_plan.cli._dashboard import _cmd_dashboard
 from xpyd_plan.cli._decompose import _cmd_decompose, add_decompose_parser
 from xpyd_plan.cli._dedup import add_dedup_parser
@@ -972,6 +973,9 @@ def main(argv: list[str] | None = None) -> None:
     # --- plan-benchmarks subcommand ---
     add_plan_benchmarks_parser(subparsers)
 
+    # --- coverage subcommand ---
+    add_coverage_parser(subparsers)
+
     # --- threshold-advisor subcommand ---
     add_threshold_advisor_parser(subparsers)
 
@@ -1090,6 +1094,9 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_arrival_pattern(args)
     elif args.command == "plan-benchmarks":
         _cmd_plan_benchmarks(args)
+    elif args.command == "coverage":
+        from xpyd_plan.cli._coverage import _cmd_coverage
+        _cmd_coverage(args)
     elif args.command == "threshold-advisor":
         _cmd_threshold_advisor(args)
     elif args.command == "forecast":
