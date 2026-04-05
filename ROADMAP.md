@@ -1452,9 +1452,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic API via `RateLimitRecommender.recommend()`
 - 19 new tests
 
-### M108 🔄 vLLM Benchmark Format Importer
+### M108 ✅ vLLM Benchmark Format Importer
 
-*In progress — PR #TBD*
+*Completed — PR #240*
 
 - `VLLMImporter` class in `vllm_import.py`
 - `VLLMBenchmarkData`, `VLLMRequest`, `ImportResult`, `ImportConfig` Pydantic models
@@ -1465,3 +1465,29 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `import` subcommand with `--input`, `--format vllm|auto`, `--output`, `--prefill-instances`, `--decode-instances`
 - Programmatic `import_vllm()` API
 - 32 new tests
+
+### M109 ✅ vLLM Benchmark Command Generator
+
+*Completed — PR #242*
+
+- `CommandGenerator` class in `vllm_commands.py`
+- `CommandConfig`, `GeneratedCommand`, `CommandSet` Pydantic models
+- Generate vLLM server launch and benchmark_serving.py commands for all valid P:D ratio splits
+- Shell script output with server lifecycle management (background, sleep, kill)
+- CLI `vllm-commands` subcommand with `--total-instances`, table + JSON output
+- Programmatic API via `CommandGenerator`
+- 20 new tests
+
+### M110 ✅ SGLang Benchmark Format Importer
+
+*Completed — PR #TBD*
+
+- `SGLangRequest`, `SGLangBenchmarkData`, `SGLangImportConfig`, `SGLangImportResult` Pydantic models
+- Parse SGLang `bench_serving` output (list of RequestFuncOutput dicts)
+- Convert to native xpyd-plan BenchmarkData format
+- Auto-detect SGLang format (itl as list + latency field, no request_latency)
+- Failed request filtering (success=false) with count in warnings
+- TPOT computed as mean of itl list, with fallback estimation
+- CLI `import` subcommand updated with `--format sglang|auto` support
+- Programmatic `import_sglang()` and `import_sglang_data()` APIs
+- 23 new tests (2495 total)

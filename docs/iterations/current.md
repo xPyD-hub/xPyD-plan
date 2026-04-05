@@ -4,23 +4,36 @@
 
 ---
 
-## Current Milestone: M109 — vLLM Benchmark Command Generator 🔄
+## Current Milestone: M110 — SGLang Benchmark Format Importer ✅
 
-Generate ready-to-run vLLM server and benchmark_serving.py commands for P:D ratio exploration.
+Import SGLang `bench_serving` output into native xpyd-plan format for downstream analysis.
+
+### What was done
+
+- `SGLangImporter` logic in `sglang_import.py`
+- Pydantic models: `SGLangRequest`, `SGLangBenchmarkData`, `SGLangImportConfig`, `SGLangImportResult`
+- Auto-detect SGLang format (presence of `itl` as list + `latency` field, absence of `request_latency`)
+- Failed request filtering with count in warnings
+- TPOT computed as mean of `itl` list, with fallback estimation
+- CLI `import` subcommand updated with `--format sglang|auto` support
+- Programmatic `import_sglang()` and `import_sglang_data()` APIs
+- 23 new tests (2495 total)
 
 ### Changes
-- **`src/xpyd_plan/vllm_import.py`**: `VLLMImporter` class, `VLLMBenchmarkData`, `VLLMRequest`, `ImportResult`, `ImportConfig` models, `import_vllm()` API
-- **`src/xpyd_plan/cli/_import.py`**: CLI `import` subcommand
-- **`src/xpyd_plan/cli/_main.py`**: Register import subcommand
-- **`src/xpyd_plan/__init__.py`**: Added exports (preserved all prior exports)
-- **`tests/test_vllm_import.py`**: 32 new tests
-- **`ROADMAP.md`**: Added M105, M106, M107, M108 entries
+
+| File | Change |
+|------|--------|
+| `src/xpyd_plan/sglang_import.py` | New — SGLang import logic |
+| `src/xpyd_plan/cli/_import.py` | Updated — SGLang format support in import CLI |
+| `src/xpyd_plan/__init__.py` | Updated — export SGLang symbols |
+| `tests/test_sglang_import.py` | New — 23 tests |
+| `docs/iterations/current.md` | Updated |
 
 ---
 
-## Previous Milestones
+## Project Status
 
-The project has completed **107 milestones**, covering the full feature chain from core analysis to advanced optimization.
+The project has completed **110 milestones**, covering the full feature chain from core analysis to advanced optimization.
 
 ---
 
@@ -29,7 +42,7 @@ The project has completed **107 milestones**, covering the full feature chain fr
 1. **Offline analysis only** — Does not support real-time streaming ingestion of production traffic data
 2. **Linear scaling assumption** — `plan-capacity` uses a linear model, which may deviate from reality under high concurrency
 3. **Single-cluster perspective** — Cross-cluster/cross-region joint optimization is not yet supported
-4. **Benchmark format** — Now supports vLLM format import in addition to native format
+4. **Benchmark format** — Now supports vLLM and SGLang format import in addition to native format
 
 ---
 
@@ -40,12 +53,13 @@ The project has completed **107 milestones**, covering the full feature chain fr
 - Closed-loop integration with xPyD-proxy auto-tuning
 - Web UI dashboard (replacing TUI)
 - Richer visualizations (interactive charts)
-- Support additional benchmark tool formats (TensorRT-LLM, SGLang)
+- Support additional benchmark tool formats (TensorRT-LLM)
 
 ## Iteration History
 
 | # | Date | Task | Result | Reviewer Comments |
 |---|------|------|--------|-------------------|
 | 1 | 2026-04-06 | M107 Rate Limiter Recommender | ✅ merged | PR #238 |
-| 2 | 2026-04-06 | M108 vLLM Benchmark Importer | ⏳ pending review | PR #TBD |
-| 3 | 2026-04-06 | M109 vLLM Benchmark Command Generator | ⏳ awaiting review | Issue #241, PR #TBD |
+| 2 | 2026-04-06 | M108 vLLM Benchmark Importer | ✅ merged | PR #240 |
+| 3 | 2026-04-06 | M109 vLLM Benchmark Command Generator | ✅ merged | PR #242 |
+| 4 | 2026-04-06 | M110 SGLang Benchmark Format Importer | ⏳ pending review | Issue #243 |

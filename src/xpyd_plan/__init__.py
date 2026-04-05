@@ -1441,3 +1441,21 @@ __all__ += [
     "VLLMRequest",
     "import_vllm",
 ]
+
+from xpyd_plan.sglang_import import (  # noqa: E402
+    SGLangBenchmarkData,
+    SGLangImportConfig,
+    SGLangImportResult,
+    SGLangRequest,
+    import_sglang,
+    import_sglang_data,
+)
+
+__all__ += [
+    "SGLangBenchmarkData",
+    "SGLangImportConfig",
+    "SGLangImportResult",
+    "SGLangRequest",
+    "import_sglang",
+    "import_sglang_data",
+]
