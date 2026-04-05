@@ -31,6 +31,14 @@ from xpyd_plan.annotation import (
     FilterResult,
     annotate_benchmark,
 )
+from xpyd_plan.arrival_pattern import (
+    ArrivalPattern,
+    ArrivalPatternAnalyzer,
+    ArrivalPatternReport,
+    BurstInfo,
+    InterArrivalStats,
+    analyze_arrival_pattern,
+)
 from xpyd_plan.benchmark_models import (
     AnalysisResult,
     BenchmarkData,
@@ -383,6 +391,12 @@ from xpyd_plan.workload import (
 )
 
 __all__ = [
+    "ArrivalPattern",
+    "ArrivalPatternAnalyzer",
+    "ArrivalPatternReport",
+    "BurstInfo",
+    "InterArrivalStats",
+    "analyze_arrival_pattern",
     "AnnotatedBenchmark",
     "Annotation",
     "AnnotationManager",

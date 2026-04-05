@@ -932,3 +932,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `health-check` subcommand with `--benchmark`, table + JSON output
 - Programmatic `check_health()` API
 - 18 new tests (1574 total)
+
+### M72 ✅ Request Arrival Pattern Analysis
+
+*Completed — PR #TBD*
+
+- `ArrivalPatternAnalyzer` class in `arrival_pattern.py`
+- `ArrivalPattern`, `ArrivalPatternReport`, `InterArrivalStats`, `BurstInfo` Pydantic models
+- Inter-arrival time statistics: mean, std, CV, percentiles (P50/P95/P99)
+- Pattern classification: POISSON, BURSTY, PERIODIC, UNIFORM, UNKNOWN
+- Burst detection with configurable threshold (fraction of mean IAT)
+- Poisson fit assessment via CV-based exponentiality test
+- Periodicity detection via lag-1 autocorrelation
+- CLI `arrival-pattern` subcommand with `--benchmark`, `--burst-threshold`, table + JSON output
+- Programmatic `analyze_arrival_pattern()` API
+- 19 new tests (1593 total)
