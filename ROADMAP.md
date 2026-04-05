@@ -880,14 +880,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `migrate_schema()` API
 - 23 new tests (1493 total)
 
-### M67 – Request Replay Schedule Generator
+### M67 ✅ Request Replay Schedule Generator
+
+*Completed — PR #154*
 
 - `ReplayGenerator` class in `replay.py`
 - `ReplaySchedule`, `ReplayEntry`, `ReplayConfig` Pydantic models
 - Extract request arrival times and token counts from benchmark data
-- Generate reproducible replay schedule (JSON format) with relative timestamps
-- Time scaling: speed up or slow down the schedule (`--time-scale` factor)
-- QPS override: redistribute arrivals to achieve target QPS while preserving token distribution
-- CLI `replay` subcommand with `--benchmark`, `--time-scale`, `--target-qps`, `--output`
+- Generate reproducible replay schedule (JSON) with relative timestamps
+- Time scaling: speed up or slow down schedule (`--time-scale` factor)
+- QPS override: redistribute arrivals uniformly (`--target-qps`)
+- Support both native and xpyd-bench benchmark formats
+- CLI `replay` subcommand with `--benchmark`, `--time-scale`, `--target-qps`, `--output`, `--output-format`
 - Programmatic `generate_replay()` API
-- ~20 new tests
+- 25 new tests (1518 total)
