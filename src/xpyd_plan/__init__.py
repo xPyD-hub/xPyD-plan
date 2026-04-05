@@ -47,6 +47,14 @@ from xpyd_plan.budget import (
     StageBudget,
     allocate_budget,
 )
+from xpyd_plan.cdf import (
+    CDFCurve,
+    CDFGenerator,
+    CDFPoint,
+    CDFReport,
+    SLAMarker,
+    generate_cdf,
+)
 from xpyd_plan.comparator import (
     BenchmarkComparator,
     ComparisonResult,
@@ -446,6 +454,12 @@ __all__ = [
     "RegressionFit",
     "RegressionReport",
     "analyze_regression",
+    "CDFCurve",
+    "CDFGenerator",
+    "CDFPoint",
+    "CDFReport",
+    "SLAMarker",
+    "generate_cdf",
     "FleetAllocation",
     "FleetCalculator",
     "FleetOption",
