@@ -994,7 +994,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M76 ✅ Benchmark Reproducibility Score
 
-*Completed — PR #TBD*
+*Completed — PR #172*
 
 - `ReproducibilityAnalyzer` class in `reproducibility.py`
 - `ReproducibilityReport`, `MetricReproducibility`, `ReproducibilityGrade`, `RunPairTest` Pydantic models
