@@ -44,6 +44,7 @@ from xpyd_plan.cli._generate import _cmd_generate
 from xpyd_plan.cli._goodput import add_goodput_parser
 from xpyd_plan.cli._health_check import _cmd_health_check, add_health_check_parser
 from xpyd_plan.cli._heatmap import _cmd_heatmap, add_heatmap_parser
+from xpyd_plan.cli._import import add_import_parser
 from xpyd_plan.cli._interpolate import _cmd_interpolate
 from xpyd_plan.cli._jitter import add_jitter_parser
 from xpyd_plan.cli._load_profile import add_load_profile_parser
@@ -957,6 +958,7 @@ def main(argv: list[str] | None = None) -> None:
     # --- timeline subcommand ---
     add_throughput_parser(subparsers)
     add_queue_parser(subparsers)
+    add_import_parser(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
