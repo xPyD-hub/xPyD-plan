@@ -866,13 +866,28 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `calculate_roi()` API
 - 20 new tests (1470 total)
 
-### M66 – Benchmark Schema Versioning & Migration
+### M66 ✅ Benchmark Schema Versioning & Migration
+
+*Completed — PR #152*
 
 - `SchemaMigrator` class in `schema_migrate.py`
-- `MigrationResult`, `SchemaVersion` Pydantic models
+- `SchemaVersion`, `MigrationResult` Pydantic models
 - Detect benchmark JSON schema version from file content
 - Migrate older schema versions to current format (v1 → v2 transformations)
+- v2 adds: top-level `schema_version`, `metadata.run_id`, `metadata.schema_version`
 - Dry-run mode to preview changes without writing
-- CLI `migrate` subcommand with `--benchmark`, `--target-version`, `--dry-run`
+- CLI `migrate` subcommand with `--benchmark`, `--target-version`, `--dry-run`, `--output`, `--output-format`
 - Programmatic `migrate_schema()` API
+- 23 new tests (1493 total)
+
+### M67 – Request Replay Schedule Generator
+
+- `ReplayGenerator` class in `replay.py`
+- `ReplaySchedule`, `ReplayEntry`, `ReplayConfig` Pydantic models
+- Extract request arrival times and token counts from benchmark data
+- Generate reproducible replay schedule (JSON format) with relative timestamps
+- Time scaling: speed up or slow down the schedule (`--time-scale` factor)
+- QPS override: redistribute arrivals to achieve target QPS while preserving token distribution
+- CLI `replay` subcommand with `--benchmark`, `--time-scale`, `--target-qps`, `--output`
+- Programmatic `generate_replay()` API
 - ~20 new tests
