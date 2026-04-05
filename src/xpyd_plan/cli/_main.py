@@ -29,6 +29,7 @@ from xpyd_plan.cli._dedup import add_dedup_parser
 from xpyd_plan.cli._diff_report import register as _register_diff_report
 from xpyd_plan.cli._discover import _cmd_discover, add_discover_parser
 from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
+from xpyd_plan.cli._ensemble import add_ensemble_parser
 from xpyd_plan.cli._error_budget import register as _register_error_budget
 from xpyd_plan.cli._export import _cmd_export
 from xpyd_plan.cli._fairness import _cmd_fairness, add_fairness_parser
@@ -56,7 +57,6 @@ from xpyd_plan.cli._parquet import add_parquet_parser
 from xpyd_plan.cli._pd_imbalance import add_pd_imbalance_parser
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
-from xpyd_plan.cli._ensemble import add_ensemble_parser
 from xpyd_plan.cli._qps_curve import add_qps_curve_parser
 from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._ranking import _cmd_ranking, add_ranking_parser
