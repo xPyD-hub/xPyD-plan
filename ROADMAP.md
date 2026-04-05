@@ -1376,7 +1376,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M102 ✅ Latency Anomaly Classifier
 
-*Completed — PR #TBD*
+*Completed — PR #226*
 
 - `LatencyAnomalyClassifier` class in `anomaly_classifier.py`
 - `AnomalyClass`, `RequestLabel`, `ClassDistribution`, `AnomalyReport` Pydantic models
@@ -1388,3 +1388,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `anomaly-classify` subcommand with `--benchmark`, `--slow-multiplier`, `--outlier-multiplier`, `--timeout-*`, table + JSON output
 - Programmatic `classify_anomalies()` API
 - 27 new tests (2317 total)
+
+### M103 ✅ SLA Headroom Calculator
+
+*Completed — PR #TBD*
+
+- `SLAHeadroomCalculator` class in `sla_headroom.py`
+- `MetricHeadroom`, `HeadroomReport`, `SafetyLevel` Pydantic models
+- Per-metric absolute (ms) and relative (%) headroom computation at configurable percentiles
+- Safety level classification: CRITICAL (SLA violation), TIGHT (<10%), ADEQUATE (10-30%), COMFORTABLE (>30%)
+- Tightest metric identification across all configured SLA thresholds
+- Actionable operational recommendations based on safety levels
+- CLI `sla-headroom` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--percentile`, table + JSON output
+- Programmatic `analyze_sla_headroom()` API
+- 19 new tests
