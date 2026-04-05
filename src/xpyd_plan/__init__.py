@@ -1018,3 +1018,23 @@ __all__ += [
     "RatioMetrics",
     "compare_ratios",
 ]
+
+from xpyd_plan.diff_report import (  # noqa: E402
+    ChangeDirection,
+    DiffReport,
+    DiffReporter,
+    DiffSummary,
+    LatencyDiffSection,
+    MetricDiff,
+    generate_diff_report,
+)
+
+__all__ += [
+    "ChangeDirection",
+    "DiffReport",
+    "DiffReporter",
+    "DiffSummary",
+    "LatencyDiffSection",
+    "MetricDiff",
+    "generate_diff_report",
+]

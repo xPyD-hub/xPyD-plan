@@ -24,6 +24,7 @@ from xpyd_plan.cli._correlation import _cmd_correlation, add_correlation_parser
 from xpyd_plan.cli._dashboard import _cmd_dashboard
 from xpyd_plan.cli._decompose import _cmd_decompose, add_decompose_parser
 from xpyd_plan.cli._dedup import add_dedup_parser
+from xpyd_plan.cli._diff_report import register as _register_diff_report
 from xpyd_plan.cli._discover import _cmd_discover, add_discover_parser
 from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
 from xpyd_plan.cli._export import _cmd_export
@@ -915,6 +916,9 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- weighted-goodput subcommand ---
     _register_weighted_goodput(subparsers)
+
+    # --- diff-report subcommand ---
+    _register_diff_report(subparsers)
 
     # --- fairness subcommand ---
     add_fairness_parser(subparsers)
