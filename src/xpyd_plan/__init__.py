@@ -968,3 +968,21 @@ __all__ += [
     "TokenCharacterization",
     "analyze_timeouts",
 ]
+
+from xpyd_plan.ratio_compare import (  # noqa: E402
+    BestRatio,
+    PercentileStats,
+    RatioComparer,
+    RatioComparison,
+    RatioMetrics,
+    compare_ratios,
+)
+
+__all__ += [
+    "BestRatio",
+    "PercentileStats",
+    "RatioComparer",
+    "RatioComparison",
+    "RatioMetrics",
+    "compare_ratios",
+]

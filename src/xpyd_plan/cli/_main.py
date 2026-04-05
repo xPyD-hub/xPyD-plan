@@ -48,6 +48,7 @@ from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
 from xpyd_plan.cli._queue import add_queue_parser
+from xpyd_plan.cli._ratio_compare import add_ratio_compare_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._regression import _cmd_regression, add_regression_parser
 from xpyd_plan.cli._replay import add_replay_parser
@@ -904,6 +905,7 @@ def main(argv: list[str] | None = None) -> None:
     add_cold_start_parser(subparsers)
     add_dedup_parser(subparsers)
     add_timeout_parser(subparsers)
+    add_ratio_compare_parser(subparsers)
     add_spike_parser(subparsers)
 
     # --- fairness subcommand ---
