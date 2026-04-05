@@ -366,6 +366,13 @@ from xpyd_plan.validator import (
     ValidationResult,
     validate_benchmark,
 )
+from xpyd_plan.warmup import (
+    LatencyComparison,
+    WarmupFilter,
+    WarmupReport,
+    WarmupWindow,
+    filter_warmup,
+)
 from xpyd_plan.workload import (
     WorkloadCategory,
     WorkloadClass,
@@ -527,6 +534,11 @@ __all__ = [
     "WorkloadClassifier",
     "WorkloadProfile",
     "WorkloadReport",
+    "LatencyComparison",
+    "WarmupFilter",
+    "WarmupReport",
+    "WarmupWindow",
+    "filter_warmup",
     "classify_workload",
     "SaturationDetector",
     "SaturationPoint",
