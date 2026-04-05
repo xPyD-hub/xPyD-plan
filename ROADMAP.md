@@ -1373,3 +1373,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `ensemble` subcommand with `--benchmark` (multiple), `--predict-qps`, `--sla-*`, table + JSON output
 - Programmatic `ensemble_predict()` API
 - 31 new tests (2290 total)
+
+### M102 ✅ Latency Anomaly Classifier
+
+*Completed — PR #TBD*
+
+- `LatencyAnomalyClassifier` class in `anomaly_classifier.py`
+- `AnomalyClass`, `RequestLabel`, `ClassDistribution`, `AnomalyReport` Pydantic models
+- Per-request labeling as NORMAL, SLOW, OUTLIER, or TIMEOUT for TTFT, TPOT, total_latency
+- IQR-based thresholds: SLOW (>P75 + 1.0×IQR), OUTLIER (>P75 + 3.0×IQR), configurable multipliers
+- Optional absolute timeout thresholds per metric
+- Worst-class identification per request (highest severity across metrics)
+- Per-metric class distribution statistics (counts and percentages)
+- CLI `anomaly-classify` subcommand with `--benchmark`, `--slow-multiplier`, `--outlier-multiplier`, `--timeout-*`, table + JSON output
+- Programmatic `classify_anomalies()` API
+- 27 new tests (2317 total)

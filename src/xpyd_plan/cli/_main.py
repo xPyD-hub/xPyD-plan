@@ -9,6 +9,7 @@ from xpyd_plan.cli._ab_test import _cmd_ab_test
 from xpyd_plan.cli._alert import _cmd_alert
 from xpyd_plan.cli._analyze import _cmd_analyze
 from xpyd_plan.cli._annotate import _cmd_annotate
+from xpyd_plan.cli._anomaly_classify import add_anomaly_classify_parser
 from xpyd_plan.cli._arrival_pattern import _cmd_arrival_pattern, add_arrival_pattern_parser
 from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
@@ -925,6 +926,7 @@ def main(argv: list[str] | None = None) -> None:
     # --- variance subcommand ---
     add_ranking_parser(subparsers)
     add_variance_parser(subparsers)
+    add_anomaly_classify_parser(subparsers)
     add_jitter_parser(subparsers)
     add_cold_start_parser(subparsers)
     add_dedup_parser(subparsers)
@@ -1241,6 +1243,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "jitter":
         from xpyd_plan.cli._jitter import _cmd_jitter
         _cmd_jitter(args)
+    elif args.command == "anomaly-classify":
+        from xpyd_plan.cli._anomaly_classify import _cmd_anomaly_classify
+        _cmd_anomaly_classify(args)
     elif args.command == "cold-start":
         from xpyd_plan.cli._cold_start import _cmd_cold_start
         _cmd_cold_start(args)
