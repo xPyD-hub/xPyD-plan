@@ -48,6 +48,7 @@ from xpyd_plan.cli._outlier_impact import (
     add_outlier_impact_parser,
 )
 from xpyd_plan.cli._pareto import _cmd_pareto
+from xpyd_plan.cli._pd_imbalance import add_pd_imbalance_parser
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
 from xpyd_plan.cli._queue import add_queue_parser
@@ -910,6 +911,7 @@ def main(argv: list[str] | None = None) -> None:
     add_dedup_parser(subparsers)
     add_timeout_parser(subparsers)
     add_ratio_compare_parser(subparsers)
+    add_pd_imbalance_parser(subparsers)
     add_spike_parser(subparsers)
 
     # --- goodput subcommand ---

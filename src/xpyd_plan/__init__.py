@@ -1058,3 +1058,21 @@ __all__ += [
     "ErrorBudgetReport",
     "analyze_error_budget",
 ]
+
+from xpyd_plan.pd_imbalance import (  # noqa: E402
+    ImbalanceClassification,
+    ImbalanceLevel,
+    ImbalanceReport,
+    MetricSensitivity,
+    PDImbalanceDetector,
+    detect_pd_imbalance,
+)
+
+__all__ += [
+    "ImbalanceClassification",
+    "ImbalanceLevel",
+    "ImbalanceReport",
+    "MetricSensitivity",
+    "PDImbalanceDetector",
+    "detect_pd_imbalance",
+]
