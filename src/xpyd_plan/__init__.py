@@ -878,3 +878,21 @@ __all__ += [
     "RunPairTest",
     "analyze_reproducibility",
 ]
+
+from xpyd_plan.jitter import (  # noqa: E402
+    JitterAnalyzer,
+    JitterClassification,
+    JitterReport,
+    JitterStats,
+    MetricJitter,
+    analyze_jitter,
+)
+
+__all__ += [
+    "JitterAnalyzer",
+    "JitterClassification",
+    "JitterReport",
+    "JitterStats",
+    "MetricJitter",
+    "analyze_jitter",
+]
