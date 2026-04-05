@@ -1212,3 +1212,19 @@ __all__ += [
     "ParquetExportResult",
     "export_parquet",
 ]
+
+from xpyd_plan.session import (  # noqa: E402
+    Session,
+    SessionEntry,
+    SessionManager,
+    SessionReport,
+    manage_session,
+)
+
+__all__ += [
+    "Session",
+    "SessionEntry",
+    "SessionManager",
+    "SessionReport",
+    "manage_session",
+]

@@ -70,6 +70,7 @@ from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scaling_policy import add_scaling_policy_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
+from xpyd_plan.cli._session import _cmd_session
 from xpyd_plan.cli._size_distribution import _cmd_size_distribution, add_size_distribution_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
 from xpyd_plan.cli._spike import add_spike_parser
@@ -1004,6 +1005,40 @@ def main(argv: list[str] | None = None) -> None:
     add_plugins_subcommand(subparsers)
 
     # Let plugins register their own CLI subcommands
+        # --- session subcommand ---
+    session_parser = subparsers.add_parser(
+        "session",
+        help="Manage benchmark sessions (group related benchmark files)",
+    )
+    session_parser.add_argument(
+        "session_action", choices=["create", "add", "list", "show", "delete", "remove"],
+        help="Session action",
+    )
+    session_parser.add_argument(
+        "--name", type=str, default=None,
+        help="Session name",
+    )
+    session_parser.add_argument(
+        "--description", type=str, default=None,
+        help="Session description (for 'create')",
+    )
+    session_parser.add_argument(
+        "--tags", type=str, default=None,
+        help="Comma-separated tags (for 'create')",
+    )
+    session_parser.add_argument(
+        "--benchmark", type=str, default=None,
+        help="Path to benchmark JSON file (for 'add' and 'remove')",
+    )
+    session_parser.add_argument(
+        "--db", type=str, default=None,
+        help="Path to session SQLite database (default: xpyd-plan-sessions.db)",
+    )
+    session_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     from xpyd_plan.plugin import get_registry
 
     get_registry().register_all_cli(subparsers)
@@ -1163,6 +1198,8 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "scaling-policy":
         from xpyd_plan.cli._scaling_policy import _cmd_scaling_policy
         _cmd_scaling_policy(args)
+    elif args.command == "session":
+        _cmd_session(args)
     else:
         parser.print_help()
         sys.exit(1)
