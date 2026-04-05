@@ -1093,3 +1093,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `ratio-compare` subcommand with `--benchmark` (multiple), table + JSON output
 - Programmatic `compare_ratios()` API
 - ~22 new tests
+
+### M83 ✅ Goodput Analysis
+
+*Completed — PR #186*
+
+- `GoodputAnalyzer` class in `goodput.py`
+- `GoodputReport`, `GoodputWindow`, `FailureBreakdown`, `GoodputGrade` Pydantic models
+- Per-request SLA pass/fail classification with configurable thresholds
+- Goodput ratio (SLA-passing requests / total) and goodput QPS computation
+- Time-windowed goodput tracking with worst-window detection
+- Failure breakdown by metric (TTFT, TPOT, total_latency, multi-metric)
+- Grade classification: EXCELLENT (≥99%), GOOD (≥95%), FAIR (≥80%), POOR (<80%)
+- CLI `goodput` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, table + JSON output
+- Programmatic `analyze_goodput()` API
+- 24 new tests (1863 total)

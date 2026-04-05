@@ -162,6 +162,15 @@ from xpyd_plan.generator import (
     generate_benchmark,
     load_generator_config,
 )
+from xpyd_plan.goodput import (
+    FailureBreakdown,
+    FailureMetric,
+    GoodputAnalyzer,
+    GoodputGrade,
+    GoodputReport,
+    GoodputWindow,
+    analyze_goodput,
+)
 from xpyd_plan.gpu_profiles import get_gpu_profile, list_gpu_profiles
 from xpyd_plan.health_check import (
     CheckResult,
@@ -534,6 +543,13 @@ __all__ = [
     "LatencyProfile",
     "generate_benchmark",
     "load_generator_config",
+    "FailureBreakdown",
+    "FailureMetric",
+    "GoodputAnalyzer",
+    "GoodputGrade",
+    "GoodputReport",
+    "GoodputWindow",
+    "analyze_goodput",
     "AllocationStrategy",
     "BudgetAllocation",
     "BudgetAllocator",
