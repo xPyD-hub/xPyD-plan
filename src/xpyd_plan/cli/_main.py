@@ -31,6 +31,7 @@ from xpyd_plan.cli._dedup import add_dedup_parser
 from xpyd_plan.cli._diff_report import register as _register_diff_report
 from xpyd_plan.cli._discover import _cmd_discover, add_discover_parser
 from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
+from xpyd_plan.cli._duration_advisor import _run_duration_advisor, add_duration_advisor_parser
 from xpyd_plan.cli._ensemble import add_ensemble_parser
 from xpyd_plan.cli._error_budget import register as _register_error_budget
 from xpyd_plan.cli._export import _cmd_export
@@ -981,6 +982,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- drift subcommand ---
     add_drift_parser(subparsers)
+    add_duration_advisor_parser(subparsers)
 
     # --- root-cause subcommand ---
     add_root_cause_parser(subparsers)
@@ -1184,6 +1186,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_timeline(args)
     elif args.command == "drift":
         _cmd_drift(args)
+    elif args.command == "duration-advisor":
+        _run_duration_advisor(args)
     elif args.command == "root-cause":
         _cmd_root_cause(args)
     elif args.command == "tail":

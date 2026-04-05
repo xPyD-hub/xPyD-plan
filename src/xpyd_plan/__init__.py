@@ -129,6 +129,13 @@ from xpyd_plan.drift import (
     DriftSeverity,
     detect_drift,
 )
+from xpyd_plan.duration_advisor import (
+    DurationAdvisor,
+    DurationAdvisorReport,
+    DurationVerdict,
+    MetricStabilization,
+    advise_duration,
+)
 from xpyd_plan.fairness import (
     BucketStats,
     FairnessAnalyzer,
@@ -730,6 +737,11 @@ __all__ = [
     "ThresholdAdvisor",
     "ThresholdSuggestion",
     "advise_thresholds",
+    "DurationAdvisor",
+    "DurationAdvisorReport",
+    "DurationVerdict",
+    "MetricStabilization",
+    "advise_duration",
     "CapacityForecaster",
     "ForecastMethod",
     "ForecastPoint",
