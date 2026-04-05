@@ -1186,3 +1186,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `pd-imbalance` subcommand with `--benchmark` (multiple), table + JSON output
 - Programmatic `detect_pd_imbalance()` API
 - 19 new tests
+
+### M89 ✅ Token Budget Estimator
+
+*Completed — PR #198*
+
+- `TokenBudgetEstimator` class in `token_budget.py`
+- `TokenLimit`, `TokenBudgetReport` Pydantic models
+- Invert latency-token regression fits to estimate maximum prompt/output token counts within SLA
+- Per-metric inversion: TTFT→max prompt tokens, TPOT→max output tokens, total→max total tokens
+- Confidence classification based on regression R² (HIGH ≥0.7, MEDIUM 0.4-0.7, LOW <0.4)
+- Warnings when regression quality is low
+- CLI `token-budget` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, table + JSON output
+- Programmatic `estimate_token_budget()` API
+- 15 new tests (1974 total)
