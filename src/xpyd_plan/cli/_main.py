@@ -33,6 +33,7 @@ from xpyd_plan.cli._generate import _cmd_generate
 from xpyd_plan.cli._health_check import _cmd_health_check, add_health_check_parser
 from xpyd_plan.cli._heatmap import _cmd_heatmap, add_heatmap_parser
 from xpyd_plan.cli._interpolate import _cmd_interpolate
+from xpyd_plan.cli._jitter import add_jitter_parser
 from xpyd_plan.cli._load_profile import add_load_profile_parser
 from xpyd_plan.cli._merge import _cmd_merge
 from xpyd_plan.cli._metrics import _cmd_metrics, add_metrics_parser
@@ -895,6 +896,7 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- correlation subcommand ---
     add_correlation_parser(subparsers)
+    add_jitter_parser(subparsers)
 
     # --- fairness subcommand ---
     add_fairness_parser(subparsers)
@@ -1095,6 +1097,9 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_reproducibility(args)
     elif args.command == "size-distribution":
         _cmd_size_distribution(args)
+    elif args.command == "jitter":
+        from xpyd_plan.cli._jitter import _cmd_jitter
+        _cmd_jitter(args)
     else:
         parser.print_help()
         sys.exit(1)
