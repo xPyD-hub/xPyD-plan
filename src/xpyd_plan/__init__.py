@@ -1166,3 +1166,19 @@ __all__ += [
     "QPSPrediction",
     "fit_qps_curve",
 ]
+
+from xpyd_plan.parquet_export import (  # noqa: E402
+    ExportMode,
+    ParquetConfig,
+    ParquetExporter,
+    ParquetExportResult,
+    export_parquet,
+)
+
+__all__ += [
+    "ExportMode",
+    "ParquetConfig",
+    "ParquetExporter",
+    "ParquetExportResult",
+    "export_parquet",
+]
