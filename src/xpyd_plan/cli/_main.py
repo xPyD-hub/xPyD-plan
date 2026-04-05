@@ -67,6 +67,7 @@ from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
 from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_threshold_advisor_parser
 from xpyd_plan.cli._throughput import add_throughput_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
+from xpyd_plan.cli._timeout import add_timeout_parser
 from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_token_efficiency
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
@@ -902,6 +903,7 @@ def main(argv: list[str] | None = None) -> None:
     add_jitter_parser(subparsers)
     add_cold_start_parser(subparsers)
     add_dedup_parser(subparsers)
+    add_timeout_parser(subparsers)
     add_spike_parser(subparsers)
 
     # --- fairness subcommand ---
