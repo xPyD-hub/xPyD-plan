@@ -12,6 +12,7 @@ from xpyd_plan.cli._annotate import _cmd_annotate
 from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
+from xpyd_plan.cli._cdf import _cmd_cdf, add_cdf_parser
 from xpyd_plan.cli._compare import _cmd_compare
 from xpyd_plan.cli._confidence import _cmd_confidence
 from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
@@ -897,6 +898,7 @@ def main(argv: list[str] | None = None) -> None:
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
     add_migrate_parser(subparsers)
+    add_cdf_parser(subparsers)
     add_regression_parser(subparsers)
     add_replay_parser(subparsers)
     add_roi_parser(subparsers)
@@ -1065,6 +1067,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_roi(args)
     elif args.command == "regression":
         _cmd_regression(args)
+    elif args.command == "cdf":
+        _cmd_cdf(args)
     else:
         parser.print_help()
         sys.exit(1)

@@ -894,3 +894,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `replay` subcommand with `--benchmark`, `--time-scale`, `--target-qps`, `--output`, `--output-format`
 - Programmatic `generate_replay()` API
 - 25 new tests (1518 total)
+
+### M68 ✅ Latency-Token Regression Analysis
+
+*Completed — PR #156*
+
+- `RegressionAnalyzer` class in `regression.py`
+- `RegressionFit`, `PredictedLatency`, `RegressionReport` Pydantic models
+- Linear regression fits: TTFT~prompt_tokens, TPOT~output_tokens, total_latency~total_tokens
+- R², slope, intercept, slope standard error for each fit
+- Optional prediction with 95% confidence interval
+- CLI `regression` subcommand with table and JSON output
+- Programmatic `analyze_regression()` API
+- 18 new tests (1536 total)
