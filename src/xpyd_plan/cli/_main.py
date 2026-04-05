@@ -57,6 +57,7 @@ from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._regression import _cmd_regression, add_regression_parser
 from xpyd_plan.cli._replay import add_replay_parser
 from xpyd_plan.cli._reproducibility import _cmd_reproducibility, add_reproducibility_parser
+from xpyd_plan.cli._retry_sim import add_retry_sim_parser
 from xpyd_plan.cli._roi import add_roi_parser
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._sample import add_sample_parser
@@ -943,6 +944,7 @@ def main(argv: list[str] | None = None) -> None:
     add_sample_parser(subparsers)
     add_size_distribution_parser(subparsers)
     add_token_budget_parser(subparsers)
+    add_retry_sim_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
