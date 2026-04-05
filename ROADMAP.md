@@ -935,7 +935,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M72 ✅ Request Arrival Pattern Analysis
 
-*Completed — PR #TBD*
+*Completed — PR #170*
 
 - `ArrivalPatternAnalyzer` class in `arrival_pattern.py`
 - `ArrivalPattern`, `ArrivalPatternReport`, `InterArrivalStats`, `BurstInfo` Pydantic models
@@ -976,3 +976,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `size-distribution` subcommand with `--benchmark`, `--bins`, table + JSON output
 - Programmatic `analyze_size_distribution()` API
 - 19 new tests (1655 total)
+
+### M75 ✅ Concurrency Utilization Analysis
+
+*Completed — PR #TBD*
+
+- `ConcurrencyUtilizationAnalyzer` class in `concurrency_util.py`
+- `UtilizationWindow`, `UtilizationReport`, `UtilizationLevel`, `RightSizingRecommendation` Pydantic models
+- Time-windowed concurrent request count estimation via temporal sampling
+- Per-window utilization classification: IDLE (<20%), LOW (20-50%), MODERATE (50-80%), HIGH (>80%)
+- Idle window and high-utilization window detection and counting
+- Right-sizing recommendation: min/target instances based on average/P95 concurrency with 20% headroom
+- Over-provisioned and under-provisioned detection
+- CLI `concurrency-util` subcommand with `--benchmark`, `--window-size`, table + JSON output
+- Programmatic `analyze_concurrency_util()` API
+- 19 new tests (1674 total)
