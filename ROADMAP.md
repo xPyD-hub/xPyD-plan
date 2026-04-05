@@ -1328,7 +1328,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `track_latency_budget()` API
 - 22 new tests
 
-### M99 — Latency Variance Decomposition
+### M99 ✅ Latency Variance Decomposition
+
+*Completed — PR #219*
 
 - `VarianceDecomposer` class in `variance_decomp.py`
 - `VarianceReport`, `MetricDecomposition`, `VarianceComponent`, `ComponentSignificance` Pydantic models
