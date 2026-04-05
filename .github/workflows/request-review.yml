@@ -1,0 +1,22 @@
+name: Request Review
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  assign-reviewers:
+    runs-on: ubuntu-latest
+    # Only request review for PRs from hlin99 (implementer)
+    if: github.event.pull_request.user.login == 'hlin99'
+    steps:
+      - name: Request reviewers
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr edit ${{ github.event.pull_request.number }} \
+            --repo ${{ github.repository }} \
+            --add-reviewer hlin99-Review-Bot,hlin99-Review-BotX
