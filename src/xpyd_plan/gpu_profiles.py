@@ -8,6 +8,13 @@ from xpyd_plan.models import GPUProfile
 # prefill_tokens_per_sec: tokens/s per GPU for prompt processing (compute-bound)
 # decode_tokens_per_sec: tokens/s per GPU for autoregressive decode (memory-bandwidth-bound)
 _BUILTIN_PROFILES: dict[str, GPUProfile] = {
+    "A100-40G": GPUProfile(
+        name="A100-40G",
+        prefill_tokens_per_sec=40_000,
+        decode_tokens_per_sec=1_600,
+        memory_gb=40.0,
+        cost_per_hour=1.80,
+    ),
     "A100-80G": GPUProfile(
         name="A100-80G",
         prefill_tokens_per_sec=50_000,
@@ -21,6 +28,34 @@ _BUILTIN_PROFILES: dict[str, GPUProfile] = {
         decode_tokens_per_sec=5_000,
         memory_gb=80.0,
         cost_per_hour=4.50,
+    ),
+    "H200-141G": GPUProfile(
+        name="H200-141G",
+        prefill_tokens_per_sec=150_000,
+        decode_tokens_per_sec=7_500,
+        memory_gb=141.0,
+        cost_per_hour=5.50,
+    ),
+    "L40S-48G": GPUProfile(
+        name="L40S-48G",
+        prefill_tokens_per_sec=35_000,
+        decode_tokens_per_sec=1_400,
+        memory_gb=48.0,
+        cost_per_hour=1.50,
+    ),
+    "B200-192G": GPUProfile(
+        name="B200-192G",
+        prefill_tokens_per_sec=250_000,
+        decode_tokens_per_sec=12_000,
+        memory_gb=192.0,
+        cost_per_hour=8.00,
+    ),
+    "A10G-24G": GPUProfile(
+        name="A10G-24G",
+        prefill_tokens_per_sec=18_000,
+        decode_tokens_per_sec=800,
+        memory_gb=24.0,
+        cost_per_hour=0.75,
     ),
 }
 
