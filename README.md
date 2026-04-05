@@ -177,6 +177,14 @@ CLI flags always override config file values.
 3. **Optimize**: Find the ratio with minimum resource waste while meeting SLA constraints
 4. **Report**: Output tables, JSON/CSV, Markdown/HTML reports, or Prometheus metrics
 
+## Documentation
+
+- **[使用指南 (Guide)](docs/guide.md)** — 完整使用指南：安装、子命令说明、典型工作流、结果解读
+- [设计原则](docs/DESIGN_PRINCIPLES.md) — 架构与设计决策
+- [开发循环](docs/DEV_LOOP.md) — 开发流程
+- [Roadmap](ROADMAP.md) — 完整里程碑列表
+- [当前迭代状态](docs/iterations/current.md) — M104 里程碑总结
+
 ## License
 
 TBD
