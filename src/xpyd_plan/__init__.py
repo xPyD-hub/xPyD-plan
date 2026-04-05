@@ -1213,6 +1213,20 @@ __all__ += [
     "export_parquet",
 ]
 
+from xpyd_plan.sqlite_export import (  # noqa: E402
+    SQLiteExportConfig,
+    SQLiteExporter,
+    SQLiteExportReport,
+    export_to_sqlite,
+)
+
+__all__ += [
+    "SQLiteExportConfig",
+    "SQLiteExporter",
+    "SQLiteExportReport",
+    "export_to_sqlite",
+]
+
 from xpyd_plan.session import (  # noqa: E402
     Session,
     SessionEntry,
@@ -1283,4 +1297,22 @@ __all__ += [
     "VarianceDecomposer",
     "VarianceReport",
     "decompose_variance",
+]
+
+from xpyd_plan.ranking import (  # noqa: E402
+    BenchmarkRanker,
+    RankDimension,
+    RankedBenchmark,
+    RankingReport,
+    RankWeights,
+    rank_benchmarks,
+)
+
+__all__ += [
+    "BenchmarkRanker",
+    "RankedBenchmark",
+    "RankDimension",
+    "RankingReport",
+    "RankWeights",
+    "rank_benchmarks",
 ]
