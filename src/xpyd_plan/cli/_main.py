@@ -32,6 +32,7 @@ from xpyd_plan.cli._filter import _cmd_filter
 from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._forecast import add_forecast_parser
 from xpyd_plan.cli._generate import _cmd_generate
+from xpyd_plan.cli._goodput import add_goodput_parser
 from xpyd_plan.cli._health_check import _cmd_health_check, add_health_check_parser
 from xpyd_plan.cli._heatmap import _cmd_heatmap, add_heatmap_parser
 from xpyd_plan.cli._interpolate import _cmd_interpolate
@@ -907,6 +908,9 @@ def main(argv: list[str] | None = None) -> None:
     add_timeout_parser(subparsers)
     add_ratio_compare_parser(subparsers)
     add_spike_parser(subparsers)
+
+    # --- goodput subcommand ---
+    add_goodput_parser(subparsers)
 
     # --- fairness subcommand ---
     add_fairness_parser(subparsers)
