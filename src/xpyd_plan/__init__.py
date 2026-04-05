@@ -1407,3 +1407,21 @@ __all__ += [
     "compare_baseline",
     "save_baseline",
 ]
+
+from xpyd_plan.vllm_import import (  # noqa: E402
+    ImportConfig,
+    ImportResult,
+    VLLMBenchmarkData,
+    VLLMImporter,
+    VLLMRequest,
+    import_vllm,
+)
+
+__all__ += [
+    "ImportConfig",
+    "ImportResult",
+    "VLLMBenchmarkData",
+    "VLLMImporter",
+    "VLLMRequest",
+    "import_vllm",
+]

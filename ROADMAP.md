@@ -1419,3 +1419,49 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Non-zero exit code on FAIL verdict (CI/CD friendly)
 - Programmatic `save_baseline()` and `compare_baseline()` APIs
 - 19 new tests
+
+### M105 ✅ Expand GPU Profile Library
+
+*Completed — PR #234*
+
+- Added 5 new built-in GPU profiles: A10G-24G, A100-40G, L40S-48G, H200-141G, B200-192G
+- GPU library expanded from 2 to 7 profiles
+- 10 tests covering all profiles
+
+### M106 ✅ Custom GPU Profile Loading from YAML
+
+*Completed — PR #236*
+
+- `load_gpu_profiles(path)` function to load custom GPU profiles from YAML files
+- `get_all_profiles()` for merged built-in + custom profiles
+- Updated `get_gpu_profile()` and `list_gpu_profiles()` with optional `custom_profiles_path`
+- Users with custom/proprietary GPUs (AMD MI300X, Intel Gaudi, etc.) can now use all tools without modifying source code
+- 17 new tests
+
+### M107 ✅ Request Rate Limiter Recommender
+
+*Completed — PR #238*
+
+- `RateLimitRecommender` class in `rate_limit.py`
+- `BurstConfig`, `HeadroomInfo`, `RateLimitReport` Pydantic models
+- Analyze benchmarks at different QPS levels, fit QPS→latency relationships
+- Find maximum safe QPS with configurable safety margin (default 10%)
+- Burst allowance computation with configurable time window
+- Per-metric headroom analysis at recommended QPS
+- CLI `rate-limit` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--safety-margin`, `--burst-window`
+- Programmatic API via `RateLimitRecommender.recommend()`
+- 19 new tests
+
+### M108 🔄 vLLM Benchmark Format Importer
+
+*In progress — PR #TBD*
+
+- `VLLMImporter` class in `vllm_import.py`
+- `VLLMBenchmarkData`, `VLLMRequest`, `ImportResult`, `ImportConfig` Pydantic models
+- Parse vLLM `benchmark_serving.py` output format (list of dicts with prompt_len, output_len, ttft, tpot/itl, request_latency, timestamp)
+- Convert to native xpyd-plan BenchmarkData format
+- Auto-detect vLLM format vs native format
+- Handle missing fields gracefully (no timestamp → generate sequential, no ttft → estimate, itl used as tpot fallback)
+- CLI `import` subcommand with `--input`, `--format vllm|auto`, `--output`, `--prefill-instances`, `--decode-instances`
+- Programmatic `import_vllm()` API
+- 32 new tests

@@ -1,24 +1,26 @@
 # xPyD-plan Current Iteration Status
 
-> Last updated: 2026-04-05
+> Last updated: 2026-04-06
 
 ---
 
-## Current Milestone: M107 — Request Rate Limiter Recommender ✅
+## Current Milestone: M108 — vLLM Benchmark Format Importer 🔄
 
-Recommend safe request rate limits based on multi-QPS benchmark data. Interpolates latency vs QPS curves to find the maximum sustainable QPS within SLA constraints, then suggests rate limits with configurable safety margins.
+Support direct import of vLLM `benchmark_serving.py` JSON output and convert to native xpyd-plan BenchmarkData format.
 
 ### Changes
-- **`src/xpyd_plan/rate_recommender.py`**: `RateRecommender` class with interpolation-based max QPS finder and safety margin
-- **`tests/test_rate_recommender.py`**: 19 new tests
-- **`src/xpyd_plan/cli/_rate_recommend.py`**: CLI `rate-recommend` subcommand
-- **`src/xpyd_plan/__init__.py`**: Added exports (preserved M106 `load_gpu_profiles`, `get_all_profiles`)
+- **`src/xpyd_plan/vllm_import.py`**: `VLLMImporter` class, `VLLMBenchmarkData`, `VLLMRequest`, `ImportResult`, `ImportConfig` models, `import_vllm()` API
+- **`src/xpyd_plan/cli/_import.py`**: CLI `import` subcommand
+- **`src/xpyd_plan/cli/_main.py`**: Register import subcommand
+- **`src/xpyd_plan/__init__.py`**: Added exports (preserved all prior exports)
+- **`tests/test_vllm_import.py`**: 32 new tests
+- **`ROADMAP.md`**: Added M105, M106, M107, M108 entries
 
 ---
 
 ## Previous Milestones
 
-The project has completed **105 milestones**, covering the full feature chain from core analysis to advanced optimization.
+The project has completed **107 milestones**, covering the full feature chain from core analysis to advanced optimization.
 
 ---
 
@@ -27,7 +29,7 @@ The project has completed **105 milestones**, covering the full feature chain fr
 1. **Offline analysis only** — Does not support real-time streaming ingestion of production traffic data
 2. **Linear scaling assumption** — `plan-capacity` uses a linear model, which may deviate from reality under high concurrency
 3. **Single-cluster perspective** — Cross-cluster/cross-region joint optimization is not yet supported
-4. **Benchmark format** — Only supports xpyd-bench native format and compatible JSON; direct import from other benchmark tools is not supported
+4. **Benchmark format** — Now supports vLLM format import in addition to native format
 
 ---
 
@@ -38,11 +40,11 @@ The project has completed **105 milestones**, covering the full feature chain fr
 - Closed-loop integration with xPyD-proxy auto-tuning
 - Web UI dashboard (replacing TUI)
 - Richer visualizations (interactive charts)
-- Custom GPU profile loading from YAML config
+- Support additional benchmark tool formats (TensorRT-LLM, SGLang)
 
 ## Iteration History
 
 | # | Date | Task | Result | Reviewer Comments |
 |---|------|------|--------|-------------------|
-| 1 | 2026-04-06 | M107 Rate Limiter Recommender | 🔄 changes requested | Both bots: __init__.py dropped M106 exports, current.md missing M107 info |
-| 2 | 2026-04-06 | M107 fix review comments | ⏳ pending re-review | Restored M106 exports, added M107 iteration record |
+| 1 | 2026-04-06 | M107 Rate Limiter Recommender | ✅ merged | PR #238 |
+| 2 | 2026-04-06 | M108 vLLM Benchmark Importer | ⏳ pending review | PR #TBD |
