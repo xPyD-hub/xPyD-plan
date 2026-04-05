@@ -969,6 +969,24 @@ __all__ += [
     "analyze_jitter",
 ]
 
+from xpyd_plan.anomaly_classifier import (  # noqa: E402
+    AnomalyClass,
+    AnomalyReport,
+    ClassDistribution,
+    LatencyAnomalyClassifier,
+    RequestLabel,
+    classify_anomalies,
+)
+
+__all__ += [
+    "AnomalyClass",
+    "AnomalyReport",
+    "ClassDistribution",
+    "LatencyAnomalyClassifier",
+    "RequestLabel",
+    "classify_anomalies",
+]
+
 from xpyd_plan.cold_start import (  # noqa: E402
     ColdStartDetector,
     ColdStartReport,
