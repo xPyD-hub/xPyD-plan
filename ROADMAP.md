@@ -1141,7 +1141,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `generate_diff_report()` API
 - 25 new tests (1912 total)
 
-### M86 SLO Error Budget Burn Rate
+### M86 ✅ SLO Error Budget Burn Rate
+
+*Completed — PR #192*
 
 - `ErrorBudgetAnalyzer` class in `error_budget.py`
 - `ErrorBudgetConfig`, `ErrorBudgetReport`, `BurnRateWindow`, `BudgetStatus`, `BurnRateLevel` Pydantic models
@@ -1155,3 +1157,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `error-budget` subcommand with `--benchmark`, `--slo-target`, `--sla-*`, `--window-size`, `--warning-burn-rate`, `--critical-burn-rate`, table + JSON output
 - Programmatic `analyze_error_budget()` API
 - 28 new tests
+
+### M87 ✅ Benchmark Coverage Score
+
+*Completed — PR #195*
+
+- `CoverageAnalyzer` class in `coverage.py`
+- `CoverageReport`, `CoverageMetrics`, `CoverageGrade`, `RatioGap` Pydantic models
+- Composite 0-100 coverage score: coverage fraction (40%), boundary (15%), balanced (15%), spread (20%), gap penalty (10%)
+- Gap analysis: identify unexplored P:D ratios sorted by distance to nearest benchmark
+- Spread score: assess evenness of benchmark distribution across ratio space
+- Actionable recommendations for next benchmarks to run
+- CLI `coverage` subcommand with `--benchmark` (multiple), table + JSON output
+- Programmatic `analyze_coverage()` API
+- 22 new tests (1962 total)
