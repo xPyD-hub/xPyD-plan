@@ -1079,3 +1079,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `timeout` subcommand with `--benchmark`, `--timeout-ttft`, `--timeout-tpot`, `--timeout-total`, table + JSON output
 - Programmatic `analyze_timeouts()` API
 - 29 new tests (1820 total)
+
+### M82 ✅ Latency Percentile Comparison Across Ratios
+
+*Completed — PR #TBD*
+
+- `RatioComparer` class in `ratio_compare.py`
+- `RatioComparison`, `RatioMetrics`, `PercentileStats`, `BestRatio` Pydantic models
+- Load multiple benchmarks with different P:D ratios
+- Per-ratio latency stats at P50/P95/P99 for TTFT, TPOT, total_latency
+- Best ratio identification per metric+percentile combination
+- Overall best ratio (most wins across all combinations)
+- CLI `ratio-compare` subcommand with `--benchmark` (multiple), table + JSON output
+- Programmatic `compare_ratios()` API
+- ~22 new tests
