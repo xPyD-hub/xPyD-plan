@@ -1200,3 +1200,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `token-budget` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, table + JSON output
 - Programmatic `estimate_token_budget()` API
 - 15 new tests (1974 total)
+
+### M90 ✅ Request Retry Impact Simulator
+
+*Completed — PR #200*
+
+- `RetrySimulator` class in `retry_sim.py`
+- `RetryConfig`, `RetrySimReport`, `RetryImpact`, `LoadAmplification` Pydantic models
+- Configurable retry policy: max retries, retry threshold per metric (TTFT/TPOT/total), constant/exponential backoff
+- Retry rate estimation: percentage of requests that would trigger retries based on SLA thresholds
+- Load amplification factor: total requests (original + retries) / original requests
+- Effective goodput: fraction of requests that succeed within SLA after retries
+- Latency distribution shift modeling: retried requests add backoff delay to original latency
+- CLI `retry-sim` subcommand with `--benchmark`, `--max-retries`, `--retry-threshold-ttft`, `--retry-threshold-tpot`, `--retry-threshold-total`, `--backoff-ms`, `--backoff-type`, table + JSON output
+- Programmatic `simulate_retries()` API
+- 21 new tests (1995 total)
