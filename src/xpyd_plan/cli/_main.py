@@ -12,6 +12,7 @@ from xpyd_plan.cli._annotate import _cmd_annotate
 from xpyd_plan.cli._arrival_pattern import _cmd_arrival_pattern, add_arrival_pattern_parser
 from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
+from xpyd_plan.cli._budget_tracker import _cmd_budget_tracker
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._cdf import _cmd_cdf, add_cdf_parser
 from xpyd_plan.cli._cold_start import add_cold_start_parser
@@ -32,7 +33,6 @@ from xpyd_plan.cli._error_budget import register as _register_error_budget
 from xpyd_plan.cli._export import _cmd_export
 from xpyd_plan.cli._fairness import _cmd_fairness, add_fairness_parser
 from xpyd_plan.cli._filter import _cmd_filter
-from xpyd_plan.cli._budget_tracker import _cmd_budget_tracker
 from xpyd_plan.cli._fingerprint import _cmd_fingerprint
 from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._forecast import add_forecast_parser

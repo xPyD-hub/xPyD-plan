@@ -10,7 +10,7 @@ import pytest
 from xpyd_plan.benchmark_models import BenchmarkData, BenchmarkMetadata, BenchmarkRequest
 from xpyd_plan.budget_tracker import (
     BudgetReport,
-    BudgetStatus,
+    LatencyBudgetStatus,
     LatencyBudgetTracker,
     RequestBudget,
     track_latency_budget,
@@ -137,7 +137,7 @@ class TestLatencyBudgetTracker:
 
         for req in report.worst_requests:
             assert isinstance(req, RequestBudget)
-            assert req.status in BudgetStatus
+            assert req.status in LatencyBudgetStatus
             assert req.worst_ratio > 0
 
     def test_worst_metric_identification(self):

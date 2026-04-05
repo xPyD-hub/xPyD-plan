@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 from xpyd_plan.benchmark_models import BenchmarkData
 
 
-class BudgetStatus(str, Enum):
+class LatencyBudgetStatus(str, Enum):
     """Budget consumption classification."""
 
     COMFORTABLE = "COMFORTABLE"  # <50% consumed
@@ -27,7 +27,7 @@ class RequestBudget(BaseModel):
     total_ratio: float | None = Field(None, description="Total latency budget consumption ratio")
     worst_metric: str = Field(..., description="Metric with highest consumption")
     worst_ratio: float = Field(..., description="Highest consumption ratio")
-    status: BudgetStatus = Field(..., description="Budget status classification")
+    status: LatencyBudgetStatus = Field(..., description="Budget status classification")
 
 
 class BudgetDistribution(BaseModel):
@@ -68,14 +68,14 @@ class BudgetReport(BaseModel):
     alerts: list[BudgetAlert] = Field(default_factory=list, description="Budget alerts")
 
 
-def _classify(ratio: float, near_miss_threshold: float) -> BudgetStatus:
+def _classify(ratio: float, near_miss_threshold: float) -> LatencyBudgetStatus:
     if ratio > 1.0:
-        return BudgetStatus.EXCEEDED
+        return LatencyBudgetStatus.EXCEEDED
     if ratio > near_miss_threshold:
-        return BudgetStatus.NEAR_MISS
+        return LatencyBudgetStatus.NEAR_MISS
     if ratio > 0.5:
-        return BudgetStatus.MODERATE
-    return BudgetStatus.COMFORTABLE
+        return LatencyBudgetStatus.MODERATE
+    return LatencyBudgetStatus.COMFORTABLE
 
 
 def _percentile(values: list[float], p: float) -> float:
@@ -179,9 +179,9 @@ class LatencyBudgetTracker:
             )
 
         # Counts
-        near_miss = sum(1 for b in budgets if b.status == BudgetStatus.NEAR_MISS)
-        exceeded = sum(1 for b in budgets if b.status == BudgetStatus.EXCEEDED)
-        comfortable = sum(1 for b in budgets if b.status == BudgetStatus.COMFORTABLE)
+        near_miss = sum(1 for b in budgets if b.status == LatencyBudgetStatus.NEAR_MISS)
+        exceeded = sum(1 for b in budgets if b.status == LatencyBudgetStatus.EXCEEDED)
+        comfortable = sum(1 for b in budgets if b.status == LatencyBudgetStatus.COMFORTABLE)
 
         # Top worst requests
         worst = sorted(budgets, key=lambda b: b.worst_ratio, reverse=True)[:top_n]
