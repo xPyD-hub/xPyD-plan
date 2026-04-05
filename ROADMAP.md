@@ -1258,3 +1258,15 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `qps-curve` subcommand with `--benchmark`, `--predict-qps`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--method`, table + JSON output
 - Programmatic `fit_qps_curve()` API
 - 25 new tests (2063 total)
+
+### M94 — Prediction Cross-Validation
+
+- `CrossValidator` class in `cross_validation.py`
+- `ErrorMetric`, `CrossValidationReport`, `ModelAccuracy` Pydantic models
+- Leave-one-out cross-validation for interpolation model accuracy assessment
+- Per-fold prediction error (TTFT, TPOT, total latency, QPS) as relative %
+- Accuracy classification: EXCELLENT (<5%), GOOD (5-15%), FAIR (15-30%), POOR (>30%)
+- Actionable recommendations based on accuracy and metric imbalance
+- CLI `cross-validate` subcommand with `--benchmark` (3+), `--method`, table + JSON output
+- Programmatic `cross_validate()` API
+- 19 new tests
