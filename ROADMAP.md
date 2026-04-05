@@ -1259,7 +1259,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `fit_qps_curve()` API
 - 25 new tests (2063 total)
 
-### M94 — Prediction Cross-Validation
+### M94 ✅ Prediction Cross-Validation
+
+*Completed — PR #209*
 
 - `CrossValidator` class in `cross_validation.py`
 - `ErrorMetric`, `CrossValidationReport`, `ModelAccuracy` Pydantic models
@@ -1270,3 +1272,19 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `cross-validate` subcommand with `--benchmark` (3+), `--method`, table + JSON output
 - Programmatic `cross_validate()` API
 - 19 new tests
+
+### M95 ✅ Auto-Scaling Policy Generator
+
+*Completed — PR #TBD*
+
+- `ScalingPolicyGenerator` class in `scaling_policy.py`
+- `ScalingPolicy`, `ScalingRule`, `ScalingTrigger`, `ScalingAction`, `ScalingDirection`, `PolicyFormat` Pydantic models
+- Analyze benchmark data at multiple QPS levels to derive scaling thresholds
+- Scale-up rules: trigger when latency P95 approaches SLA (80% warning, 90% critical)
+- TTFT-based rules scale prefill instances, TPOT-based rules scale decode instances
+- Scale-down rules: trigger when latency is well below SLA (40% threshold) for sustained period
+- Cooldown period and evaluation interval recommendations
+- Instance count bounds (min/max per type)
+- CLI `scaling-policy` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--min-instances`, `--max-instances`, table + JSON output
+- Programmatic `generate_scaling_policy()` API
+- 21 new tests
