@@ -52,6 +52,7 @@ from xpyd_plan.cli._pareto import _cmd_pareto
 from xpyd_plan.cli._pd_imbalance import add_pd_imbalance_parser
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
+from xpyd_plan.cli._qps_curve import add_qps_curve_parser
 from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._ratio_compare import add_ratio_compare_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
@@ -947,6 +948,7 @@ def main(argv: list[str] | None = None) -> None:
     add_size_distribution_parser(subparsers)
     add_token_budget_parser(subparsers)
     add_normalize_parser(subparsers)
+    add_qps_curve_parser(subparsers)
     add_retry_optimize_parser(subparsers)
     add_retry_sim_parser(subparsers)
     add_token_efficiency_parser(subparsers)
@@ -1143,6 +1145,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "spike":
         from xpyd_plan.cli._spike import _cmd_spike
         _cmd_spike(args)
+    elif args.command == "qps-curve":
+        from xpyd_plan.cli._qps_curve import _cmd_qps_curve
+        _cmd_qps_curve(args)
     else:
         parser.print_help()
         sys.exit(1)
