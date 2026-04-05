@@ -1,13 +1,20 @@
-"""CLI import command — import vLLM benchmark data."""
+"""CLI import command — import vLLM/SGLang benchmark data."""
 
 from __future__ import annotations
 
 import argparse
 import json
 import sys
+from pathlib import Path
 
 from rich.console import Console
 
+from xpyd_plan.sglang_import import (
+    SGLangImportConfig,
+    _detect_sglang_format,
+    import_sglang,
+    import_sglang_data,
+)
 from xpyd_plan.vllm_import import import_vllm
 
 
@@ -21,14 +28,52 @@ def _cmd_import(args: argparse.Namespace) -> None:
         )
         sys.exit(1)
 
+    fmt = args.format
+
     try:
-        result = import_vllm(
-            input_path=args.input,
-            num_prefill_instances=args.prefill_instances,
-            num_decode_instances=args.decode_instances,
-            output_path=args.output,
-            format=args.format,
-        )
+        if fmt == "sglang":
+            config = SGLangImportConfig(
+                num_prefill_instances=args.prefill_instances,
+                num_decode_instances=args.decode_instances,
+                format="sglang",
+            )
+            result = import_sglang(args.input, config)
+            if args.output:
+                Path(args.output).write_text(
+                    result.benchmark_data.model_dump_json(indent=2),
+                    encoding="utf-8",
+                )
+        elif fmt == "auto":
+            # Try SGLang detection first, then fall back to vLLM importer
+            raw = json.loads(Path(args.input).read_text(encoding="utf-8"))
+            if _detect_sglang_format(raw):
+                config = SGLangImportConfig(
+                    num_prefill_instances=args.prefill_instances,
+                    num_decode_instances=args.decode_instances,
+                    format="sglang",
+                )
+                result = import_sglang_data(raw, config)
+                if args.output:
+                    Path(args.output).write_text(
+                        result.benchmark_data.model_dump_json(indent=2),
+                        encoding="utf-8",
+                    )
+            else:
+                result = import_vllm(
+                    input_path=args.input,
+                    num_prefill_instances=args.prefill_instances,
+                    num_decode_instances=args.decode_instances,
+                    output_path=args.output,
+                    format="auto",
+                )
+        else:
+            result = import_vllm(
+                input_path=args.input,
+                num_prefill_instances=args.prefill_instances,
+                num_decode_instances=args.decode_instances,
+                output_path=args.output,
+                format=fmt,
+            )
     except (ValueError, FileNotFoundError, json.JSONDecodeError) as exc:
         console.print(f"[red]Error: {exc}[/red]")
         sys.exit(1)
@@ -64,7 +109,7 @@ def add_import_parser(subparsers: argparse._SubParsersAction) -> None:
     """Add the import subcommand parser."""
     parser = subparsers.add_parser(
         "import",
-        help="Import vLLM benchmark data to native format",
+        help="Import vLLM/SGLang benchmark data to native format",
     )
     parser.add_argument(
         "--input",
@@ -73,7 +118,7 @@ def add_import_parser(subparsers: argparse._SubParsersAction) -> None:
     )
     parser.add_argument(
         "--format",
-        choices=["vllm", "native", "auto"],
+        choices=["vllm", "sglang", "native", "auto"],
         default="auto",
         help="Input format (default: auto-detect)",
     )
