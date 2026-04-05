@@ -48,6 +48,7 @@ from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._regression import _cmd_regression, add_regression_parser
 from xpyd_plan.cli._replay import add_replay_parser
+from xpyd_plan.cli._reproducibility import _cmd_reproducibility, add_reproducibility_parser
 from xpyd_plan.cli._roi import add_roi_parser
 from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._sample import add_sample_parser
@@ -906,6 +907,7 @@ def main(argv: list[str] | None = None) -> None:
     add_migrate_parser(subparsers)
     add_cdf_parser(subparsers)
     add_concurrency_util_parser(subparsers)
+    add_reproducibility_parser(subparsers)
     add_regression_parser(subparsers)
     add_replay_parser(subparsers)
     add_roi_parser(subparsers)
@@ -1089,6 +1091,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_cdf(args)
     elif args.command == "concurrency-util":
         _cmd_concurrency_util(args)
+    elif args.command == "reproducibility":
+        _cmd_reproducibility(args)
     elif args.command == "size-distribution":
         _cmd_size_distribution(args)
     else:

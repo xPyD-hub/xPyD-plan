@@ -991,3 +991,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `concurrency-util` subcommand with `--benchmark`, `--window-size`, table + JSON output
 - Programmatic `analyze_concurrency_util()` API
 - 19 new tests (1674 total)
+
+### M76 ✅ Benchmark Reproducibility Score
+
+*Completed — PR #TBD*
+
+- `ReproducibilityAnalyzer` class in `reproducibility.py`
+- `ReproducibilityReport`, `MetricReproducibility`, `ReproducibilityGrade`, `RunPairTest` Pydantic models
+- Per-metric coefficient of variation (CV) across repeated runs
+- KS two-sample test between all run pairs for distribution consistency
+- Composite 0-100 reproducibility score with grade classification (EXCELLENT/GOOD/FAIR/POOR)
+- Unreliable metric flagging when CV exceeds configurable threshold
+- Recommended minimum runs based on observed variance
+- CLI `reproducibility` subcommand with `--benchmark` (multiple), `--cv-threshold`, table + JSON output
+- Programmatic `analyze_reproducibility()` API
+- ~20 new tests

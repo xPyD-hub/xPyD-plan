@@ -860,3 +860,21 @@ __all__ += [
     "ReplaySchedule",
     "generate_replay",
 ]
+
+from xpyd_plan.reproducibility import (  # noqa: E402
+    MetricReproducibility,
+    ReproducibilityAnalyzer,
+    ReproducibilityGrade,
+    ReproducibilityReport,
+    RunPairTest,
+    analyze_reproducibility,
+)
+
+__all__ += [
+    "MetricReproducibility",
+    "ReproducibilityAnalyzer",
+    "ReproducibilityGrade",
+    "ReproducibilityReport",
+    "RunPairTest",
+    "analyze_reproducibility",
+]
