@@ -32,6 +32,7 @@ from xpyd_plan.cli._interpolate import _cmd_interpolate
 from xpyd_plan.cli._load_profile import add_load_profile_parser
 from xpyd_plan.cli._merge import _cmd_merge
 from xpyd_plan.cli._metrics import _cmd_metrics, add_metrics_parser
+from xpyd_plan.cli._migrate import add_migrate_parser
 from xpyd_plan.cli._model_compare import _cmd_model_compare
 from xpyd_plan.cli._outlier_impact import (
     add_outlier_impact_parser,
@@ -893,6 +894,7 @@ def main(argv: list[str] | None = None) -> None:
     add_queue_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
+    add_migrate_parser(subparsers)
     add_roi_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
