@@ -1228,3 +1228,21 @@ __all__ += [
     "SessionReport",
     "manage_session",
 ]
+
+from xpyd_plan.fingerprint import (  # noqa: E402
+    Compatibility,
+    EnvironmentFingerprint,
+    EnvironmentFingerprinter,
+    FingerprintComparison,
+    FingerprintDiff,
+    fingerprint_benchmark,
+)
+
+__all__ += [
+    "Compatibility",
+    "EnvironmentFingerprint",
+    "EnvironmentFingerprinter",
+    "FingerprintComparison",
+    "FingerprintDiff",
+    "fingerprint_benchmark",
+]
