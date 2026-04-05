@@ -1266,3 +1266,21 @@ __all__ += [
     "RequestBudget",
     "track_latency_budget",
 ]
+
+from xpyd_plan.variance_decomp import (  # noqa: E402
+    ComponentSignificance,
+    MetricDecomposition,
+    VarianceComponent,
+    VarianceDecomposer,
+    VarianceReport,
+    decompose_variance,
+)
+
+__all__ += [
+    "ComponentSignificance",
+    "MetricDecomposition",
+    "VarianceComponent",
+    "VarianceDecomposer",
+    "VarianceReport",
+    "decompose_variance",
+]

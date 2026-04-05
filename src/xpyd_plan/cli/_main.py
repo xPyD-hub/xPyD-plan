@@ -87,6 +87,7 @@ from xpyd_plan.cli._token_budget import add_token_budget_parser
 from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_token_efficiency
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
+from xpyd_plan.cli._variance import _cmd_variance, add_variance_parser
 from xpyd_plan.cli._warmup_filter import _cmd_warmup_filter, add_warmup_filter_parser
 from xpyd_plan.cli._weighted_goodput import register as _register_weighted_goodput
 from xpyd_plan.cli._whatif import _cmd_what_if
@@ -917,6 +918,9 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- correlation subcommand ---
     add_correlation_parser(subparsers)
+
+    # --- variance subcommand ---
+    add_variance_parser(subparsers)
     add_jitter_parser(subparsers)
     add_cold_start_parser(subparsers)
     add_dedup_parser(subparsers)
@@ -1258,6 +1262,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_fingerprint(args)
     elif args.command == "budget-tracker":
         _cmd_budget_tracker(args)
+    elif args.command == "variance":
+        _cmd_variance(args)
     else:
         parser.print_help()
         sys.exit(1)

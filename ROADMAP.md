@@ -1313,7 +1313,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `fingerprint_benchmark()` API
 - 18 new tests
 
-### M98 — Latency Budget Tracker
+### M98 ✅ Latency Budget Tracker
+
+*Completed — PR #217*
 
 - `LatencyBudgetTracker` class in `budget_tracker.py`
 - `BudgetReport`, `RequestBudget`, `BudgetDistribution`, `BudgetAlert`, `BudgetStatus` Pydantic models
@@ -1325,3 +1327,19 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `budget-tracker` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--near-miss-threshold`, `--top-n`, table + JSON output
 - Programmatic `track_latency_budget()` API
 - 22 new tests
+
+### M99 — Latency Variance Decomposition
+
+- `VarianceDecomposer` class in `variance_decomp.py`
+- `VarianceReport`, `MetricDecomposition`, `VarianceComponent`, `ComponentSignificance` Pydantic models
+- Sequential OLS regression to attribute total latency variance to:
+  - prompt_tokens: variance explained by prompt size
+  - output_tokens: variance explained by output size
+  - temporal: variance explained by request timing
+  - residual: unexplained variance
+- Per-component contribution percentage and significance classification (DOMINANT/SIGNIFICANT/MINOR/NEGLIGIBLE)
+- R² of full model per metric
+- Dominant factor identification
+- CLI `variance` subcommand with `--benchmark`, `--temporal-bins`, table + JSON output
+- Programmatic `decompose_variance()` API
+- 21 new tests
