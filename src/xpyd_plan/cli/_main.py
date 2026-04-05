@@ -77,6 +77,7 @@ from xpyd_plan.cli._scaling_policy import add_scaling_policy_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._session import _cmd_session
 from xpyd_plan.cli._size_distribution import _cmd_size_distribution, add_size_distribution_parser
+from xpyd_plan.cli._sla_headroom import add_sla_headroom_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
 from xpyd_plan.cli._spike import add_spike_parser
 from xpyd_plan.cli._sqlite_export import add_sqlite_export_parser
@@ -927,6 +928,7 @@ def main(argv: list[str] | None = None) -> None:
     add_ranking_parser(subparsers)
     add_variance_parser(subparsers)
     add_anomaly_classify_parser(subparsers)
+    add_sla_headroom_parser(subparsers)
     add_jitter_parser(subparsers)
     add_cold_start_parser(subparsers)
     add_dedup_parser(subparsers)

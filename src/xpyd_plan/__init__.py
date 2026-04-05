@@ -1352,3 +1352,19 @@ __all__ += [
     "MethodPrediction",
     "ensemble_predict",
 ]
+
+from xpyd_plan.sla_headroom import (  # noqa: E402
+    HeadroomReport,
+    MetricHeadroom,
+    SafetyLevel,
+    SLAHeadroomCalculator,
+    analyze_sla_headroom,
+)
+
+__all__ += [
+    "HeadroomReport",
+    "MetricHeadroom",
+    "SafetyLevel",
+    "SLAHeadroomCalculator",
+    "analyze_sla_headroom",
+]
