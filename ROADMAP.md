@@ -1215,3 +1215,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `retry-sim` subcommand with `--benchmark`, `--max-retries`, `--retry-threshold-ttft`, `--retry-threshold-tpot`, `--retry-threshold-total`, `--backoff-ms`, `--backoff-type`, table + JSON output
 - Programmatic `simulate_retries()` API
 - 21 new tests (1995 total)
+
+### M91 ✅ Retry Policy Optimizer
+
+*Completed — PR #TBD*
+
+- `RetryOptimizer` class in `retry_optimizer.py`
+- `RetryOptimizerConfig`, `OptimalRetryPolicy`, `RetryOptimizerReport`, `PolicyCandidate` Pydantic models
+- Grid search over retry parameters: max_retries, threshold percentiles, backoff strategies, backoff delays
+- Objective: maximize effective goodput subject to max amplification factor constraint (default 2.0x)
+- Pareto frontier of goodput vs amplification tradeoffs
+- Uses `RetrySimulator` internally for each candidate evaluation
+- CLI `retry-optimize` subcommand with `--benchmark`, `--max-amplification`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, table + JSON output
+- Programmatic `optimize_retry_policy()` API
+- 20 new tests (2015 total)
