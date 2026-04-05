@@ -1033,3 +1033,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `cold-start` subcommand with `--benchmark`, `--warmup-window`, `--threshold`, table + JSON output
 - Programmatic `detect_cold_start()` API
 - 27 new tests (1744 total)
+
+### M79 ✅ Latency Spike Detection
+
+*Completed — PR #178*
+
+- `SpikeDetector` class in `spike.py`
+- `SpikeEvent`, `SpikeSummary`, `SpikeReport`, `SpikeSeverity` Pydantic models
+- Rolling median baseline with configurable window size (default 50 requests)
+- Spike threshold multiplier (default 3.0× baseline) for detection
+- Consecutive spike grouping into events with magnitude and severity classification
+- Severity: MINOR (<5×), MODERATE (5-10×), SEVERE (>10×)
+- Per-metric summary: spike count, affected requests, worst magnitude
+- CLI `spike` subcommand with `--benchmark`, `--window-size`, `--threshold`, table + JSON output
+- Programmatic `detect_spikes()` API
+- 27 new tests (1771 total)
