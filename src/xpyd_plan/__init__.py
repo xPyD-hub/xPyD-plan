@@ -773,6 +773,26 @@ __all__ += [
     "calculate_roi",
 ]
 
+from xpyd_plan.sampler import (  # noqa: E402
+    BenchmarkSampler,
+    MetricDeviation,
+    SampleConfig,
+    SampleResult,
+    SampleValidation,
+    SamplingMethod,
+    sample_benchmark,
+)
+
+__all__ += [
+    "BenchmarkSampler",
+    "MetricDeviation",
+    "SampleConfig",
+    "SampleResult",
+    "SampleValidation",
+    "SamplingMethod",
+    "sample_benchmark",
+]
+
 from xpyd_plan.schema_migrate import (  # noqa: E402
     MigrationResult,
     SchemaMigrator,

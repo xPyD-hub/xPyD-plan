@@ -947,3 +947,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `arrival-pattern` subcommand with `--benchmark`, `--burst-threshold`, table + JSON output
 - Programmatic `analyze_arrival_pattern()` API
 - 19 new tests (1593 total)
+
+### M73 ✅ Benchmark Sampling & Downsampling
+
+*Completed — PR #166*
+
+- `BenchmarkSampler` class in `sampler.py`
+- `SampleResult`, `SampleConfig`, `SampleValidation`, `SamplingMethod`, `MetricDeviation` Pydantic models
+- Random sampling with reproducible seed
+- Stratified sampling by prompt_tokens quantile bins to preserve distribution shape
+- Reservoir sampling (Algorithm R) for streaming/unknown-size inputs
+- Statistical validation: P50/P95/P99 deviation between original and sample with tolerance check
+- QPS adjustment proportional to sample fraction
+- CLI `sample` subcommand with `--benchmark`, `--method`, `--size`, `--seed`, `--bins`, `--tolerance`, `--output`, table + JSON output
+- Programmatic `sample_benchmark()` API
+- 21 new tests (1636 total)
