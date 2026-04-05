@@ -1244,3 +1244,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `normalize` subcommand with `--benchmark`, `--source-gpu`, `--target-gpu`, `--output`, table + JSON output
 - Programmatic `normalize_benchmark()` API
 - ~23 new tests
+
+### M93 ✅ QPS-Latency Curve Fitting
+
+*Completed — PR #206*
+
+- `QPSCurveFitter` class in `qps_curve.py`
+- `FitResult`, `QPSPrediction`, `MaxSustainableQPS`, `QPSCurveReport` Pydantic models
+- Support linear, polynomial (degree 2), and exponential fit methods
+- Best-fit selection by lowest residual error (auto mode)
+- Confidence classification: HIGH (interpolation), MEDIUM (≤20% extrapolation), LOW (>20%)
+- Max sustainable QPS finder via SLA threshold binary search
+- CLI `qps-curve` subcommand with `--benchmark`, `--predict-qps`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--method`, table + JSON output
+- Programmatic `fit_qps_curve()` API
+- 25 new tests (2063 total)
