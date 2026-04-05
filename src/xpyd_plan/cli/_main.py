@@ -12,6 +12,7 @@ from xpyd_plan.cli._annotate import _cmd_annotate
 from xpyd_plan.cli._arrival_pattern import _cmd_arrival_pattern, add_arrival_pattern_parser
 from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
+from xpyd_plan.cli._budget_tracker import _cmd_budget_tracker
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._cdf import _cmd_cdf, add_cdf_parser
 from xpyd_plan.cli._cold_start import add_cold_start_parser
@@ -1024,6 +1025,40 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+        # --- budget-tracker subcommand ---
+    bt_parser = subparsers.add_parser(
+        "budget-tracker",
+        help="Track how close requests are to exhausting SLA budgets",
+    )
+    bt_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Path to benchmark JSON file",
+    )
+    bt_parser.add_argument(
+        "--sla-ttft", type=float, default=None,
+        help="TTFT SLA threshold in milliseconds",
+    )
+    bt_parser.add_argument(
+        "--sla-tpot", type=float, default=None,
+        help="TPOT SLA threshold in milliseconds",
+    )
+    bt_parser.add_argument(
+        "--sla-total", type=float, default=None,
+        help="Total latency SLA threshold in milliseconds",
+    )
+    bt_parser.add_argument(
+        "--near-miss-threshold", type=float, default=0.8,
+        help="Budget consumption ratio above which requests are near-miss (default: 0.8)",
+    )
+    bt_parser.add_argument(
+        "--top-n", type=int, default=10,
+        help="Number of worst requests to show (default: 10)",
+    )
+    bt_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
         # --- session subcommand ---
     session_parser = subparsers.add_parser(
         "session",
@@ -1221,6 +1256,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_session(args)
     elif args.command == "fingerprint":
         _cmd_fingerprint(args)
+    elif args.command == "budget-tracker":
+        _cmd_budget_tracker(args)
     else:
         parser.print_help()
         sys.exit(1)
