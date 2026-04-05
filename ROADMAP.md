@@ -1141,7 +1141,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `generate_diff_report()` API
 - 25 new tests (1912 total)
 
-### M86 SLO Error Budget Burn Rate
+### M86 ✅ SLO Error Budget Burn Rate
+
+*Completed — PR #192*
 
 - `ErrorBudgetAnalyzer` class in `error_budget.py`
 - `ErrorBudgetConfig`, `ErrorBudgetReport`, `BurnRateWindow`, `BudgetStatus`, `BurnRateLevel` Pydantic models
