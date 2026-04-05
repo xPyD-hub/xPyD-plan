@@ -979,7 +979,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M75 ✅ Concurrency Utilization Analysis
 
-*Completed — PR #TBD*
+*Completed — PR #170*
 
 - `ConcurrencyUtilizationAnalyzer` class in `concurrency_util.py`
 - `UtilizationWindow`, `UtilizationReport`, `UtilizationLevel`, `RightSizingRecommendation` Pydantic models
