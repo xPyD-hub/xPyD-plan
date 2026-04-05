@@ -1108,3 +1108,19 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `goodput` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, table + JSON output
 - Programmatic `analyze_goodput()` API
 - 24 new tests (1863 total)
+
+### M84 ✅ Weighted Goodput Score
+
+*Completed — PR #TBD*
+
+- `WeightedGoodputAnalyzer` class in `weighted_goodput.py`
+- `WeightedGoodputReport`, `RequestScore`, `ScoreBucket`, `ScoreDistribution`, `ScoringConfig` Pydantic models
+- Continuous [0, 1] scoring per request instead of binary pass/fail
+- Linear decay beyond SLA threshold with configurable grace factor
+- Aggregation modes: min (conservative) or mean across metrics
+- Score distribution histogram (5 buckets)
+- Near-miss request identification and counting
+- Binary goodput recoverable with grace_factor=0
+- CLI `weighted-goodput` subcommand with `--benchmark`, `--sla-*`, `--grace-factor`, `--aggregation`, table + JSON output
+- Programmatic `analyze_weighted_goodput()` API
+- 24 new tests (1887 total)

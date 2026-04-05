@@ -74,6 +74,7 @@ from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
 from xpyd_plan.cli._warmup_filter import _cmd_warmup_filter, add_warmup_filter_parser
+from xpyd_plan.cli._weighted_goodput import register as _register_weighted_goodput
 from xpyd_plan.cli._whatif import _cmd_what_if
 from xpyd_plan.cli._workload import _cmd_workload
 
@@ -911,6 +912,9 @@ def main(argv: list[str] | None = None) -> None:
 
     # --- goodput subcommand ---
     add_goodput_parser(subparsers)
+
+    # --- weighted-goodput subcommand ---
+    _register_weighted_goodput(subparsers)
 
     # --- fairness subcommand ---
     add_fairness_parser(subparsers)

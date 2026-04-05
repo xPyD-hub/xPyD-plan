@@ -390,6 +390,15 @@ from xpyd_plan.warmup import (
     WarmupWindow,
     filter_warmup,
 )
+from xpyd_plan.weighted_goodput import (
+    RequestScore,
+    ScoreBucket,
+    ScoreDistribution,
+    ScoringConfig,
+    WeightedGoodputAnalyzer,
+    WeightedGoodputReport,
+    analyze_weighted_goodput,
+)
 from xpyd_plan.workload import (
     WorkloadCategory,
     WorkloadClass,
@@ -550,6 +559,13 @@ __all__ = [
     "GoodputReport",
     "GoodputWindow",
     "analyze_goodput",
+    "RequestScore",
+    "ScoreBucket",
+    "ScoreDistribution",
+    "ScoringConfig",
+    "WeightedGoodputAnalyzer",
+    "WeightedGoodputReport",
+    "analyze_weighted_goodput",
     "AllocationStrategy",
     "BudgetAllocation",
     "BudgetAllocator",
