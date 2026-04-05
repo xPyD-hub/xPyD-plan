@@ -1345,3 +1345,31 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `variance` subcommand with `--benchmark`, `--temporal-bins`, table + JSON output
 - Programmatic `decompose_variance()` API
 - 21 new tests
+
+### M100 ✅ Benchmark Export to SQLite
+
+*Completed — PR #221*
+
+- `SQLiteExporter` class in `sqlite_export.py`
+- `SQLiteExportConfig`, `SQLiteExportReport` Pydantic models
+- Export benchmark request-level data to SQLite for ad-hoc SQL queries and BI integration
+- Append mode for incremental database building
+- Auto-generated benchmark IDs with optional custom IDs
+- Analysis summary table with SLA compliance and latency percentiles
+- Indexed key columns for fast queries
+- CLI `sqlite-export` subcommand with `--benchmark`, `--output`, `--append`, `--benchmark-id`, table + JSON output
+- Programmatic `export_to_sqlite()` API
+- 26 new tests
+
+### M101 ✅ Latency Prediction Ensemble
+
+*Completed — PR #223*
+
+- `EnsemblePredictor` class in `ensemble.py`
+- `EnsemblePrediction`, `MethodPrediction`, `EnsembleReport`, `DisagreementLevel` Pydantic models
+- Confidence-weighted averaging across interpolation, regression, and QPS curve methods
+- Per-method contribution percentage in final prediction
+- Disagreement detection with severity classification (NONE/LOW/MODERATE/HIGH) based on CV
+- CLI `ensemble` subcommand with `--benchmark` (multiple), `--predict-qps`, `--sla-*`, table + JSON output
+- Programmatic `ensemble_predict()` API
+- 31 new tests (2290 total)
