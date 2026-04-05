@@ -708,3 +708,17 @@ __all__ += [
     "SavingsEstimate",
     "calculate_roi",
 ]
+
+from xpyd_plan.schema_migrate import (  # noqa: E402
+    MigrationResult,
+    SchemaMigrator,
+    SchemaVersion,
+    migrate_schema,
+)
+
+__all__ += [
+    "MigrationResult",
+    "SchemaVersion",
+    "SchemaMigrator",
+    "migrate_schema",
+]
