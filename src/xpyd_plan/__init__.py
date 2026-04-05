@@ -896,3 +896,19 @@ __all__ += [
     "MetricJitter",
     "analyze_jitter",
 ]
+
+from xpyd_plan.cold_start import (  # noqa: E402
+    ColdStartDetector,
+    ColdStartReport,
+    ColdStartSeverity,
+    ColdStartWindow,
+    detect_cold_start,
+)
+
+__all__ += [
+    "ColdStartDetector",
+    "ColdStartReport",
+    "ColdStartSeverity",
+    "ColdStartWindow",
+    "detect_cold_start",
+]

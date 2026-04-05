@@ -14,6 +14,7 @@ from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._cdf import _cmd_cdf, add_cdf_parser
+from xpyd_plan.cli._cold_start import add_cold_start_parser
 from xpyd_plan.cli._compare import _cmd_compare
 from xpyd_plan.cli._concurrency_util import _cmd_concurrency_util, add_concurrency_util_parser
 from xpyd_plan.cli._confidence import _cmd_confidence
@@ -897,6 +898,7 @@ def main(argv: list[str] | None = None) -> None:
     # --- correlation subcommand ---
     add_correlation_parser(subparsers)
     add_jitter_parser(subparsers)
+    add_cold_start_parser(subparsers)
 
     # --- fairness subcommand ---
     add_fairness_parser(subparsers)
@@ -1100,6 +1102,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "jitter":
         from xpyd_plan.cli._jitter import _cmd_jitter
         _cmd_jitter(args)
+    elif args.command == "cold-start":
+        from xpyd_plan.cli._cold_start import _cmd_cold_start
+        _cmd_cold_start(args)
     else:
         parser.print_help()
         sys.exit(1)
