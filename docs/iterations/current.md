@@ -1,8 +1,28 @@
 # xPyD-plan Current Iteration Status
 
-> Last updated: 2026-04-05
+> Last updated: 2026-04-06
 
 ---
+
+## Current: M106 — Custom GPU Profile Loading from YAML
+
+### What
+
+Add `load_gpu_profiles(path)` to load custom GPU profiles from YAML files, merging with built-in profiles. Enables users with custom/proprietary GPUs to use fleet calculator, normalizer, and capacity planner.
+
+### Changes
+
+- `gpu_profiles.py`: added `load_gpu_profiles()`, `get_all_profiles()`, updated `get_gpu_profile()` and `list_gpu_profiles()` with optional `custom_profiles_path`
+- `__init__.py`: export new functions
+- 17 new tests in `test_custom_gpu_profiles.py`
+
+### Status
+
+- [x] Implementation
+- [x] Tests (17 passing)
+- [x] Lint passing
+- [ ] PR created
+- [ ] Review
 
 ## Current Milestone: M105 — Expand GPU Profile Library ✅
 
