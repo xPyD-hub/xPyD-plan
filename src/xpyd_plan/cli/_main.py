@@ -61,6 +61,7 @@ from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
 from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_token_efficiency
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
+from xpyd_plan.cli._warmup_filter import _cmd_warmup_filter, add_warmup_filter_parser
 from xpyd_plan.cli._whatif import _cmd_what_if
 from xpyd_plan.cli._workload import _cmd_workload
 
@@ -930,6 +931,7 @@ def main(argv: list[str] | None = None) -> None:
     add_discover_parser(subparsers)
     add_heatmap_parser(subparsers)
     add_health_check_parser(subparsers)
+    add_warmup_filter_parser(subparsers)
 
     # --- plan-benchmarks subcommand ---
     add_plan_benchmarks_parser(subparsers)
@@ -1046,6 +1048,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_heatmap(args)
     elif args.command == "health-check":
         _cmd_health_check(args)
+    elif args.command == "warmup-filter":
+        _cmd_warmup_filter(args)
     elif args.command == "plan-benchmarks":
         _cmd_plan_benchmarks(args)
     elif args.command == "threshold-advisor":

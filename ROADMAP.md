@@ -907,3 +907,28 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `regression` subcommand with table and JSON output
 - Programmatic `analyze_regression()` API
 - 18 new tests (1536 total)
+
+### M69 ✅ Latency CDF Export
+
+*Completed — PR #158*
+
+- `CDFGenerator` class in `cdf.py`
+- `CDFPoint`, `CDFCurve`, `SLAMarker`, `CDFReport` Pydantic models
+- Generate CDF data points for TTFT, TPOT, total_latency distributions
+- Multi-benchmark CDF overlay for visual comparison
+- SLA threshold markers with pass-rate at each threshold
+- CLI `cdf` subcommand with `--benchmark` (multiple), `--sla-*`, `--points`, table + JSON + CSV output
+- Programmatic `generate_cdf()` API
+- 20 new tests (1556 total)
+
+### M70 ✅ Benchmark Health Check
+
+*Completed — PR #160*
+
+- `HealthChecker` class in `health_check.py`
+- `CheckResult`, `HealthReport`, `HealthStatus` Pydantic models
+- Composite readiness check: data validation, percentile convergence, load profile, outlier impact
+- Single PASS/WARN/FAIL verdict with per-check details
+- CLI `health-check` subcommand with `--benchmark`, table + JSON output
+- Programmatic `check_health()` API
+- 18 new tests (1574 total)
