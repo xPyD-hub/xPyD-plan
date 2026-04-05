@@ -1140,3 +1140,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `diff-report` subcommand with `--baseline`, `--target`, `--regression-threshold`, table + JSON + markdown output
 - Programmatic `generate_diff_report()` API
 - 25 new tests (1912 total)
+
+### M86 SLO Error Budget Burn Rate
+
+- `ErrorBudgetAnalyzer` class in `error_budget.py`
+- `ErrorBudgetConfig`, `ErrorBudgetReport`, `BurnRateWindow`, `BudgetStatus`, `BurnRateLevel` Pydantic models
+- SRE-inspired error budget tracking: allowed error fraction = 1 − SLO target
+- Burn rate computation: actual error rate / allowed error rate (1.0x = perfect consumption)
+- Time-windowed burn rate analysis with per-window severity classification
+- Severity levels: SAFE, WARNING, CRITICAL, EXHAUSTED (configurable thresholds)
+- Budget status: consumed fraction, remaining fraction, exhaustion detection
+- Worst-window and safe-window-fraction metrics
+- Actionable recommendations based on burn rate severity
+- CLI `error-budget` subcommand with `--benchmark`, `--slo-target`, `--sla-*`, `--window-size`, `--warning-burn-rate`, `--critical-burn-rate`, table + JSON output
+- Programmatic `analyze_error_budget()` API
+- 28 new tests

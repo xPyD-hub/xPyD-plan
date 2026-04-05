@@ -1038,3 +1038,23 @@ __all__ += [
     "MetricDiff",
     "generate_diff_report",
 ]
+
+from xpyd_plan.error_budget import (  # noqa: E402
+    BudgetStatus,
+    BurnRateLevel,
+    BurnRateWindow,
+    ErrorBudgetAnalyzer,
+    ErrorBudgetConfig,
+    ErrorBudgetReport,
+    analyze_error_budget,
+)
+
+__all__ += [
+    "BudgetStatus",
+    "BurnRateLevel",
+    "BurnRateWindow",
+    "ErrorBudgetAnalyzer",
+    "ErrorBudgetConfig",
+    "ErrorBudgetReport",
+    "analyze_error_budget",
+]
