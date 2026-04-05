@@ -1246,3 +1246,23 @@ __all__ += [
     "FingerprintDiff",
     "fingerprint_benchmark",
 ]
+
+from xpyd_plan.budget_tracker import (  # noqa: E402
+    BudgetAlert,
+    BudgetDistribution,
+    BudgetReport,
+    BudgetStatus,
+    LatencyBudgetTracker,
+    RequestBudget,
+    track_latency_budget,
+)
+
+__all__ += [
+    "BudgetAlert",
+    "BudgetDistribution",
+    "BudgetReport",
+    "BudgetStatus",
+    "LatencyBudgetTracker",
+    "RequestBudget",
+    "track_latency_budget",
+]

@@ -1299,3 +1299,29 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `session` subcommand with table + JSON output
 - Programmatic `manage_session()` API
 - 26 new tests
+
+### M97 ✅ Environment Fingerprint
+
+*Completed — PR #215*
+
+- `EnvironmentFingerprinter` class in `fingerprint.py`
+- `EnvironmentFingerprint`, `FingerprintComparison`, `FingerprintDiff`, `Compatibility` Pydantic models
+- Extract environment metadata (instance counts, QPS, request counts, token ranges) from benchmark data
+- SHA-256 fingerprint hash based on cluster config (major fields) for stability
+- Comparison with compatibility classification: IDENTICAL, COMPATIBLE, INCOMPATIBLE
+- CLI `fingerprint` subcommand with `--benchmark`, `--compare`, table + JSON output
+- Programmatic `fingerprint_benchmark()` API
+- 18 new tests
+
+### M98 — Latency Budget Tracker
+
+- `LatencyBudgetTracker` class in `budget_tracker.py`
+- `BudgetReport`, `RequestBudget`, `BudgetDistribution`, `BudgetAlert`, `BudgetStatus` Pydantic models
+- Per-request SLA budget consumption ratio (actual/threshold) for TTFT, TPOT, total_latency
+- Near-miss detection: requests consuming >threshold% of budget (configurable, default 80%)
+- Budget distribution statistics: mean, P50, P95, P99 consumption ratios per metric
+- Worst-metric identification per request with status classification (COMFORTABLE/MODERATE/NEAR_MISS/EXCEEDED)
+- Automatic alerts for high exceeded rates (CRITICAL) and high near-miss rates (WARNING)
+- CLI `budget-tracker` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--near-miss-threshold`, `--top-n`, table + JSON output
+- Programmatic `track_latency_budget()` API
+- 22 new tests
