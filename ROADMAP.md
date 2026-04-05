@@ -962,3 +962,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `sample` subcommand with `--benchmark`, `--method`, `--size`, `--seed`, `--bins`, `--tolerance`, `--output`, table + JSON output
 - Programmatic `sample_benchmark()` API
 - 21 new tests (1636 total)
+
+### M74 ✅ Request Size Distribution Analysis
+
+*Completed — PR #168*
+
+- `SizeDistributionAnalyzer` class in `size_distribution.py`
+- `SizeDistributionReport`, `Histogram`, `SizeBin`, `DistributionShape`, `SizeLatencyCorrelation` Pydantic models
+- Configurable bin count for prompt and output token histograms
+- Distribution shape classification: UNIFORM, RIGHT_SKEWED, LEFT_SKEWED, BIMODAL, NORMAL
+- Per-size-bin latency statistics (P50/P95 TTFT, TPOT, total_latency)
+- Size-latency Pearson correlation for prompt and output tokens
+- CLI `size-distribution` subcommand with `--benchmark`, `--bins`, table + JSON output
+- Programmatic `analyze_size_distribution()` API
+- 19 new tests (1655 total)
