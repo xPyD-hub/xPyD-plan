@@ -53,6 +53,7 @@ from xpyd_plan.cli._sample import add_sample_parser
 from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
+from xpyd_plan.cli._size_distribution import _cmd_size_distribution, add_size_distribution_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
 from xpyd_plan.cli._stat_summary import add_stat_summary_parser
 from xpyd_plan.cli._summary import _cmd_summary, add_summary_parser
@@ -907,6 +908,7 @@ def main(argv: list[str] | None = None) -> None:
     add_replay_parser(subparsers)
     add_roi_parser(subparsers)
     add_sample_parser(subparsers)
+    add_size_distribution_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
@@ -1083,6 +1085,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_regression(args)
     elif args.command == "cdf":
         _cmd_cdf(args)
+    elif args.command == "size-distribution":
+        _cmd_size_distribution(args)
     else:
         parser.print_help()
         sys.exit(1)

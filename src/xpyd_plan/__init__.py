@@ -793,6 +793,26 @@ __all__ += [
     "sample_benchmark",
 ]
 
+from xpyd_plan.size_distribution import (  # noqa: E402
+    DistributionShape,
+    Histogram,
+    SizeBin,
+    SizeDistributionAnalyzer,
+    SizeDistributionReport,
+    SizeLatencyCorrelation,
+    analyze_size_distribution,
+)
+
+__all__ += [
+    "DistributionShape",
+    "Histogram",
+    "SizeBin",
+    "SizeDistributionAnalyzer",
+    "SizeDistributionReport",
+    "SizeLatencyCorrelation",
+    "analyze_size_distribution",
+]
+
 from xpyd_plan.schema_migrate import (  # noqa: E402
     MigrationResult,
     SchemaMigrator,
