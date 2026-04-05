@@ -722,3 +722,19 @@ __all__ += [
     "SchemaMigrator",
     "migrate_schema",
 ]
+
+from xpyd_plan.replay import (  # noqa: E402
+    ReplayConfig,
+    ReplayEntry,
+    ReplayGenerator,
+    ReplaySchedule,
+    generate_replay,
+)
+
+__all__ += [
+    "ReplayConfig",
+    "ReplayEntry",
+    "ReplayGenerator",
+    "ReplaySchedule",
+    "generate_replay",
+]
