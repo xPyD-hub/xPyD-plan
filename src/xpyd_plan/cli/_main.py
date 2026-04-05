@@ -28,6 +28,7 @@ from xpyd_plan.cli._filter import _cmd_filter
 from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._forecast import add_forecast_parser
 from xpyd_plan.cli._generate import _cmd_generate
+from xpyd_plan.cli._health_check import _cmd_health_check, add_health_check_parser
 from xpyd_plan.cli._heatmap import _cmd_heatmap, add_heatmap_parser
 from xpyd_plan.cli._interpolate import _cmd_interpolate
 from xpyd_plan.cli._load_profile import add_load_profile_parser
@@ -928,6 +929,7 @@ def main(argv: list[str] | None = None) -> None:
     # --- discover subcommand ---
     add_discover_parser(subparsers)
     add_heatmap_parser(subparsers)
+    add_health_check_parser(subparsers)
 
     # --- plan-benchmarks subcommand ---
     add_plan_benchmarks_parser(subparsers)
@@ -1042,6 +1044,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_discover(args)
     elif args.command == "heatmap":
         _cmd_heatmap(args)
+    elif args.command == "health-check":
+        _cmd_health_check(args)
     elif args.command == "plan-benchmarks":
         _cmd_plan_benchmarks(args)
     elif args.command == "threshold-advisor":
