@@ -1006,3 +1006,28 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `reproducibility` subcommand with `--benchmark` (multiple), `--cv-threshold`, table + JSON output
 - Programmatic `analyze_reproducibility()` API
 - ~20 new tests
+
+### M77 ✅ Latency Jitter Analysis
+
+*Completed — PR #174*
+
+- `JitterAnalyzer` class in `jitter.py`
+- `JitterStats`, `MetricJitter`, `JitterReport`, `JitterClassification` Pydantic models
+- Consecutive jitter: mean/P95 of absolute differences between successive requests
+- Overall jitter: standard deviation, IQR, coefficient of variation
+- Classification: STABLE (CV≤0.3), MODERATE (0.3–0.7), HIGH (>0.7)
+- CLI `jitter` subcommand with `--benchmark`, table + JSON output
+- Programmatic `analyze_jitter()` API
+- 24 new tests (1717 total)
+
+### M78: Cold Start Detection
+
+- `ColdStartDetector` class in `cold_start.py`
+- `ColdStartReport`, `ColdStartWindow`, `ColdStartSeverity` Pydantic models
+- Detect elevated latency in initial N requests compared to steady-state baseline
+- Configurable warmup window size and detection threshold (default: P95 > 2× steady-state median)
+- Per-metric cold start duration estimation (number of requests until stabilization)
+- Steady-state vs warmup latency comparison at P50/P95
+- CLI `cold-start` subcommand with `--benchmark`, `--warmup-window`, `--threshold`, table + JSON output
+- Programmatic `detect_cold_start()` API
+- ~20 new tests
