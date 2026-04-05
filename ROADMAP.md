@@ -1124,3 +1124,19 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `weighted-goodput` subcommand with `--benchmark`, `--sla-*`, `--grace-factor`, `--aggregation`, table + JSON output
 - Programmatic `analyze_weighted_goodput()` API
 - 24 new tests (1887 total)
+
+### M85 ✅ Benchmark Diff Report
+
+*Completed — PR #TBD*
+
+- `DiffReporter` class in `diff_report.py`
+- `DiffReport`, `MetricDiff`, `LatencyDiffSection`, `DiffSummary`, `ChangeDirection` Pydantic models
+- Side-by-side latency percentile comparison (P50/P95/P99) for TTFT, TPOT, total_latency
+- QPS comparison with higher-is-better semantics
+- Token distribution comparison (mean prompt/output tokens)
+- Configurable regression threshold (default 5%)
+- Automatic verdict: BETTER, WORSE, MIXED, EQUIVALENT
+- Markdown report generation with tables and change icons
+- CLI `diff-report` subcommand with `--baseline`, `--target`, `--regression-threshold`, table + JSON + markdown output
+- Programmatic `generate_diff_report()` API
+- 25 new tests (1912 total)
