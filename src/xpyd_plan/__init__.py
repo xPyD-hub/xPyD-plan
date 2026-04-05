@@ -1106,3 +1106,21 @@ __all__ += [
     "RetrySimulator",
     "simulate_retries",
 ]
+
+from xpyd_plan.retry_optimizer import (  # noqa: E402
+    OptimalRetryPolicy,
+    PolicyCandidate,
+    RetryOptimizer,
+    RetryOptimizerConfig,
+    RetryOptimizerReport,
+    optimize_retry_policy,
+)
+
+__all__ += [
+    "OptimalRetryPolicy",
+    "PolicyCandidate",
+    "RetryOptimizer",
+    "RetryOptimizerConfig",
+    "RetryOptimizerReport",
+    "optimize_retry_policy",
+]
