@@ -68,6 +68,7 @@ from xpyd_plan.cli._root_cause import _cmd_root_cause, add_root_cause_parser
 from xpyd_plan.cli._sample import add_sample_parser
 from xpyd_plan.cli._saturation import _cmd_saturation, add_saturation_parser
 from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
+from xpyd_plan.cli._scaling_policy import add_scaling_policy_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._size_distribution import _cmd_size_distribution, add_size_distribution_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
@@ -951,6 +952,7 @@ def main(argv: list[str] | None = None) -> None:
     add_token_budget_parser(subparsers)
     add_normalize_parser(subparsers)
     add_cross_validate_parser(subparsers)
+    add_scaling_policy_parser(subparsers)
     add_parquet_parser(subparsers)
     add_qps_curve_parser(subparsers)
     add_retry_optimize_parser(subparsers)
@@ -1158,6 +1160,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "qps-curve":
         from xpyd_plan.cli._qps_curve import _cmd_qps_curve
         _cmd_qps_curve(args)
+    elif args.command == "scaling-policy":
+        from xpyd_plan.cli._scaling_policy import _cmd_scaling_policy
+        _cmd_scaling_policy(args)
     else:
         parser.print_help()
         sys.exit(1)

@@ -324,6 +324,16 @@ from xpyd_plan.scaling import (
     ScalingReport,
     analyze_scaling,
 )
+from xpyd_plan.scaling_policy import (
+    PolicyFormat,
+    ScalingAction,
+    ScalingDirection,
+    ScalingPolicy,
+    ScalingPolicyGenerator,
+    ScalingRule,
+    ScalingTrigger,
+    generate_scaling_policy,
+)
 from xpyd_plan.scorecard import (
     ConfigScorecard,
     DimensionScore,
@@ -463,6 +473,14 @@ __all__ = [
     "ErrorMetric",
     "ModelAccuracy",
     "cross_validate",
+    "ScalingPolicy",
+    "ScalingPolicyGenerator",
+    "ScalingRule",
+    "ScalingTrigger",
+    "ScalingAction",
+    "ScalingDirection",
+    "PolicyFormat",
+    "generate_scaling_policy",
     "LoadProfileClassifier",
     "LoadProfile",
     "LoadProfileReport",
