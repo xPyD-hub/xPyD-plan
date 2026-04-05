@@ -25,7 +25,7 @@ git config user.name "hlin99"
 13. Handle review result:
     - **2 approvals** → auto-merge → update ROADMAP.md → go to step 1
     - **request changes** → fix code, push to same PR → wait for re-review (max 10 min to fix)
-    - **closed by reviewer** → iteration failed, go to step 1 with a different task
+    - **closed by reviewer** → iteration failed → push update to `docs/iterations/current.md` on main recording the failure (what was attempted, why rejected, reviewer comments) → go to step 1 with a different task
 14. Go to step 1
 
 ## Review Rules (see REVIEW_POLICY.md)
@@ -67,3 +67,19 @@ When all milestones are done:
 1. Review the project — find limitations, improvements, new scenarios
 2. Create new milestones in ROADMAP.md
 3. Return to Phase 1
+
+## Iteration Tracking
+
+`docs/iterations/current.md` must maintain a running log at the bottom:
+
+```markdown
+## Iteration History
+
+| # | Date | Task | Result | Reviewer Comments |
+|---|------|------|--------|-------------------|
+| 1 | 2026-04-06 | Added X feature | ✅ merged | Both approved |
+| 2 | 2026-04-06 | Refactored Y | ❌ closed | BotX: idea not valuable |
+| 3 | 2026-04-06 | Fixed Z bug | ✅ merged | Bot requested changes, fixed |
+```
+
+This table is the source of truth for iteration success/failure rate.
