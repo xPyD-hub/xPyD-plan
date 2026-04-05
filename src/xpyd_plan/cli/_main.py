@@ -87,6 +87,7 @@ from xpyd_plan.cli._token_budget import add_token_budget_parser
 from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_token_efficiency
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
+from xpyd_plan.cli._variance import _cmd_variance
 from xpyd_plan.cli._warmup_filter import _cmd_warmup_filter, add_warmup_filter_parser
 from xpyd_plan.cli._weighted_goodput import register as _register_weighted_goodput
 from xpyd_plan.cli._whatif import _cmd_what_if
@@ -1093,6 +1094,24 @@ def main(argv: list[str] | None = None) -> None:
         help="Output format (default: table)",
     )
 
+    # --- variance subcommand ---
+    variance_parser = subparsers.add_parser(
+        "variance",
+        help="Decompose latency variance into prompt, output, temporal, and residual components",
+    )
+    variance_parser.add_argument(
+        "--benchmark", type=str, required=True,
+        help="Path to benchmark JSON file",
+    )
+    variance_parser.add_argument(
+        "--temporal-bins", type=int, default=10,
+        help="Number of temporal bins for time-of-day factor (default: 10)",
+    )
+    variance_parser.add_argument(
+        "--output-format", type=str, choices=["table", "json"], default="table",
+        help="Output format (default: table)",
+    )
+
     from xpyd_plan.plugin import get_registry
 
     get_registry().register_all_cli(subparsers)
@@ -1258,6 +1277,8 @@ def main(argv: list[str] | None = None) -> None:
         _cmd_fingerprint(args)
     elif args.command == "budget-tracker":
         _cmd_budget_tracker(args)
+    elif args.command == "variance":
+        _cmd_variance(args)
     else:
         parser.print_help()
         sys.exit(1)
