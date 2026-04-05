@@ -80,6 +80,7 @@ from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scaling_policy import add_scaling_policy_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._session import _cmd_session
+from xpyd_plan.cli._sglang_commands import register_sglang_commands
 from xpyd_plan.cli._size_distribution import _cmd_size_distribution, add_size_distribution_parser
 from xpyd_plan.cli._sla_headroom import add_sla_headroom_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
@@ -961,6 +962,7 @@ def main(argv: list[str] | None = None) -> None:
     add_queue_parser(subparsers)
     add_import_parser(subparsers)
     register_vllm_commands(subparsers)
+    register_sglang_commands(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
@@ -1302,6 +1304,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._vllm_commands import _cmd_vllm_commands
 
         _cmd_vllm_commands(args)
+    elif args.command == "sglang-commands":
+        from xpyd_plan.cli._sglang_commands import _cmd_sglang_commands
+
+        _cmd_sglang_commands(args)
     else:
         parser.print_help()
         sys.exit(1)
