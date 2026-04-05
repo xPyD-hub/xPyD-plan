@@ -1408,6 +1408,22 @@ __all__ += [
     "save_baseline",
 ]
 
+from xpyd_plan.vllm_commands import BenchmarkCommand  # noqa: E402, I001
+from xpyd_plan.vllm_commands import CommandGenerator  # noqa: E402
+from xpyd_plan.vllm_commands import CommandSet  # noqa: E402
+from xpyd_plan.vllm_commands import ServerCommand  # noqa: E402
+from xpyd_plan.vllm_commands import generate_vllm_commands  # noqa: E402
+from xpyd_plan.vllm_commands import CommandConfig as VLLMCommandConfig  # noqa: E402
+
+__all__ += [
+    "BenchmarkCommand",
+    "CommandGenerator",
+    "CommandSet",
+    "ServerCommand",
+    "VLLMCommandConfig",
+    "generate_vllm_commands",
+]
+
 from xpyd_plan.vllm_import import (  # noqa: E402
     ImportConfig,
     ImportResult,

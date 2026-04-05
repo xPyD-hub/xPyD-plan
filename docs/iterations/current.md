@@ -4,9 +4,9 @@
 
 ---
 
-## Current Milestone: M108 — vLLM Benchmark Format Importer 🔄
+## Current Milestone: M109 — vLLM Benchmark Command Generator 🔄
 
-Support direct import of vLLM `benchmark_serving.py` JSON output and convert to native xpyd-plan BenchmarkData format.
+Generate ready-to-run vLLM server and benchmark_serving.py commands for P:D ratio exploration.
 
 ### Changes
 - **`src/xpyd_plan/vllm_import.py`**: `VLLMImporter` class, `VLLMBenchmarkData`, `VLLMRequest`, `ImportResult`, `ImportConfig` models, `import_vllm()` API
@@ -48,3 +48,4 @@ The project has completed **107 milestones**, covering the full feature chain fr
 |---|------|------|--------|-------------------|
 | 1 | 2026-04-06 | M107 Rate Limiter Recommender | ✅ merged | PR #238 |
 | 2 | 2026-04-06 | M108 vLLM Benchmark Importer | ⏳ pending review | PR #TBD |
+| 3 | 2026-04-06 | M109 vLLM Benchmark Command Generator | ⏳ awaiting review | Issue #241, PR #TBD |
