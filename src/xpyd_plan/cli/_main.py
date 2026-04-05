@@ -59,6 +59,7 @@ from xpyd_plan.cli._scaling import _cmd_scaling, add_scaling_parser
 from xpyd_plan.cli._scorecard import _cmd_scorecard, add_scorecard_parser
 from xpyd_plan.cli._size_distribution import _cmd_size_distribution, add_size_distribution_parser
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
+from xpyd_plan.cli._spike import add_spike_parser
 from xpyd_plan.cli._stat_summary import add_stat_summary_parser
 from xpyd_plan.cli._summary import _cmd_summary, add_summary_parser
 from xpyd_plan.cli._tail import _cmd_tail, add_tail_parser
@@ -899,6 +900,7 @@ def main(argv: list[str] | None = None) -> None:
     add_correlation_parser(subparsers)
     add_jitter_parser(subparsers)
     add_cold_start_parser(subparsers)
+    add_spike_parser(subparsers)
 
     # --- fairness subcommand ---
     add_fairness_parser(subparsers)
@@ -1105,6 +1107,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "cold-start":
         from xpyd_plan.cli._cold_start import _cmd_cold_start
         _cmd_cold_start(args)
+    elif args.command == "spike":
+        from xpyd_plan.cli._spike import _cmd_spike
+        _cmd_spike(args)
     else:
         parser.print_help()
         sys.exit(1)

@@ -912,3 +912,21 @@ __all__ += [
     "ColdStartWindow",
     "detect_cold_start",
 ]
+
+from xpyd_plan.spike import (  # noqa: E402
+    SpikeDetector,
+    SpikeEvent,
+    SpikeReport,
+    SpikeSeverity,
+    SpikeSummary,
+    detect_spikes,
+)
+
+__all__ += [
+    "SpikeDetector",
+    "SpikeEvent",
+    "SpikeReport",
+    "SpikeSeverity",
+    "SpikeSummary",
+    "detect_spikes",
+]
