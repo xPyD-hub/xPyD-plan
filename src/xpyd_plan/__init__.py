@@ -366,6 +366,12 @@ from xpyd_plan.timeline import (
     WarmupAnalysis,
     analyze_timeline,
 )
+from xpyd_plan.token_budget import (
+    TokenBudgetEstimator,
+    TokenBudgetReport,
+    TokenLimit,
+    estimate_token_budget,
+)
 from xpyd_plan.token_efficiency import (
     AggregateEfficiency,
     EfficiencyGrade,
@@ -646,6 +652,10 @@ __all__ = [
     "EfficiencyGrade",
     "InstanceEfficiency",
     "PerRequestEfficiency",
+    "TokenBudgetEstimator",
+    "TokenBudgetReport",
+    "TokenLimit",
+    "estimate_token_budget",
     "TokenEfficiencyAnalyzer",
     "TokenEfficiencyReport",
     "analyze_token_efficiency",

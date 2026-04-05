@@ -73,6 +73,7 @@ from xpyd_plan.cli._threshold_advisor import _cmd_threshold_advisor, add_thresho
 from xpyd_plan.cli._throughput import add_throughput_parser
 from xpyd_plan.cli._timeline import _cmd_timeline, add_timeline_parser
 from xpyd_plan.cli._timeout import add_timeout_parser
+from xpyd_plan.cli._token_budget import add_token_budget_parser
 from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_token_efficiency
 from xpyd_plan.cli._trend import _cmd_trend
 from xpyd_plan.cli._validate import _cmd_validate
@@ -941,6 +942,7 @@ def main(argv: list[str] | None = None) -> None:
     add_roi_parser(subparsers)
     add_sample_parser(subparsers)
     add_size_distribution_parser(subparsers)
+    add_token_budget_parser(subparsers)
     add_token_efficiency_parser(subparsers)
     add_timeline_parser(subparsers)
 
