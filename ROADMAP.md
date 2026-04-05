@@ -1048,3 +1048,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `spike` subcommand with `--benchmark`, `--window-size`, `--threshold`, table + JSON output
 - Programmatic `detect_spikes()` API
 - 27 new tests (1771 total)
+
+### M80 ✅ Request Deduplication Analysis
+
+*Completed — PR #TBD*
+
+- `DeduplicationAnalyzer` class in `dedup.py`
+- `DuplicateGroup`, `DeduplicationReport`, `DeduplicationConfig` Pydantic models
+- Exact duplicate detection (same prompt_tokens, output_tokens, ttft_ms, tpot_ms)
+- Near-duplicate detection with configurable latency tolerance
+- Duplication rate and group statistics
+- Deduplicate output with QPS adjustment
+- Recommendation engine based on duplication severity
+- CLI `dedup` subcommand with `--benchmark`, `--tolerance`, `--output`, table + JSON output
+- Programmatic `analyze_dedup()` API
+- ~22 new tests
