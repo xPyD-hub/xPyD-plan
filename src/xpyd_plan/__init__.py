@@ -930,3 +930,19 @@ __all__ += [
     "SpikeSummary",
     "detect_spikes",
 ]
+
+from xpyd_plan.dedup import (  # noqa: E402
+    DeduplicationAnalyzer,
+    DeduplicationConfig,
+    DeduplicationReport,
+    DuplicateGroup,
+    analyze_dedup,
+)
+
+__all__ += [
+    "DeduplicationAnalyzer",
+    "DeduplicationConfig",
+    "DeduplicationReport",
+    "DuplicateGroup",
+    "analyze_dedup",
+]

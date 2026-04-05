@@ -23,6 +23,7 @@ from xpyd_plan.cli._convergence import add_convergence_parser
 from xpyd_plan.cli._correlation import _cmd_correlation, add_correlation_parser
 from xpyd_plan.cli._dashboard import _cmd_dashboard
 from xpyd_plan.cli._decompose import _cmd_decompose, add_decompose_parser
+from xpyd_plan.cli._dedup import add_dedup_parser
 from xpyd_plan.cli._discover import _cmd_discover, add_discover_parser
 from xpyd_plan.cli._drift import _cmd_drift, add_drift_parser
 from xpyd_plan.cli._export import _cmd_export
@@ -900,6 +901,7 @@ def main(argv: list[str] | None = None) -> None:
     add_correlation_parser(subparsers)
     add_jitter_parser(subparsers)
     add_cold_start_parser(subparsers)
+    add_dedup_parser(subparsers)
     add_spike_parser(subparsers)
 
     # --- fairness subcommand ---
@@ -1107,6 +1109,9 @@ def main(argv: list[str] | None = None) -> None:
     elif args.command == "cold-start":
         from xpyd_plan.cli._cold_start import _cmd_cold_start
         _cmd_cold_start(args)
+    elif args.command == "dedup":
+        from xpyd_plan.cli._dedup import _cmd_dedup
+        _cmd_dedup(args)
     elif args.command == "spike":
         from xpyd_plan.cli._spike import _cmd_spike
         _cmd_spike(args)
