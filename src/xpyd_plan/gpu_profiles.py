@@ -1,6 +1,11 @@
-"""Built-in GPU profile library."""
+"""Built-in GPU profile library with optional YAML custom profiles."""
 
 from __future__ import annotations
+
+from pathlib import Path
+from typing import Union
+
+import yaml
 
 from xpyd_plan.models import GPUProfile
 
@@ -60,18 +65,111 @@ _BUILTIN_PROFILES: dict[str, GPUProfile] = {
 }
 
 
-def get_gpu_profile(name: str) -> GPUProfile:
-    """Get a built-in GPU profile by name.
+def load_gpu_profiles(path: Union[str, Path]) -> dict[str, GPUProfile]:
+    """Load custom GPU profiles from a YAML file.
+
+    YAML format::
+
+        profiles:
+          - name: MI300X-192G
+            prefill_tokens_per_sec: 180000
+            decode_tokens_per_sec: 9000
+            memory_gb: 192.0
+            cost_per_hour: 6.50
+
+    Args:
+        path: Path to YAML file containing GPU profile definitions.
+
+    Returns:
+        Dictionary mapping profile name to GPUProfile.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+        ValueError: If the YAML structure is invalid or missing required fields.
+    """
+    filepath = Path(path)
+    if not filepath.exists():
+        raise FileNotFoundError(f"GPU profiles file not found: {filepath}")
+
+    with open(filepath) as f:
+        data = yaml.safe_load(f)
+
+    if not isinstance(data, dict) or "profiles" not in data:
+        raise ValueError(
+            "Invalid GPU profiles YAML: expected top-level 'profiles' key"
+        )
+
+    profiles_list = data["profiles"]
+    if not isinstance(profiles_list, list):
+        raise ValueError("Invalid GPU profiles YAML: 'profiles' must be a list")
+
+    result: dict[str, GPUProfile] = {}
+    for i, entry in enumerate(profiles_list):
+        if not isinstance(entry, dict):
+            raise ValueError(f"Invalid GPU profiles YAML: entry {i} must be a mapping")
+        if "name" not in entry:
+            raise ValueError(
+                f"Invalid GPU profiles YAML: entry {i} missing required 'name' field"
+            )
+        try:
+            profile = GPUProfile(**entry)
+        except Exception as exc:
+            raise ValueError(
+                f"Invalid GPU profiles YAML: entry {i} ({entry.get('name', '?')}): {exc}"
+            ) from exc
+        result[profile.name] = profile
+
+    return result
+
+
+def get_all_profiles(
+    custom_profiles_path: Union[str, Path, None] = None,
+) -> dict[str, GPUProfile]:
+    """Get all GPU profiles (built-in + custom).
+
+    Custom profiles override built-in profiles with the same name.
+
+    Args:
+        custom_profiles_path: Optional path to YAML file with custom profiles.
+
+    Returns:
+        Merged dictionary of all GPU profiles.
+    """
+    merged = {k: v.model_copy() for k, v in _BUILTIN_PROFILES.items()}
+    if custom_profiles_path is not None:
+        custom = load_gpu_profiles(custom_profiles_path)
+        merged.update(custom)
+    return merged
+
+
+def get_gpu_profile(
+    name: str,
+    custom_profiles_path: Union[str, Path, None] = None,
+) -> GPUProfile:
+    """Get a GPU profile by name.
+
+    Searches custom profiles (if provided) first, then built-in profiles.
+
+    Args:
+        name: GPU profile name.
+        custom_profiles_path: Optional path to YAML file with custom profiles.
 
     Raises:
         KeyError: If the profile name is not found.
     """
-    if name not in _BUILTIN_PROFILES:
-        available = ", ".join(sorted(_BUILTIN_PROFILES.keys()))
+    all_profiles = get_all_profiles(custom_profiles_path)
+    if name not in all_profiles:
+        available = ", ".join(sorted(all_profiles.keys()))
         raise KeyError(f"Unknown GPU profile '{name}'. Available: {available}")
-    return _BUILTIN_PROFILES[name].model_copy()
+    return all_profiles[name]
 
 
-def list_gpu_profiles() -> list[str]:
-    """Return names of all built-in GPU profiles."""
-    return sorted(_BUILTIN_PROFILES.keys())
+def list_gpu_profiles(
+    custom_profiles_path: Union[str, Path, None] = None,
+) -> list[str]:
+    """Return names of all available GPU profiles.
+
+    Args:
+        custom_profiles_path: Optional path to YAML file with custom profiles.
+    """
+    return sorted(get_all_profiles(custom_profiles_path).keys())
