@@ -1124,3 +1124,23 @@ __all__ += [
     "RetryOptimizerReport",
     "optimize_retry_policy",
 ]
+
+from xpyd_plan.normalizer import (  # noqa: E402
+    BenchmarkNormalizer,
+    GPUPerformanceFactor,
+    GPUType,
+    NormalizationConfig,
+    NormalizationReport,
+    NormalizedStats,
+    normalize_benchmark,
+)
+
+__all__ += [
+    "BenchmarkNormalizer",
+    "GPUPerformanceFactor",
+    "GPUType",
+    "NormalizationConfig",
+    "NormalizationReport",
+    "NormalizedStats",
+    "normalize_benchmark",
+]

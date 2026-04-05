@@ -1229,3 +1229,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `retry-optimize` subcommand with `--benchmark`, `--max-amplification`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, table + JSON output
 - Programmatic `optimize_retry_policy()` API
 - 20 new tests (2015 total)
+
+### M92 ✅ Benchmark Normalization
+
+*Completed — PR #TBD*
+
+- `BenchmarkNormalizer` class in `normalizer.py`
+- `NormalizationConfig`, `NormalizationReport`, `NormalizedStats`, `GPUPerformanceFactor`, `GPUType` Pydantic models
+- GPU performance factor registry: A100-80G (1.0), H100-80G (1.8), H200-141G (2.2), A10G-24G (0.45), L40S-48G (0.7)
+- Latency scaling preserves relative distributions (percentile ordering unchanged)
+- QPS scaled inversely to latency factor
+- `normalize_data()` returns new BenchmarkData with normalized values
+- Custom GPU factors via `custom_factors` parameter
+- CLI `normalize` subcommand with `--benchmark`, `--source-gpu`, `--target-gpu`, `--output`, table + JSON output
+- Programmatic `normalize_benchmark()` API
+- ~23 new tests

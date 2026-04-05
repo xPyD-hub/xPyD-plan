@@ -44,6 +44,7 @@ from xpyd_plan.cli._merge import _cmd_merge
 from xpyd_plan.cli._metrics import _cmd_metrics, add_metrics_parser
 from xpyd_plan.cli._migrate import add_migrate_parser
 from xpyd_plan.cli._model_compare import _cmd_model_compare
+from xpyd_plan.cli._normalize import add_normalize_parser
 from xpyd_plan.cli._outlier_impact import (
     add_outlier_impact_parser,
 )
@@ -945,6 +946,7 @@ def main(argv: list[str] | None = None) -> None:
     add_sample_parser(subparsers)
     add_size_distribution_parser(subparsers)
     add_token_budget_parser(subparsers)
+    add_normalize_parser(subparsers)
     add_retry_optimize_parser(subparsers)
     add_retry_sim_parser(subparsers)
     add_token_efficiency_parser(subparsers)
