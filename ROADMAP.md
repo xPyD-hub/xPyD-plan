@@ -1171,3 +1171,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `coverage` subcommand with `--benchmark` (multiple), table + JSON output
 - Programmatic `analyze_coverage()` API
 - 22 new tests (1962 total)
+
+### M88 ✅ Prefill-Decode Imbalance Detector
+
+*Completed — PR #196*
+
+- `PDImbalanceDetector` class in `pd_imbalance.py`
+- `ImbalanceReport`, `MetricSensitivity`, `ImbalanceClassification`, `ImbalanceLevel` Pydantic models
+- TTFT sensitivity to prefill instance count via linear regression with R²
+- TPOT sensitivity to decode instance count via linear regression with R²
+- Classification: PREFILL_STARVED, DECODE_STARVED, BALANCED, INSUFFICIENT_DATA
+- Severity levels: NONE, MILD, MODERATE, SEVERE based on sensitivity ratio thresholds
+- Actionable recommendations based on classification and severity
+- CLI `pd-imbalance` subcommand with `--benchmark` (multiple), table + JSON output
+- Programmatic `detect_pd_imbalance()` API
+- 19 new tests
