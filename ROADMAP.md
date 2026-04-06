@@ -1583,9 +1583,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `evaluate_quality_gate()` API
 - ~22 new tests
 
-### M118 🔄 SLA Risk Score
+### M118 ✅ SLA Risk Score
 
-*In progress*
+*Completed — PR #260*
 
 - `SLARiskScorer` class in `sla_risk.py`
 - `RiskScore`, `RiskFactor`, `SLARiskReport`, `RiskLevel` Pydantic models
