@@ -1597,7 +1597,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `assess_sla_risk()` API
 - ~22 new tests
 
-### M119 🔄 Deployment Readiness Report
+### M119 ✅ Deployment Readiness Report
 
 *In progress*
 
@@ -1610,3 +1610,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `readiness` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--cost-model`, table + JSON output
 - Programmatic `assess_readiness()` API
 - ~24 new tests
+
+### M120 🔄 Benchmark Dataset Catalog
+
+- `DatasetCatalog` class in `catalog.py`
+- `CatalogEntry`, `CatalogQuery`, `CatalogReport` Pydantic models
+- SQLite-backed local catalog indexing benchmark files with extracted metadata
+- Metadata extracted on `add`: GPU type, model name, P:D ratio, QPS, request count, total instances, file path, file hash (SHA-256), date added
+- Duplicate detection via file hash
+- Query API: filter by GPU type, QPS range, P:D ratio, date range, model name
+- CLI `catalog` subcommand: `catalog add`, `catalog list`, `catalog search`, `catalog remove`, `catalog show`
+- Auto-add from directory scan (integrate with `discover`)
+- Programmatic `manage_catalog()` API
+- ~22 new tests
