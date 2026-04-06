@@ -64,6 +64,7 @@ from xpyd_plan.cli._pd_imbalance import add_pd_imbalance_parser
 from xpyd_plan.cli._pipeline import _cmd_pipeline
 from xpyd_plan.cli._plan_benchmarks import _cmd_plan_benchmarks, add_plan_benchmarks_parser
 from xpyd_plan.cli._qps_curve import add_qps_curve_parser
+from xpyd_plan.cli._quality_gate import register as register_quality_gate
 from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._ranking import _cmd_ranking, add_ranking_parser
 from xpyd_plan.cli._rate_limit import add_rate_limit_parser
@@ -970,6 +971,7 @@ def main(argv: list[str] | None = None) -> None:
     register_trtllm_commands(subparsers)
     register_compare_backends(subparsers)
     register_gpu_hours(subparsers)
+    register_quality_gate(subparsers)
     register_workload_mix(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
@@ -1332,6 +1334,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._gpu_hours import _run as _cmd_gpu_hours
 
         _cmd_gpu_hours(args)
+    elif args.command == "quality-gate":
+        from xpyd_plan.cli._quality_gate import _run as _cmd_quality_gate
+
+        _cmd_quality_gate(args)
     else:
         parser.print_help()
         sys.exit(1)

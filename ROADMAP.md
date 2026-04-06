@@ -1557,9 +1557,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `optimize_workload_mix()` API
 - 32 new tests
 
-### M116 🔄 GPU Hour Calculator
+### M116 ✅ GPU Hour Calculator
 
-*In progress*
+*Completed — PR #256*
 
 - `GPUHourCalculator` class in `gpu_hours.py`
 - `TrafficProfile`, `HourlyTraffic`, `GPUHourReport`, `ScalingSavings`, `HourBreakdown` Pydantic models
@@ -1568,4 +1568,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Auto-scaling savings estimation (fixed vs dynamic provisioning)
 - CLI `gpu-hours` subcommand with `--benchmark`, `--traffic-profile`, `--gpu-cost`, table + JSON output
 - Programmatic `calculate_gpu_hours()` API
-- ~24 new tests
+- 24 new tests
+
+### M117 🔄 Benchmark Quality Gate
+
+*In progress*
+
+- `QualityGate` class in `quality_gate.py`
+- `GateConfig`, `GateCheck`, `GateResult`, `GateVerdict` Pydantic models
+- Composite pass/fail gate combining: data validation, percentile convergence, load profile stability, outlier ratio, minimum request count
+- YAML-configurable gate rules (thresholds per check)
+- Non-zero exit code on FAIL (CI/CD pipeline integration)
+- CLI `quality-gate` subcommand with `--benchmark`, `--config`, table + JSON output
+- Programmatic `evaluate_quality_gate()` API
+- ~22 new tests
