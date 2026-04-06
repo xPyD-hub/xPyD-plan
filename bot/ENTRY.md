@@ -1,14 +1,18 @@
-<!-- ⚠️ DO NOT COMPRESS, SUMMARIZE, OR SKIP ANY PART OF THIS FILE ⚠️ -->
+<!-- CRITICAL: DO NOT SUMMARIZE OR COMPRESS THIS FILE -->
+<!-- This file contains precise rules that must be read in full. -->
+<!-- Skipping or abbreviating any section may cause policy violations. -->
 
-# Bot Entry Point — xPyD-plan
+# Bot Entry Point
 
-Read these files **in order** before every iteration:
+Read this file first when starting any automated task on this repo.
 
-1. `bot/BOT_POLICY.md` — project rules and constraints
-2. `bot/AUTHOR_POLICY.md` — coding standards
-3. `bot/DESIGN_PRINCIPLES.md` — architectural guidelines
-4. `bot/DEV_LOOP.md` — iteration steps
-5. `bot/REVIEW_POLICY.md` — PR review process
-6. `bot/iterations/current.md` — current state
+## Required Reading (in order)
 
-**Do not skip any file. Do not summarize from memory.**
+1. **[BOT_POLICY.md](BOT_POLICY.md)** — Hard rules. Must follow.
+2. **[AUTHOR_POLICY.md](AUTHOR_POLICY.md)** — Rules for writing code and submitting PRs.
+3. **[REVIEW_POLICY.md](REVIEW_POLICY.md)** — Rules for reviewing PRs.
+4. **[DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md)** — Architecture constraints and design rules.
+5. **[DEV_LOOP.md](DEV_LOOP.md)** — Development workflow (operational steps, references policies above).
+6. **[iterations/current.md](iterations/current.md)** — Current task context.
+
+Files 1-4 are mandatory for all repos. Files 5-6 are repo-specific.
