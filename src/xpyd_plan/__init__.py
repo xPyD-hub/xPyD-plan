@@ -1493,3 +1493,27 @@ __all__ += [
     "import_trtllm",
     "import_trtllm_data",
 ]
+
+from xpyd_plan.backend_compare import (  # noqa: E402
+    BackendComparator,
+    BackendComparisonConfig,
+    BackendComparisonReport,
+    BackendFormat,
+    BackendMetrics,
+    BackendRanking,
+    RankCriteria,
+    SLAResult,
+    compare_backends,
+)
+
+__all__ += [
+    "BackendComparator",
+    "BackendComparisonConfig",
+    "BackendComparisonReport",
+    "BackendFormat",
+    "BackendMetrics",
+    "BackendRanking",
+    "RankCriteria",
+    "SLAResult",
+    "compare_backends",
+]
