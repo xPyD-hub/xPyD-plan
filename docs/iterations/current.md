@@ -53,7 +53,7 @@ The project has completed **110 milestones**, covering the full feature chain fr
 - Closed-loop integration with xPyD-proxy auto-tuning
 - Web UI dashboard (replacing TUI)
 - Richer visualizations (interactive charts)
-- Support additional benchmark tool formats (TensorRT-LLM)
+- Support additional benchmark tool formats (TensorRT-LLM) ✅
 
 ## Iteration History
 
@@ -64,4 +64,5 @@ The project has completed **110 milestones**, covering the full feature chain fr
 | 3 | 2026-04-06 | M109 vLLM Benchmark Command Generator | ✅ merged | PR #242 |
 | 4 | 2026-04-06 | M110 SGLang Benchmark Format Importer | ✅ merged | PR #244 |
 | 5 | 2026-04-06 | M111 SGLang Benchmark Command Generator | ✅ merged | PR #246 |
-| 6 | 2026-04-06 | M112 TensorRT-LLM Benchmark Format Importer | ⏳ pending review | Issue #247 |
+| 6 | 2026-04-06 | M112 TensorRT-LLM Benchmark Format Importer | ✅ merged | PR #248, both bots approved |
+| 7 | 2026-04-06 | M113 TensorRT-LLM Benchmark Command Generator | ⏳ pending review | Issue #249 |

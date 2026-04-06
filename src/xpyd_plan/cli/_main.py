@@ -96,6 +96,7 @@ from xpyd_plan.cli._timeout import add_timeout_parser
 from xpyd_plan.cli._token_budget import add_token_budget_parser
 from xpyd_plan.cli._token_efficiency import add_token_efficiency_parser, handle_token_efficiency
 from xpyd_plan.cli._trend import _cmd_trend
+from xpyd_plan.cli._trtllm_commands import register_trtllm_commands
 from xpyd_plan.cli._validate import _cmd_validate
 from xpyd_plan.cli._variance import _cmd_variance, add_variance_parser
 from xpyd_plan.cli._vllm_commands import register_vllm_commands
@@ -963,6 +964,7 @@ def main(argv: list[str] | None = None) -> None:
     add_import_parser(subparsers)
     register_vllm_commands(subparsers)
     register_sglang_commands(subparsers)
+    register_trtllm_commands(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
@@ -1308,6 +1310,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._sglang_commands import _cmd_sglang_commands
 
         _cmd_sglang_commands(args)
+    elif args.command == "trtllm-commands":
+        from xpyd_plan.cli._trtllm_commands import _cmd_trtllm_commands
+
+        _cmd_trtllm_commands(args)
     else:
         parser.print_help()
         sys.exit(1)

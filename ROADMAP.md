@@ -1505,9 +1505,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `generate_sglang_commands()` API
 - 25 new tests
 
-### M112 🔄 TensorRT-LLM Benchmark Format Importer
+### M112 ✅ TensorRT-LLM Benchmark Format Importer
 
-*In progress — PR #TBD*
+*Completed — PR #248*
 
 - `TRTLLMImporter` module in `trtllm_import.py`
 - `TRTLLMRequest`, `TRTLLMBenchmarkData`, `TRTLLMImportConfig`, `TRTLLMImportResult` Pydantic models
@@ -1517,3 +1517,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `import --format trtllm` support
 - Programmatic `import_trtllm()` and `import_trtllm_data()` API
 - 25+ new tests
+
+### M113 🔄 TensorRT-LLM Benchmark Command Generator
+
+*In progress*
+
+- `TRTLLMCommandGenerator` class in `trtllm_commands.py`
+- `TRTLLMCommandConfig`, `TRTLLMServerCommand`, `TRTLLMBenchmarkCommand`, `TRTLLMCommandSet` Pydantic models
+- Generate TRT-LLM engine build (`trtllm-build`) and server launch commands for each P:D ratio
+- TRT-LLM specific options: max_batch_size, kv_cache_free_gpu_mem_fraction, pp_size, dtype, engine_dir
+- Shell script output with engine build + server + benchmark lifecycle
+- CLI `trtllm-commands` subcommand with table + JSON output
+- Programmatic `generate_trtllm_commands()` API
+- 29 new tests
