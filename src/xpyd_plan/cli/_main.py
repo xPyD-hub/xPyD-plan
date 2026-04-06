@@ -69,6 +69,7 @@ from xpyd_plan.cli._queue import add_queue_parser
 from xpyd_plan.cli._ranking import _cmd_ranking, add_ranking_parser
 from xpyd_plan.cli._rate_limit import add_rate_limit_parser
 from xpyd_plan.cli._ratio_compare import add_ratio_compare_parser
+from xpyd_plan.cli._readiness import register as register_readiness
 from xpyd_plan.cli._recommend import _cmd_recommend
 from xpyd_plan.cli._regression import _cmd_regression, add_regression_parser
 from xpyd_plan.cli._replay import add_replay_parser
@@ -974,6 +975,7 @@ def main(argv: list[str] | None = None) -> None:
     register_gpu_hours(subparsers)
     register_quality_gate(subparsers)
     register_sla_risk(subparsers)
+    register_readiness(subparsers)
     register_workload_mix(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
@@ -1344,6 +1346,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._sla_risk import _cmd_sla_risk
 
         _cmd_sla_risk(args)
+    elif args.command == "readiness":
+        from xpyd_plan.cli._readiness import _cmd_readiness
+
+        _cmd_readiness(args)
     else:
         parser.print_help()
         sys.exit(1)
