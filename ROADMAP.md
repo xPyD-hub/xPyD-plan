@@ -1492,9 +1492,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `import_sglang()` and `import_sglang_data()` APIs
 - 23 new tests (2495 total)
 
-### M111 🔄 SGLang Benchmark Command Generator
+### M111 ✅ SGLang Benchmark Command Generator
 
-*In progress — PR #TBD*
+*Completed — PR #246*
 
 - `SGLangCommandGenerator` class in `sglang_commands.py`
 - `SGLangCommandConfig`, `SGLangServerCommand`, `SGLangBenchmarkCommand`, `SGLangCommandSet` Pydantic models
@@ -1504,3 +1504,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `sglang-commands` subcommand with `--total-instances`, `--model`, `--qps`, table + JSON output
 - Programmatic `generate_sglang_commands()` API
 - 25 new tests
+
+### M112 🔄 TensorRT-LLM Benchmark Format Importer
+
+*In progress — PR #TBD*
+
+- `TRTLLMImporter` module in `trtllm_import.py`
+- `TRTLLMRequest`, `TRTLLMBenchmarkData`, `TRTLLMImportConfig`, `TRTLLMImportResult` Pydantic models
+- Convert TensorRT-LLM benchmark JSON (input_tokens, output_tokens, first_token_latency, inter_token_latencies, end_to_end_latency) to native format
+- Format auto-detection via `_detect_trtllm_format()` distinguishing from vLLM/SGLang
+- Failed-request filtering (status != "completed") with warnings
+- CLI `import --format trtllm` support
+- Programmatic `import_trtllm()` and `import_trtllm_data()` API
+- 25+ new tests

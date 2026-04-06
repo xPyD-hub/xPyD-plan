@@ -1,4 +1,4 @@
-"""CLI import command — import vLLM/SGLang benchmark data."""
+"""CLI import command — import vLLM/SGLang/TensorRT-LLM benchmark data."""
 
 from __future__ import annotations
 
@@ -14,6 +14,12 @@ from xpyd_plan.sglang_import import (
     _detect_sglang_format,
     import_sglang,
     import_sglang_data,
+)
+from xpyd_plan.trtllm_import import (
+    TRTLLMImportConfig,
+    _detect_trtllm_format,
+    import_trtllm,
+    import_trtllm_data,
 )
 from xpyd_plan.vllm_import import import_vllm
 
@@ -31,7 +37,19 @@ def _cmd_import(args: argparse.Namespace) -> None:
     fmt = args.format
 
     try:
-        if fmt == "sglang":
+        if fmt == "trtllm":
+            config = TRTLLMImportConfig(
+                num_prefill_instances=args.prefill_instances,
+                num_decode_instances=args.decode_instances,
+                format="trtllm",
+            )
+            result = import_trtllm(args.input, config)
+            if args.output:
+                Path(args.output).write_text(
+                    result.benchmark_data.model_dump_json(indent=2),
+                    encoding="utf-8",
+                )
+        elif fmt == "sglang":
             config = SGLangImportConfig(
                 num_prefill_instances=args.prefill_instances,
                 num_decode_instances=args.decode_instances,
@@ -44,15 +62,26 @@ def _cmd_import(args: argparse.Namespace) -> None:
                     encoding="utf-8",
                 )
         elif fmt == "auto":
-            # Try SGLang detection first, then fall back to vLLM importer
             raw = json.loads(Path(args.input).read_text(encoding="utf-8"))
-            if _detect_sglang_format(raw):
-                config = SGLangImportConfig(
+            if _detect_trtllm_format(raw):
+                trtllm_config = TRTLLMImportConfig(
+                    num_prefill_instances=args.prefill_instances,
+                    num_decode_instances=args.decode_instances,
+                    format="trtllm",
+                )
+                result = import_trtllm_data(raw, trtllm_config)
+                if args.output:
+                    Path(args.output).write_text(
+                        result.benchmark_data.model_dump_json(indent=2),
+                        encoding="utf-8",
+                    )
+            elif _detect_sglang_format(raw):
+                sglang_config = SGLangImportConfig(
                     num_prefill_instances=args.prefill_instances,
                     num_decode_instances=args.decode_instances,
                     format="sglang",
                 )
-                result = import_sglang_data(raw, config)
+                result = import_sglang_data(raw, sglang_config)
                 if args.output:
                     Path(args.output).write_text(
                         result.benchmark_data.model_dump_json(indent=2),
@@ -109,7 +138,7 @@ def add_import_parser(subparsers: argparse._SubParsersAction) -> None:
     """Add the import subcommand parser."""
     parser = subparsers.add_parser(
         "import",
-        help="Import vLLM/SGLang benchmark data to native format",
+        help="Import vLLM/SGLang/TensorRT-LLM benchmark data to native format",
     )
     parser.add_argument(
         "--input",
@@ -118,7 +147,7 @@ def add_import_parser(subparsers: argparse._SubParsersAction) -> None:
     )
     parser.add_argument(
         "--format",
-        choices=["vllm", "sglang", "native", "auto"],
+        choices=["vllm", "sglang", "trtllm", "native", "auto"],
         default="auto",
         help="Input format (default: auto-detect)",
     )
