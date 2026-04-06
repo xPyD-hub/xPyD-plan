@@ -16,6 +16,7 @@ from xpyd_plan.cli._batch_analysis import add_batch_analysis_parser
 from xpyd_plan.cli._budget import _cmd_budget
 from xpyd_plan.cli._budget_tracker import _cmd_budget_tracker
 from xpyd_plan.cli._capacity import _cmd_plan_capacity
+from xpyd_plan.cli._catalog import register as register_catalog
 from xpyd_plan.cli._cdf import _cmd_cdf, add_cdf_parser
 from xpyd_plan.cli._cold_start import add_cold_start_parser
 from xpyd_plan.cli._compare import _cmd_compare
@@ -976,6 +977,7 @@ def main(argv: list[str] | None = None) -> None:
     register_quality_gate(subparsers)
     register_sla_risk(subparsers)
     register_readiness(subparsers)
+    register_catalog(subparsers)
     register_workload_mix(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
@@ -1350,6 +1352,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._readiness import _cmd_readiness
 
         _cmd_readiness(args)
+    elif args.command == "catalog":
+        from xpyd_plan.cli._catalog import _cmd_catalog
+
+        _cmd_catalog(args)
     else:
         parser.print_help()
         sys.exit(1)

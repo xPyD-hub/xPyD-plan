@@ -1591,3 +1591,19 @@ __all__ += [
     "SLARiskScorer",
     "assess_sla_risk",
 ]
+
+from xpyd_plan.catalog import (  # noqa: E402
+    CatalogEntry,
+    CatalogQuery,
+    CatalogReport,
+    DatasetCatalog,
+    manage_catalog,
+)
+
+__all__ += [
+    "CatalogEntry",
+    "CatalogQuery",
+    "CatalogReport",
+    "DatasetCatalog",
+    "manage_catalog",
+]

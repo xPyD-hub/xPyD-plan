@@ -71,4 +71,5 @@ The project has completed **110 milestones**, covering the full feature chain fr
 | 10 | 2026-04-06 | M116 GPU Hour Calculator | ✅ merged | PR #256, both bots approved |
 | 11 | 2026-04-06 | M117 Benchmark Quality Gate | ✅ merged | PR #258 |
 | 12 | 2026-04-06 | M118 SLA Risk Score | ✅ merged | PR #260, both bots approved |
-| 13 | 2026-04-06 | M119 Deployment Readiness Report | ⏳ pending review | PR TBD |
+| 13 | 2026-04-06 | M119 Deployment Readiness Report | ✅ merged | PR #262, both bots approved |
+| 14 | 2026-04-06 | M120 Benchmark Dataset Catalog | ⏳ pending review | PR TBD |
