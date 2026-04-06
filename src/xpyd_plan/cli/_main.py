@@ -19,6 +19,7 @@ from xpyd_plan.cli._capacity import _cmd_plan_capacity
 from xpyd_plan.cli._cdf import _cmd_cdf, add_cdf_parser
 from xpyd_plan.cli._cold_start import add_cold_start_parser
 from xpyd_plan.cli._compare import _cmd_compare
+from xpyd_plan.cli._compare_backends import register_compare_backends
 from xpyd_plan.cli._concurrency_util import _cmd_concurrency_util, add_concurrency_util_parser
 from xpyd_plan.cli._confidence import _cmd_confidence
 from xpyd_plan.cli._config import _add_config_flag, _apply_config_defaults, _cmd_config
@@ -965,6 +966,7 @@ def main(argv: list[str] | None = None) -> None:
     register_vllm_commands(subparsers)
     register_sglang_commands(subparsers)
     register_trtllm_commands(subparsers)
+    register_compare_backends(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
@@ -1314,6 +1316,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._trtllm_commands import _cmd_trtllm_commands
 
         _cmd_trtllm_commands(args)
+    elif args.command == "compare-backends":
+        from xpyd_plan.cli._compare_backends import _cmd_compare_backends
+
+        _cmd_compare_backends(args)
     else:
         parser.print_help()
         sys.exit(1)

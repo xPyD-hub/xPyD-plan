@@ -1518,9 +1518,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `import_trtllm()` and `import_trtllm_data()` API
 - 25+ new tests
 
-### M113 🔄 TensorRT-LLM Benchmark Command Generator
+### M113 ✅ TensorRT-LLM Benchmark Command Generator
 
-*In progress*
+*Completed — PR #250*
 
 - `TRTLLMCommandGenerator` class in `trtllm_commands.py`
 - `TRTLLMCommandConfig`, `TRTLLMServerCommand`, `TRTLLMBenchmarkCommand`, `TRTLLMCommandSet` Pydantic models
@@ -1530,3 +1530,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `trtllm-commands` subcommand with table + JSON output
 - Programmatic `generate_trtllm_commands()` API
 - 29 new tests
+
+### M114 🔄 Multi-Backend Comparison Report
+
+*In progress*
+
+- `BackendComparator` class in `backend_compare.py`
+- `BackendComparisonConfig`, `BackendMetrics`, `BackendComparisonReport`, `BackendRanking`, `SLAResult` Pydantic models
+- Auto-detect input format (native, vLLM, SGLang, TensorRT-LLM)
+- Per-backend latency percentiles (P50/P95/P99), throughput, SLA compliance
+- Rank backends by configurable criteria (ttft_p99, tpot_p99, total_latency_p99, throughput)
+- CLI `compare-backends` subcommand with `--benchmark`, `--labels`, `--formats`, `--rank-by`, table + JSON output
+- Programmatic `compare_backends()` API
+- ~25 new tests
