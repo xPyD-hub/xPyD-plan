@@ -1596,3 +1596,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `sla-risk` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, table + JSON output
 - Programmatic `assess_sla_risk()` API
 - ~22 new tests
+
+### M119 🔄 Deployment Readiness Report
+
+*In progress*
+
+- `ReadinessAssessor` class in `readiness.py`
+- `ReadinessConfig`, `ReadinessCheck`, `ReadinessVerdict`, `ReadinessReport` Pydantic models
+- Unified go/no-go deployment readiness assessment combining: quality gate result, SLA risk score, SLA headroom safety level, cost efficiency ratio, and rate limit headroom
+- Per-check pass/warn/fail with configurable thresholds (risk score < 50, headroom > 10%, quality gate PASS, cost efficiency > 0.7, rate limit headroom > 15%)
+- Overall verdict: READY (all pass), CAUTION (any warn, no fail), NOT_READY (any fail)
+- Actionable deployment recommendations and blockers list
+- CLI `readiness` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--cost-model`, table + JSON output
+- Programmatic `assess_readiness()` API
+- ~24 new tests
