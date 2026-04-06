@@ -1408,7 +1408,11 @@ __all__ += [
     "save_baseline",
 ]
 
-from xpyd_plan.vllm_commands import BenchmarkCommand  # noqa: E402, I001
+from xpyd_plan.sglang_commands import SGLangCommandConfig  # noqa: E402, I001
+from xpyd_plan.sglang_commands import SGLangCommandGenerator  # noqa: E402
+from xpyd_plan.sglang_commands import SGLangCommandSet  # noqa: E402
+from xpyd_plan.sglang_commands import generate_sglang_commands  # noqa: E402
+from xpyd_plan.vllm_commands import BenchmarkCommand  # noqa: E402
 from xpyd_plan.vllm_commands import CommandGenerator  # noqa: E402
 from xpyd_plan.vllm_commands import CommandSet  # noqa: E402
 from xpyd_plan.vllm_commands import ServerCommand  # noqa: E402
@@ -1422,6 +1426,10 @@ __all__ += [
     "ServerCommand",
     "VLLMCommandConfig",
     "generate_vllm_commands",
+    "generate_sglang_commands",
+    "SGLangCommandConfig",
+    "SGLangCommandGenerator",
+    "SGLangCommandSet",
 ]
 
 from xpyd_plan.vllm_import import (  # noqa: E402

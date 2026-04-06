@@ -1491,3 +1491,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - CLI `import` subcommand updated with `--format sglang|auto` support
 - Programmatic `import_sglang()` and `import_sglang_data()` APIs
 - 23 new tests (2495 total)
+
+### M111 🔄 SGLang Benchmark Command Generator
+
+*In progress — PR #TBD*
+
+- `SGLangCommandGenerator` class in `sglang_commands.py`
+- `SGLangCommandConfig`, `SGLangServerCommand`, `SGLangBenchmarkCommand`, `SGLangCommandSet` Pydantic models
+- Generate SGLang server launch (`sglang.launch_server`) and bench_serving commands for each P:D ratio
+- SGLang-specific options: dp_size, chunked_prefill, context_length
+- Shell script output with server lifecycle management (background, sleep, kill)
+- CLI `sglang-commands` subcommand with `--total-instances`, `--model`, `--qps`, table + JSON output
+- Programmatic `generate_sglang_commands()` API
+- 25 new tests
