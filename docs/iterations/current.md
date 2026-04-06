@@ -70,3 +70,4 @@ The project has completed **110 milestones**, covering the full feature chain fr
 | 9 | 2026-04-06 | M115 Workload Mix Optimizer | ✅ merged | PR #254, both bots approved |
 | 10 | 2026-04-06 | M116 GPU Hour Calculator | ✅ merged | PR #256, both bots approved |
 | 11 | 2026-04-06 | M117 Benchmark Quality Gate | ⏳ pending review | PR TBD |
+| 12 | 2026-04-06 | M118 SLA Risk Score | ⏳ pending review | PR TBD |

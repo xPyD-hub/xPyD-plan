@@ -1573,3 +1573,21 @@ __all__ += [
     "evaluate_quality_gate",
     "load_gate_config",
 ]
+
+from xpyd_plan.sla_risk import (  # noqa: E402
+    RiskFactor,
+    RiskLevel,
+    RiskScore,
+    SLARiskReport,
+    SLARiskScorer,
+    assess_sla_risk,
+)
+
+__all__ += [
+    "RiskFactor",
+    "RiskLevel",
+    "RiskScore",
+    "SLARiskReport",
+    "SLARiskScorer",
+    "assess_sla_risk",
+]

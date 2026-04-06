@@ -86,6 +86,7 @@ from xpyd_plan.cli._session import _cmd_session
 from xpyd_plan.cli._sglang_commands import register_sglang_commands
 from xpyd_plan.cli._size_distribution import _cmd_size_distribution, add_size_distribution_parser
 from xpyd_plan.cli._sla_headroom import add_sla_headroom_parser
+from xpyd_plan.cli._sla_risk import register as register_sla_risk
 from xpyd_plan.cli._sla_tier import add_sla_tier_parser
 from xpyd_plan.cli._spike import add_spike_parser
 from xpyd_plan.cli._sqlite_export import add_sqlite_export_parser
@@ -972,6 +973,7 @@ def main(argv: list[str] | None = None) -> None:
     register_compare_backends(subparsers)
     register_gpu_hours(subparsers)
     register_quality_gate(subparsers)
+    register_sla_risk(subparsers)
     register_workload_mix(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
@@ -1338,6 +1340,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._quality_gate import _run as _cmd_quality_gate
 
         _cmd_quality_gate(args)
+    elif args.command == "sla-risk":
+        from xpyd_plan.cli._sla_risk import _cmd_sla_risk
+
+        _cmd_sla_risk(args)
     else:
         parser.print_help()
         sys.exit(1)
