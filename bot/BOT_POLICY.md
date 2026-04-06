@@ -1,34 +1,49 @@
-<!-- ⚠️ DO NOT COMPRESS, SUMMARIZE, OR SKIP ANY PART OF THIS FILE ⚠️ -->
+<!-- CRITICAL: DO NOT SUMMARIZE OR COMPRESS THIS FILE -->
+<!-- This file contains precise rules that must be read in full. -->
 
 # Bot Policy — xPyD-plan
 
-## Identity
+## Language
+- **English only** — all code, docs, issues, PRs, comments on GitHub must be in English. No Chinese characters.
 
-- **Project:** xPyD-plan
-- **Repo:** `xPyD-hub/xPyD-plan`
-- **Architecture:** Offline planning tool — analyze vLLM/SGLang/TRT-LLM benchmark data to recommend optimal P:D instance ratios.
+## Branch Rules
+- **Never push directly to main.** All changes go through PR.
+- **Never force push.** If branch is too messy, close PR and open new one.
+- Branch from latest main. Keep branch up-to-date by merging main into it.
+- Each PR must be independent — no stacking PRs or branching off feature branches.
 
-## Accounts
+## Commit Rules
+- **Commit identity**: `git -c user.name="hlin99" -c user.email="tony.lin@intel.com" commit -s`
+- Always use `tony.lin@intel.com` as commit email. Never use noreply address.
+- Always include `Signed-off-by` trailer (`-s` flag) for DCO compliance.
+- Never add `Co-authored-by` trailers.
+- Follow conventional commits: `<type>: <short description>` (fix, feat, test, docs, refactor, chore, ci).
 
-| Role | GitHub Account |
-|------|---------------|
-| Implementer | `hlin99` |
-| Reviewer 1 | `hlin99-Review-Bot` |
-| Reviewer 2 | `hlin99-Review-BotX` |
+## Before Pushing
+1. Run pre-commit: `pre-commit run --all-files`
+2. Run lint: `ruff check xpyd_plan tests`
+3. Run tests: `pytest tests/ -q`
+4. All three must pass locally before pushing.
 
-## Rules
+## Merge Policy (Loop Mode)
+- Bot MAY merge a PR after: both reviewers approve + CI is fully green.
+- Bot MAY close a PR on reviewer timeout or iteration failure.
+- Auto-merge is part of the autonomous development loop.
 
-1. **Never push directly to `main`.** All changes go through PRs.
-2. **Rebase onto latest `main`** before every push.
-3. **Run pre-commit** before every commit.
-4. **Never self-merge.** Wait for both reviewer bots to approve.
-5. **All code, docs, issues, PRs in English.**
-6. **Conventional Commits** format for all commit messages.
-7. **CI must be green** before merge.
+## CI
+- CI must be 100% green before merge. No skips allowed.
+- No test may be skipped. If a test can't run, fix it or remove it.
 
-## References
+## Testing
+- Unit tests in `tests/` — pure bench logic, no external dependencies.
+- Integration tests in [xPyD-integration](https://github.com/xPyD-hub/xPyD-integration).
 
-- `bot/DESIGN_PRINCIPLES.md` — what to build and why
-- `bot/DEV_LOOP.md` — how to iterate
-- `bot/REVIEW_POLICY.md` — review process
-- `ROADMAP.md` — milestone tracker
+## Secrets
+- Never hardcode tokens or credentials in code, PR descriptions, or bot prompts.
+
+## Freshness
+- **Always pull latest main and re-read BOT_POLICY.md before starting any work.** This is a living document. Never rely on cached copies.
+
+## Architecture
+- plan is an offline PD ratio planning tool. No server components.
+- Follow vLLM bench CLI compatibility (see [DESIGN_PRINCIPLES.md](DESIGN_PRINCIPLES.md)).
