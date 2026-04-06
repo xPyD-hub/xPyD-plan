@@ -43,6 +43,7 @@ from xpyd_plan.cli._fleet import _cmd_fleet
 from xpyd_plan.cli._forecast import add_forecast_parser
 from xpyd_plan.cli._generate import _cmd_generate
 from xpyd_plan.cli._goodput import add_goodput_parser
+from xpyd_plan.cli._gpu_hours import register as register_gpu_hours
 from xpyd_plan.cli._health_check import _cmd_health_check, add_health_check_parser
 from xpyd_plan.cli._heatmap import _cmd_heatmap, add_heatmap_parser
 from xpyd_plan.cli._import import add_import_parser
@@ -968,6 +969,7 @@ def main(argv: list[str] | None = None) -> None:
     register_sglang_commands(subparsers)
     register_trtllm_commands(subparsers)
     register_compare_backends(subparsers)
+    register_gpu_hours(subparsers)
     register_workload_mix(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
@@ -1326,6 +1328,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._workload_mix import _run as _cmd_workload_mix
 
         _cmd_workload_mix(args)
+    elif args.command == "gpu-hours":
+        from xpyd_plan.cli._gpu_hours import _run as _cmd_gpu_hours
+
+        _cmd_gpu_hours(args)
     else:
         parser.print_help()
         sys.exit(1)
