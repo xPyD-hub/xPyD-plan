@@ -105,6 +105,7 @@ from xpyd_plan.cli._warmup_filter import _cmd_warmup_filter, add_warmup_filter_p
 from xpyd_plan.cli._weighted_goodput import register as _register_weighted_goodput
 from xpyd_plan.cli._whatif import _cmd_what_if
 from xpyd_plan.cli._workload import _cmd_workload
+from xpyd_plan.cli._workload_mix import register as register_workload_mix
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -967,6 +968,7 @@ def main(argv: list[str] | None = None) -> None:
     register_sglang_commands(subparsers)
     register_trtllm_commands(subparsers)
     register_compare_backends(subparsers)
+    register_workload_mix(subparsers)
     add_rate_limit_parser(subparsers)
     add_batch_analysis_parser(subparsers)
     add_stat_summary_parser(subparsers)
@@ -1320,6 +1322,10 @@ def main(argv: list[str] | None = None) -> None:
         from xpyd_plan.cli._compare_backends import _cmd_compare_backends
 
         _cmd_compare_backends(args)
+    elif args.command == "workload-mix":
+        from xpyd_plan.cli._workload_mix import _run as _cmd_workload_mix
+
+        _cmd_workload_mix(args)
     else:
         parser.print_help()
         sys.exit(1)
