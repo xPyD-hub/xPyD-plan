@@ -1467,3 +1467,21 @@ __all__ += [
     "import_sglang",
     "import_sglang_data",
 ]
+
+from xpyd_plan.trtllm_import import (  # noqa: E402
+    TRTLLMBenchmarkData,
+    TRTLLMImportConfig,
+    TRTLLMImportResult,
+    TRTLLMRequest,
+    import_trtllm,
+    import_trtllm_data,
+)
+
+__all__ += [
+    "TRTLLMBenchmarkData",
+    "TRTLLMImportConfig",
+    "TRTLLMImportResult",
+    "TRTLLMRequest",
+    "import_trtllm",
+    "import_trtllm_data",
+]
