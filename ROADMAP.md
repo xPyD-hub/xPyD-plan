@@ -1531,9 +1531,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `generate_trtllm_commands()` API
 - 29 new tests
 
-### M114 🔄 Multi-Backend Comparison Report
+### M114 ✅ Multi-Backend Comparison Report
 
-*In progress*
+*Completed — PR #252*
 
 - `BackendComparator` class in `backend_compare.py`
 - `BackendComparisonConfig`, `BackendMetrics`, `BackendComparisonReport`, `BackendRanking`, `SLAResult` Pydantic models
@@ -1542,4 +1542,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Rank backends by configurable criteria (ttft_p99, tpot_p99, total_latency_p99, throughput)
 - CLI `compare-backends` subcommand with `--benchmark`, `--labels`, `--formats`, `--rank-by`, table + JSON output
 - Programmatic `compare_backends()` API
+- ~25 new tests
+
+### M115 🔄 Workload Mix Optimizer
+
+*In progress*
+
+- `WorkloadMixOptimizer` class in `workload_mix.py`
+- `WorkloadSpec`, `WorkloadAllocation`, `MixOptimizationResult` Pydantic models
+- Given benchmark data for multiple workloads (different models/request patterns), find minimum total GPU instances while meeting per-workload SLA
+- Brute-force enumeration across all valid P:D allocations per workload
+- Support shared vs dedicated instance pools
+- CLI `workload-mix` subcommand with `--workload` (repeatable), `--total-gpus`, table + JSON output
+- Programmatic `optimize_workload_mix()` API
 - ~25 new tests

@@ -66,4 +66,5 @@ The project has completed **110 milestones**, covering the full feature chain fr
 | 5 | 2026-04-06 | M111 SGLang Benchmark Command Generator | ✅ merged | PR #246 |
 | 6 | 2026-04-06 | M112 TensorRT-LLM Benchmark Format Importer | ✅ merged | PR #248, both bots approved |
 | 7 | 2026-04-06 | M113 TensorRT-LLM Benchmark Command Generator | ✅ merged | PR #250, both bots approved |
-| 8 | 2026-04-06 | M114 Multi-Backend Comparison Report | ⏳ pending review | Issue #251 |
+| 8 | 2026-04-06 | M114 Multi-Backend Comparison Report | ✅ merged | PR #252, both bots approved |
+| 9 | 2026-04-06 | M115 Workload Mix Optimizer | ⏳ pending review | Issue #253 |

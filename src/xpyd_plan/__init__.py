@@ -1517,3 +1517,21 @@ __all__ += [
     "SLAResult",
     "compare_backends",
 ]
+
+from xpyd_plan.workload_mix import (  # noqa: E402
+    AllocationMode,
+    MixOptimizationResult,
+    WorkloadAllocation,
+    WorkloadMixOptimizer,
+    WorkloadSpec,
+    optimize_workload_mix,
+)
+
+__all__ += [
+    "AllocationMode",
+    "MixOptimizationResult",
+    "WorkloadAllocation",
+    "WorkloadMixOptimizer",
+    "WorkloadSpec",
+    "optimize_workload_mix",
+]
