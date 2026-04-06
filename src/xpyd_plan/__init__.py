@@ -1535,3 +1535,22 @@ __all__ += [
     "WorkloadSpec",
     "optimize_workload_mix",
 ]
+from xpyd_plan.gpu_hours import (  # noqa: E402
+    GPUHourCalculator,
+    GPUHourReport,
+    HourBreakdown,
+    HourlyTraffic,
+    ScalingSavings,
+    TrafficProfile,
+    calculate_gpu_hours,
+)
+
+__all__ += [
+    "GPUHourCalculator",
+    "GPUHourReport",
+    "HourBreakdown",
+    "HourlyTraffic",
+    "ScalingSavings",
+    "TrafficProfile",
+    "calculate_gpu_hours",
+]

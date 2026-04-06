@@ -1544,9 +1544,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `compare_backends()` API
 - ~25 new tests
 
-### M115 🔄 Workload Mix Optimizer
+### M115 ✅ Workload Mix Optimizer
 
-*In progress*
+*Completed — PR #254*
 
 - `WorkloadMixOptimizer` class in `workload_mix.py`
 - `WorkloadSpec`, `WorkloadAllocation`, `MixOptimizationResult` Pydantic models
@@ -1555,4 +1555,17 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Support shared vs dedicated instance pools
 - CLI `workload-mix` subcommand with `--workload` (repeatable), `--total-gpus`, table + JSON output
 - Programmatic `optimize_workload_mix()` API
-- ~25 new tests
+- 32 new tests
+
+### M116 🔄 GPU Hour Calculator
+
+*In progress*
+
+- `GPUHourCalculator` class in `gpu_hours.py`
+- `TrafficProfile`, `HourlyTraffic`, `GPUHourReport`, `ScalingSavings`, `HourBreakdown` Pydantic models
+- 24-hour traffic profile input (hourly QPS values)
+- Map each hour's QPS to required instances using measured benchmark capacity
+- Auto-scaling savings estimation (fixed vs dynamic provisioning)
+- CLI `gpu-hours` subcommand with `--benchmark`, `--traffic-profile`, `--gpu-cost`, table + JSON output
+- Programmatic `calculate_gpu_hours()` API
+- ~24 new tests
