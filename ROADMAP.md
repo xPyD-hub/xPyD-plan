@@ -1570,9 +1570,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `calculate_gpu_hours()` API
 - 24 new tests
 
-### M117 🔄 Benchmark Quality Gate
+### M117 ✅ Benchmark Quality Gate
 
-*In progress*
+*Completed — PR #258*
 
 - `QualityGate` class in `quality_gate.py`
 - `GateConfig`, `GateCheck`, `GateResult`, `GateVerdict` Pydantic models
@@ -1581,4 +1581,18 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Non-zero exit code on FAIL (CI/CD pipeline integration)
 - CLI `quality-gate` subcommand with `--benchmark`, `--config`, table + JSON output
 - Programmatic `evaluate_quality_gate()` API
+- ~22 new tests
+
+### M118 🔄 SLA Risk Score
+
+*In progress*
+
+- `SLARiskScorer` class in `sla_risk.py`
+- `RiskScore`, `RiskFactor`, `SLARiskReport`, `RiskLevel` Pydantic models
+- Composite 0-100 risk score combining: headroom tightness, tail heaviness, latency jitter, percentile convergence adequacy, and error budget burn rate
+- Per-factor scoring with configurable weights (headroom 30%, tail 20%, jitter 20%, convergence 15%, burn rate 15%)
+- Risk level classification: LOW (0-25), MODERATE (25-50), HIGH (50-75), CRITICAL (75-100)
+- Actionable risk mitigation recommendations based on dominant risk factors
+- CLI `sla-risk` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, table + JSON output
+- Programmatic `assess_sla_risk()` API
 - ~22 new tests
