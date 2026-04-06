@@ -1599,7 +1599,7 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 
 ### M119 ✅ Deployment Readiness Report
 
-*In progress*
+*Completed — PR #262*
 
 - `ReadinessAssessor` class in `readiness.py`
 - `ReadinessConfig`, `ReadinessCheck`, `ReadinessVerdict`, `ReadinessReport` Pydantic models
@@ -1611,7 +1611,9 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Programmatic `assess_readiness()` API
 - ~24 new tests
 
-### M120 🔄 Benchmark Dataset Catalog
+### M120 ✅ Benchmark Dataset Catalog
+
+*Completed — PR #264*
 
 - `DatasetCatalog` class in `catalog.py`
 - `CatalogEntry`, `CatalogQuery`, `CatalogReport` Pydantic models
@@ -1623,3 +1625,16 @@ Help users find the **optimal Prefill:Decode instance ratio** based on **real be
 - Auto-add from directory scan (integrate with `discover`)
 - Programmatic `manage_catalog()` API
 - ~22 new tests
+
+### M121 🔄 Comprehensive Analysis Runner
+
+- `ComprehensiveRunner` class in `comprehensive.py`
+- `ComprehensiveConfig`, `AnalysisSection`, `ComprehensiveReport` Pydantic models
+- Single-command execution of multiple analyses on one benchmark file
+- Default analysis suite: summary, SLA check, tail analysis, jitter, convergence, health check, outlier impact, scorecard
+- Configurable section inclusion/exclusion via `--sections` and `--skip` flags
+- Aggregated findings: collect warnings, recommendations, and key metrics from all analyses
+- Overall health summary with composite grade
+- CLI `comprehensive` subcommand with `--benchmark`, `--sla-ttft`, `--sla-tpot`, `--sla-total`, `--sections`, `--skip`, table + JSON output
+- Programmatic `run_comprehensive()` API
+- ~24 new tests
